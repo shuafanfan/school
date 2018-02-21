@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>考勤</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group askleave">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink   external" href="par_index.html"></a></div>
+            <div class="header-m">我的考勤</div>
+            <div class="header-r"><a class="header-link external" href="par_index_attend_leave.html">请假</a></div>
+        </header>
+        <div class="content">
+            <div class="list-block list-block-nom askleave">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">累计请假</div>
+                            <div class="item-after"><span class="askleave-num leave"></span>天</div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">累计迟到</div>
+                            <div class="item-after"><span class="askleave-num late"></span>天</div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">累计旷课</div>
+                            <div class="item-after"><span class="askleave-num cutschool"></span>天</div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">累计早退</div>
+                            <div class="item-after"><span class="askleave-num early"></span>天</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+<!--             <div class="card">
+                <div class="card-header">
+                    <div class="card-l">请假<span class="askleave-num">0.5</span>天</div>
+                    <div class="card-r color-success">已通过</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-content-inner">
+                        <p class="askleave-info">申请时间:2017.08.01  0.9:00</p>
+                        <p class="askleave-info">起始时间:08.01 上午 - 08.01 下午</p>
+                        <p class="askleave-info">请假事由:生病不舒服，无法到校，希望批准。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-l">请假<span class="askleave-num">0.5</span>天</div>
+                    <div class="card-r color-success">已通过</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-content-inner">
+                        <p class="askleave-info">申请时间:2017.08.01  0.9:00</p>
+                        <p class="askleave-info">起始时间:08.01 上午 - 08.01 下午</p>
+                        <p class="askleave-info">请假事由:生病不舒服，无法到校，希望批准。</p>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    /* 考勤信息 */
+    $(document).ready(function(){
+        var stuinfo=JSON.parse(store.get("userinfo"));
+        console.log(stuinfo);
+        
+
+        /* 考勤信息 */
+        var studentId=stuinfo['studentID'];
+        console.log(studentId);
+            $.ajax( {
+                type:"post",
+                url: root_url+"uiAttendance/getMyCountAttendance?studentId="+studentId,
+                success: function( data, textStatus, jqXHR ){
+                    console.log(data.dataList);
+                    if(data.code==1){
+                        $.each(data.dataList, function(index, item) {
+                            $('.leave').text(data.dataList[0]['leaveCount']);
+                            $('.late').text(data.dataList[0]['lateCount']);
+                            $('.cutschool').text(data.dataList[0]['cutSchoolCount']);
+                            $('.early').text(data.dataList[0]['leaveEarlyCount']);
+                        })
+
+                    }else{
+                        $.toast(data.note);
+                        return false;
+                    }
+                }
+            });
+
+
+        /* 考勤列表 */
+
+            $.ajax( {
+                type:"post",
+                url: root_url+"uiAttendance/getMyAttendance?studentId="+studentId+"&&pageNo=1&&pageSize=20",
+                success: function( data, textStatus, jqXHR ){
+                    console.log(data);
+                    if(data.code==1){
+                        $.each(data.dataList, function(index, item) {
+
+                                    var html = '';
+                                    var index = Number(index);
+                                    html += ' <div class="card">';
+                                    html += ' <div class="card-header">';
+                                    html += '<div class="card-l">请假<span class="askleave-num">'+item['timeCount']+'</span></div>';
+                                    if(item['status']==1){
+                                         html += '<div class="card-r color-danger">不通过</div>';
+                                    }else{
+                                         html += '<div class="card-r color-success">已通过</div>';
+                                    }
+
+
+                                    html += '</div>';
+                                    html += '<div class="card-content">';
+                                    html += '<div class="card-content-inner">';
+                                    html += '<p class="askleave-info">申请时间:'+item['createTime']+'</p>';
+                                    html += '<p class="askleave-info">起始时间:'+item['startDate']+' '+item['startTime']+' - '+item['endDate']+' '+item['endTime']+'</p>';
+                                    html += '<p class="askleave-info">请假事由:'+item['remark']+'</p>';
+                                    html += '</div>';
+                                    html += '</div>';
+                                    html += '</div>';
+                                    $('.content').append(html);
+                            });
+
+                    }else{
+                        $.toast(data.note);
+                        return false;
+                    }
+                }
+            });
+           
+    });
+
+
+</script>
+</body>
+
+</html>

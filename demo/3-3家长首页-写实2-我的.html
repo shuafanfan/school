@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>图片组</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7-swiper.min.js"></script>
+</head>
+
+<body class="realistic-body ">
+<div class="page-group realistic">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="3-0首页.html"></a></div>
+            <div class="header-m">写实</div>
+            <div class="header-r"><a class="ico ico-paizhao" href="#" id="create-actions"> </a></div>
+        </header>
+        <div class="content">
+            <div class="release-wrap">
+                <div class="release-l"><p class="realistic-date">6月1日</p></div>
+                <div class="release-r">
+                    <p class="release-title realistic-title">说的和方式</p>
+                    <ul class="pic-group clearfix">
+                        <li class="pic-group-item"><img src="images/xs-pic-01.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-02.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-03.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-04.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-05.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-06.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-07.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-08.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-09.png"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="release-wrap">
+                <div class="release-l"><p class="realistic-date">5月1日</p></div>
+                <div class="release-r">
+                    <p class="release-title realistic-title">劳动节，劳动最光荣~~ 今天，你劳动了
+                        吗？</p>
+                    <ul class="pic-group clearfix">
+                        <li class="pic-group-item"><img src="images/xs-pic-01.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-02.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-03.png"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="release-wrap">
+                <div class="release-l"><p class="realistic-date">4月1日</p></div>
+                <div class="release-r">
+                    <p class="release-title realistic-title">初来乍到，mark.....</p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).on('click','#create-actions', function () {
+        var buttons1 = [
+            {
+                text: '直接发表文字',
+                bold: true,
+                onClick: function() {
+                    $.alert("你选择了“直接发表文字“");
+                }
+            },
+            {
+                text: '拍照片或者视频',
+                onClick: function() {
+                    $.alert("你选择了“拍照片或者视频“");
+                }
+            },
+            {
+                text: '从手机相册选择',
+                onClick: function() {
+                    $.alert("你选择了“从手机相册选择");
+                }
+            },
+            {
+                text: '我的写实记录',
+                onClick: function() {
+                    $.alert("你选择了“我的写实记录“");
+                }
+            }
+        ];
+        var buttons2 = [
+            {
+                text: '取消',
+                bg: 'blue'
+            }
+        ];
+        var groups = [buttons1, buttons2];
+        $.actions(groups);
+    });
+</script>
+</body>
+
+</html>

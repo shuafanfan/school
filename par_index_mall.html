@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>积分商城</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group askleave integral-shop">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink   external" href="par_index.html"></a></div>
+            <div class="header-m">积分商城</div>
+            <div class="header-r"><a class="header-link " href="#"> </a></div>
+        </header>
+        <div class="content">
+            <!--个人积分信息-->
+            <div class="integral-shop-userinfo">
+                <div class="integral-userinfo-l">
+                    <img src="images/info-user-pic01.png" class="info-user-pic">
+                    <span class="username"></span>
+                </div>
+                <div class="integral-userinfo-r">
+                    <p><span class="Incentive-num">20</span>分</p>
+                    <p class="">可用积分</p>
+                </div>
+            </div>
+            <!--商品分类-->
+            <div class="shop-kinds-wrap">
+                <div class="shop-kinds-item" onclick="window.location.href='par_index_mall_type.html'">
+                    <p class="shop-kinds-ico"><i class="ico ico-xuexi"></i></p>
+                    <p class="shop-kinds-name">文具</p>
+                </div>
+                <!--<div class="shop-kinds-item">-->
+                    <!--<p class="shop-kinds-ico"><i class="ico ico-ertongwanju"></i></p>-->
+                    <!--<p class="shop-kinds-name">玩具</p>-->
+                <!--</div>-->
+                <!--<div class="shop-kinds-item">-->
+                    <!--<p class="shop-kinds-ico"><i class="ico ico-tiyu"></i></p>-->
+                    <!--<p class="shop-kinds-name">体育用品</p>-->
+                <!--</div>-->
+                <!--<div class="shop-kinds-item">-->
+                    <!--<p class="shop-kinds-ico"><i class="ico ico-shenghuo"></i></p>-->
+                    <!--<p class="shop-kinds-name">生活用品</p>-->
+                <!--</div>-->
+            </div>
+            <!--商品热销-->
+            <div class="integral-shop-hot">
+                <div class="integral-shop-hot-title color-nice"><i class="ico ico-hot"></i>热销</div>
+                <div class="shop-hot-wrap rexiao">
+                    <!--<div class="shop-hot-tiem" onclick="window.location.href='par_index_mall_goods.html'">-->
+                        <!--<div class="shop-hot-pic"><img src="images/hot-pic01.png"></div>-->
+                        <!--<div class="shop-hot-name">铅笔，多色可选铅笔</div>-->
+                        <!--<div class="shop-hot-tips">3000积分</div>-->
+                    <!--</div>-->
+                    <!--<div class="shop-hot-tiem">-->
+                        <!--<div class="shop-hot-pic"><img src="images/hot-pic02.png"></div>-->
+                        <!--<div class="shop-hot-name">圆珠笔，多色可选圆珠</div>-->
+                        <!--<div class="shop-hot-tips">600积分</div>-->
+                    <!--</div>-->
+                    <!--<div class="shop-hot-tiem">-->
+                        <!--<div class="shop-hot-pic"><img src="images/hot-pic03.png"></div>-->
+                        <!--<div class="shop-hot-name">橡皮擦，多色可橡皮</div>-->
+                        <!--<div class="shop-hot-tips">500积分</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+            <!--分类商品-->
+            <!--<div class="integral-shop-hot mb-05 fenlei">-->
+                <!--<div class="integral-shop-hot-title title-link clearfix">文具 <i class="ico  ico-right fr link-ico"></i></div>-->
+                <!--<div class="shop-hot-wrap fen_list">-->
+                    <!--<div class="shop-hot-tiem">-->
+                        <!--<div class="shop-hot-pic"><img src="images/hot-pic01.png"></div>-->
+                        <!--<div class="shop-hot-name">铅笔，多色可选铅笔</div>-->
+                        <!--<div class="shop-hot-tips">3000积分</div>-->
+                    <!--</div>-->
+                    <!--<div class="shop-hot-tiem">-->
+                    <!--<div class="shop-hot-pic"><img src="images/hot-pic02.png"></div>-->
+                    <!--<div class="shop-hot-name">圆珠笔，多色可选圆珠</div>-->
+                    <!--<div class="shop-hot-tips">600积分</div>-->
+                <!--</div>-->
+                    <!--<div class="shop-hot-tiem">-->
+                        <!--<div class="shop-hot-pic"><img src="images/hot-pic03.png"></div>-->
+                        <!--<div class="shop-hot-name">橡皮擦，多色可橡皮</div>-->
+                        <!--<div class="shop-hot-tips">500积分</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    /* 商城信息 */
+    $(document).ready(function(){       
+            var stuinfo=JSON.parse(store.get("userinfo"));    
+            $('.username').text(stuinfo['userName']);
+        console.log(stuinfo);
+
+            /*商品类别接口*/
+            $.ajax( {
+                type:"GET",
+                url: root_url+"uiMall/getProductTypeListBySchoolId?schoolId="+stuinfo['schoolID'],
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        //console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                                var url ="window.location.href='par_index_mall_type.html?typeId="+item['id']+"'";
+                                 var html = '';
+                                 var index = Number(index);
+                                 html += '  <div class="shop-kinds-item" onclick="'+url+'">';
+                                 html += '  <p class="shop-kinds-ico"><i class="ico ico-xuexi"></i></p>';
+                                 html += ' <p class="shop-kinds-name">'+item['typeName']+'</p>';
+                                 html += ' </div>';
+                                 $('.shop-kinds-wrap').append(html);
+
+                            /*分类商品 开始*/
+                                 $('.content').append('<div class="integral-shop-hot mb-05 "> <div class="integral-shop-hot-title title-link clearfix ">'+item['typeName']+'<i class="ico  ico-right fr link-ico"></i></div> <div class="shop-hot-wrap fen_list fenlei'+item['id']+'"></div></div>');
+                            $.ajax( {
+                                type:"GET",
+                                url: root_url+"uiMall/getProductListByTypeId?typeId="+item['id'],
+                                success: function( data, textStatus, jqXHR ){
+                                    if(data.code==1){
+                                        console.log(data);
+                                        $.each(data.dataList, function(index, it) {
+
+                                            var url ="window.location.href='par_index_mall_goods.html?productId="+it['id']+"'";
+                                            var html = '';
+                                            var index = Number(index);
+
+//
+                                            html +='<div class="shop-hot-wrap">';
+                                            html += ' <div class="shop-hot-tiem" onclick="'+url+'">';
+                                            html += ' <div class="shop-hot-pic"><img src="'+item['imgUrl']+'"></div>';
+                                            html += '<div class="shop-hot-name">'+it['name']+'</div>';
+                                            html += ' <div class="shop-hot-tips">'+it['integral']+'</div>'
+                                            html += ' </div></div>';
+                                            $('.fenlei'+item['id']).append(html);
+
+
+                                        });
+                                    }else{
+                                        $.toast(data.msg);
+                                        return false;
+                                    }
+                                }
+                            });
+
+                        });
+                        /*分类商品 end*/
+
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+
+            /*热销商品接口*/
+            $.ajax( {
+                type:"GET",
+                url: root_url+"uiMall/getHotProductsBySchoolId?schoolId="+stuinfo['schoolID'],
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                       // console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                            var url ="window.location.href='par_index_mall_goods.html?productId="+item['id']+"'";
+
+                                 var html = '';
+                                 var index = Number(index);
+                                 html += ' <div class="shop-hot-tiem" onclick="'+url+'">';
+                                 html += ' <div class="shop-hot-pic"><img src="'+item['imgUrl']+'"></div>';
+                                 html += '<div class="shop-hot-name">'+item['name']+'</div>';
+                                 html += ' <div class="shop-hot-tips">'+item['integral']+'</div>'
+                                 html += ' </div>';
+                                 $('.rexiao').append(html);
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+
+//            /*单类商品列表*/
+//            $.ajax( {
+//                type:"GET",
+//                url: root_url+"uiMall/getProductListByTypeId",
+//                success: function( data, textStatus, jqXHR ){
+//                    if(data.code==1){
+//                        console.log(data);
+//                        $.each(data.dataList, function(index, item) {
+//                                // var html = '';
+//                                // var index = Number(index);
+//                                // html += '<div class="creattask-list-item">';
+//                                // html += '<p class="creattask-list-title">'+item['name']+' </p>';
+//                                // html += '<p class="creattask-list-subtitle">'+item['startDate']+'至'+item['endDate']+'';
+//                                // html += ' </div>';
+//                                // $('.creattask-list-wrap').append(html);
+//                        });
+//                    }else{
+//                        $.toast(data.msg);
+//                        return false;
+//                    }
+//                }
+//            });
+    });
+
+
+</script>
+</body>
+
+</html>

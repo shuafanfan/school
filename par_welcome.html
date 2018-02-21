@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>欢迎</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/common.css"> 
+</head>
+
+<body>
+<div class="page-group welcome">
+    <div class="page page-current welcome-page">
+        <div class="content main">
+            <div class="welcome-wrap tc">
+                <aside class="wel-title">亲爱的家长您好</aside>
+                <ul class="l-card-col2">
+<!--                     <li class="l-card-item">
+                        <img class="l-card-img" src="images/student-girl.png">
+                        <p class="l-card-name wel-student-name">张美美</p>
+                    </li> -->
+                </ul>
+                <div class="wel-tip">
+                    <p class="wel-tip1">欢迎来到智家长！</p>
+                    <p class="wel-tip2">
+                        请您选择当前需要“查看”的孩子，以后您可以在系统的【我的孩子】中切换查看。
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--tabs end-->
+    </div>
+    <!--content end-->
+</div>
+
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    /* 孩子信息 */
+    $(document).ready(function(){
+            var queryval = {};
+//             var stuinfo=JSON.parse(store.get("parentinfo"));
+//             console.log(stuinfo['token']);
+//            var queryval = JSON.stringify(stuinfo['token']);
+             var queryval = JSON.stringify(queryval);
+            $.ajax( {
+                url: root_url+"uiParent/queryChildList",
+                data:queryval,
+                success: function( data, textStatus, jqXHR ){
+                    //console.log(data.dataList[0]);
+                    if(data.code==1){
+                       
+                       $.each(data.dataList, function(index, item) {
+                         
+                                store.set('stuinfo['+item['uid']+']',JSON.stringify(item));
+                                var html = '';
+                                var index = Number(index);
+                                html += '<li class="l-card-item" info="'+item+'" data="' + index + '"  uid="'+item['uid']+'">';
+                                html += '<img class="l-card-img" src="images/student-girl.png">';
+                                html += '<p class="l-card-name wel-student-name">' + item['userName'] + '</p>';
+                                html += '</li>';
+                                $('.l-card-col2').append(html);                      
+                        });
+                         
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    } 
+
+                }
+            });
+
+             $(document).on("click", ".l-card-item", function() {
+                    var uid =$(this).attr('uid');
+                 $.ajax( {
+                     url: root_url+"uiParent/selectChild?childId="+uid,
+                     data:queryval,
+                     success: function( data, textStatus, jqXHR ){
+                         //console.log(data.returnData);
+                         if(data.code==1){
+                             store.set('token',data.returnData);/* 记录凭证token */
+                             store.set('userinfo',store.get("stuinfo["+uid+"]"));
+                             location.href ="par_index.html";
+                         }else{
+                             $.toast(data.msg);
+                             return false;
+                         }
+
+                     }
+                 });
+
+            });
+    });
+ var timestamp=new Date().getTime();
+
+
+    /*当前学年*/
+
+    $.ajax({
+        url:root_url+'/uiExam/queryNearlyThreeYearsSchoolYearList',
+        async: false,
+        success:function(data){
+        //console.log(data);
+         $.each(data.dataList,function(index,item){
+                    var xunian_id = tab(item['startDate'],item['endDate'],timestamp);
+                    if(xunian_id){
+                       var  xn_id=item['id'];
+                        store.set('xuenian',xn_id);
+                        return false;
+                    }
+            })
+        },
+    });
+
+
+
+
+
+
+
+
+
+
+
+    function tab(date1,date2,today){
+        var oDate1 = new Date(date1);
+        var oDate2 = new Date(date2);
+        if(today>oDate1 && today<oDate2 ){
+            return true;
+        }
+    }
+</script>
+
+
+</body>
+
+</html>

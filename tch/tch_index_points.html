@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>学生积分</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group honor">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="tch_index.html"></a></div>
+            <div class="header-m">学生积分</div>
+            <div class="header-r"></div>
+        </header>
+        <div class="content  bg-white">
+            <table class="table table-last-colr">
+<!--                 <tr class="external" onclick="window.location.href='tch_index_points_detail.html'">
+                    <td>孙小明</td>
+                    <td>+10分</td>
+                </tr> -->
+
+            </table>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+    /* 学生积分 */
+    $(document).ready(function(){
+
+
+            /* 学生积分 */
+            $.ajax( {
+                url: root_url+"uiBonusPoint/getClassBonusPointByKey?pageNo=1&&pageSize=20&&key=",
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+    
+                                var html = '';
+                                var index = Number(index);               
+                                html += '<tr class="external" onclick=window.location.href="tch_index_points_detail.html?studentId='+item['studentId']+'">';   
+                                html += '<td>'+item['studentName']+'</td>';   
+                                html += '<td>+'+item['bonusPoint']+'分</td>';   
+                                html += '</tr>';   
+                                $('.table-last-colr').append(html);                       
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+
+
+
+    }); 
+</script>
+</body>
+
+</html>

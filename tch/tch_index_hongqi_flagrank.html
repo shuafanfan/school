@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>班级近况</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css"> 
+</head>
+
+<body>
+<div class="page-group recentdevelopments">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink external" href="tch_index.html"></a></div>
+            <div class="header-m">班级近况</div>
+            <div class="header-r"><a class="header-link " href="#"> </a></div>
+        </header>
+        <div class="content">
+            <!--红旗数排行榜-->
+            <div class="table-wrap mt-05">
+                <div class="developments-title">
+                    <div class="developments-title-l">红旗数排行榜<span class="developments-l-subtitle time3"></span></div>
+                    <div class="developments-title-r"></div>
+                </div>
+                <table class="table table-center table-nopadding rt-05">
+                    <tr>
+                        <th >排名</th>
+                        <th >班级</th>
+                        <th >红旗数量</th>
+                        <th >荣誉称号</th>
+                    </tr>
+                    <!-- <tr>
+                        <td><i class="ico ico-paiming fs-1-2 color-blue"></i></td>
+                        <td>五年2班</td>
+                        <td><span class="fs-1-2">24</span>面</td>
+                        <td>
+                            <p class=" ">
+                                <i class="ico ico-star star-get"></i>
+                                <i class="ico ico-star star-get"></i>
+                                <i class="ico ico-star star-get"></i>
+                                <i class="ico ico-star star-get"></i>
+                                <i class="ico ico-star star-get"></i>
+                                <i class="ico ico-star"></i>
+                            </p>
+                            <p class="tc fs-08">优秀班</p>
+                        </td>
+                    </tr> -->
+                   
+                </table>
+            </div>
+
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+
+            /*本年级红旗数排行榜5条*/
+            $.ajax( {
+                url: root_url+"uiActivity/getMoreFiveEvaluationStatisticsForWeekList",
+                success: function( data, textStatus, jqXHR ){
+                    
+                    if(data.code==1){
+                        console.log(data);
+                        $('.time3').text('缺少时间');
+                        $.each(data.returnData, function(index, item) {
+                                var html = '';
+                                var index = Number(index);             
+                                html += '<tr>';
+                                html += '<td>'+item['sort']+'</td>';
+                                html += '<td>'+item['className']+'</td>'
+                                html += '<td><span class="fs-1-2">缺少红旗数量</span>面</td>'
+                                html += '<td>'
+                                var images='';
+                                for (var i = 0; i < item['honorValue']; i++) {
+                                    images+='<i class="ico ico-pingfenfill star-get"></i>';
+                                };
+                                html += '<p class="tc fs-08">'+images+'</p>'
+                                html += '<p class="tc fs-08">'+item['honorName']+'</p>'
+                                html += '</td>'
+                                html += '</td>'
+                                html += '</tr>';   
+                                $('.rt-05').append(html); 
+                                                       
+                        });                                    
+                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+    }); 
+</script>
+</body>
+
+</html>

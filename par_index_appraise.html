@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>评价</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group evaluate">
+    <div class="page page-current evaluate-page">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink external" href="par_index.html"></a></div>
+            <div class="header-m">民主评价</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content">
+            <div class="evaluate-panel ">
+                <div class="evaluate-logo"><i class="ico ico-pingjia"></i></div>
+                <p class="evaluate-logo-txt"></p>
+                <p class="evaluate-tips">你是本期民主评价互评人员，请选择你要进行的操作！</p>
+                <p class="btn-box"><a id="choose" class="button button-big external" href="" >互评 </a></p>
+                <p class="btn-box"><a href="par_index_appraise_self.html" class="button button-big external">自评</a></p>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    /* 评价人信息 */
+    $(document).ready(function(){
+        $.ajax( {
+            type:"GET",
+            url: root_url+"uiDemocratic/isDemocraticStudentsByStudentId?activityId=1",
+            success: function( data, textStatus, jqXHR ){
+                console.log(data);
+                if(data.code==1){
+                    $('#choose').attr('href','par_index_appraise_choose.html')
+//                    location.href ="par_index_appraise_choose.html";
+                }else{
+
+                    $.toast(data.note);
+                    return false;
+                }
+            }
+        });
+        var stuinfo=JSON.parse(store.get("userinfo"));
+        console.log(stuinfo);    
+        $('.evaluate-logo-txt').text(stuinfo['userName']+'同学你好！');
+
+        /*判断当前学生是否是互评人员*/
+//        $("#choose").click(function() {
+//            $.ajax( {
+//                type:"GET",
+//                url: root_url+"uiDemocratic/isDemocraticStudentsByStudentId?activityId=1",
+//                success: function( data, textStatus, jqXHR ){
+//                    console.log(data);
+//                    if(data.code==1){
+//                         location.href ="par_index_appraise_choose.html";
+//                    }else{
+//
+//                        $.toast(data.note);
+//                        return false;
+//                    }
+//                }
+//            });
+//
+//        });
+    });
+
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>登录</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">   
+</head>
+
+<body>
+<div class="page-group login">
+    <div class="page page-current">
+        <div class="content main">
+            <div class="login-wrap">
+                <div class="login-logo">
+
+                    <div class="login-logo-ico"><i class="ico ico-pingjia2"></i></div>
+                    <p class="login-welcome">智评价</p>
+                </div>
+                <div class="list-block login-form">
+                    <ul>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-media"><i class="ico ico-user"></i></div>
+                                    <div class="item-input">
+                                        <input type="text" placeholder="手机号" name="username" id="username" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-media"><i class="ico ico-mima"></i></div>
+                                    <div class="item-input">
+                                        <input type="password"  name="psw" id="psw" placeholder="登录密码" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block">
+                    <p>
+                        <a href="#" class="button button-fill button-big" id="login-btn">登录</a>
+                    </p>
+                </div>
+                <div class="content-block tr">
+                    <a href="javascript:;" class="login-forgitpsw">忘记密码？</a>
+                </div>
+                <!--选项卡表单end-->
+                <div class="login-copyr-wrap">
+                    <img src="images/copyr.png" class="login-copyr">
+                </div>
+                <input type="hidden" name="schoolId" id="schoolId" value="1">
+            </div>
+        </div>
+        <!--tabs end-->
+    </div>
+    <!--content end-->
+</div>
+
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/md5.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+    /* 家长登录 */
+    $(document).ready(function(){
+        
+        
+        $(document).on("click", "#login-btn", function() {
+           var username= $("#username").val();
+           var psw     = $("#psw").val();
+            if(username.length==0 || psw.length==0 ){ 
+                $.toast("登录信息不完整，请重新填写！");
+                return false; 
+            }
+            var loginval = {
+                    username:username,
+                    password:hex_md5(psw)
+               };
+            var loginval = JSON.stringify(loginval);   
+            $.ajax( {
+                url: "http://110.90.126.101:9080/uiLogin/parentLogin",
+                aysnc: false , // 默认同步加载
+		    	type: "POST" , // 默认使用POST方式
+		    	dataType: "json",
+		        contentType: "application/json",
+		        scriptCharset: 'utf-8',
+                data:loginval,
+                success: function( data, textStatus, jqXHR ){
+
+                    if(data.code==1){
+                         
+                        store.set('parentinfo',JSON.stringify(data.returnData));/* 记录家长信息 */
+                        store.set('token',data.returnData['token']);/* 记录凭证token */
+
+                        $.alert('登录成功',function () {
+                            location.href ="par_welcome.html";
+                        });
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+           
+        });
+    }); 
+</script>
+</body>
+</html>

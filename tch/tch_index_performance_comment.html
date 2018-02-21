@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>单个点评</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group chooserating">
+    <div class="page page-current chooserating-page">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-close external" href="tch_index_performance.html"></a></div>
+            <div class="header-m">点评王然</div>
+            <div class="header-r"><a class="header-link external" href="tch_index_performance_history.html">点评历史</a></div>
+        </header>
+        <div class="content bg-white">
+            <!--表扬-->
+            <div class="immediate_incentive-wrap">
+                <p class="crew-title color-blue fs-1">表扬</p>
+                <ul class="list-block-nom list list-col4 praise">
+                   <!--  <li class="list-item">
+                        <div class="classroom-per-item">
+                            <div class="classroom-per-picbox">
+                                <div class="classroom-picbox">
+                                    <i class="ico ico-fayan"></i>
+                                </div>
+                            </div>
+                            <p class="classroom-student-name">认真听讲</p>
+                        </div>
+                    </li>
+                 -->
+                </ul>
+            </div>
+            <!--待改进-->
+            <div class="immediate_incentive-wrap">
+                <p class="crew-title color-illegal fs-1">待改进</p>
+                <ul class="list-block-nom list list-col4 illegal">
+       <!--               <li class="list-item confirm-title-ok-cancel">
+                         <div class="classroom-per-item">
+                             <div class="classroom-per-picbox">
+                                 <div class="classroom-picbox">
+                                     <img src="images/ico-illegal-01.png">
+                                 </div>
+                             </div>
+                             <p class="classroom-student-name">上课走神</p>
+                         </div>
+                     </li>
+                    <li class="list-item confirm-title-ok-cancel">
+                        <div class="classroom-per-item">
+                            <div class="classroom-per-picbox">
+                                <div class="classroom-picbox">
+                                    <img src="images/ico-illegal-01.png">
+                                </div>
+                            </div>
+                            <p class="classroom-student-name">上课走神</p>
+                        </div>
+                    </li>
+                    <li class="list-item confirm-title-ok-cancel">
+                        <div class="classroom-per-item">
+                            <div class="classroom-per-picbox">
+                                <div class="classroom-picbox">
+                                    <img src="images/ico-illegal-01.png">
+                                </div>
+                            </div>
+                            <p class="classroom-student-name">上课走神</p>
+                        </div>
+                    </li>
+                    <li class="list-item confirm-title-ok-cancel">
+                        <div class="classroom-per-item">
+                            <div class="classroom-per-picbox">
+                                <div class="classroom-picbox">
+                                    <img src="images/ico-illegal-01.png">
+                                </div>
+                            </div>
+                            <p class="classroom-student-name">上课走神</p>
+                        </div>
+                    </li>
+                    <li class="list-item confirm-title-ok-cancel">
+                        <div class="classroom-per-item">
+                            <div class="classroom-per-picbox">
+                                <div class="classroom-picbox">
+                                    <img src="images/ico-illegal-01.png">
+                                </div>
+                            </div>
+                            <p class="classroom-student-name">上课走神</p>
+                        </div>
+                    </li>
+                    -->
+                </ul>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    /* 班级情况 */
+    $(document).ready(function(){
+            var classval = {};
+            var classval = JSON.stringify(classval);  
+            $.ajax( {
+                url: root_url+"uiClassRoom/getTIndicatorCategory3FroClassRoomList",
+                data:classval,
+                success: function( data, textStatus, jqXHR ){
+                    
+                    if(data.code==1){
+                        console.log(data);              
+                        $.each(data.dataList, function(index, item) {
+                            if(item['typeValue']==1){
+                                var html = '';
+                                var index = Number(index);
+                                html += '<li class="list-item confirm-title-ok-cancel">';
+                                html += '<div class="classroom-per-item">';
+                                html += '<div class="classroom-per-picbox">';
+                                html += '<div class="classroom-picbox">';
+                                html += '<i class="'+item['picturePath']+'"></i>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<p class="classroom-student-name">'+item['description']+'</p>';
+                                html += '</div>';
+                                html += '</li>';
+                                $('.praise').append(html);
+                            }else{
+                                var html = '';
+                                var index = Number(index);
+                                html += '<li class="list-item confirm-title-ok-cancel">';
+                                html += '<div class="classroom-per-item">';
+                                html += '<div class="classroom-per-picbox">';
+                                html += '<div class="classroom-picbox">';
+                                html += '<i class="'+item['picturePath']+'"></i>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<p class="classroom-student-name">'+item['description']+'</p>';
+                                html += '</div>';
+                                html += '</li>';
+                                $('.illegal').append(html);
+                            }   
+
+
+                        });
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });     
+  
+            
+            
+
+    }); 
+</script>
+<script>
+    $('.check-list .list-item').click(function () {
+        $(this).toggleClass('check');
+    })
+</script>
+</body>
+
+</html>

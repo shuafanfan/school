@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>家长</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">   
+</head>
+
+<body>
+<div class="page-group index">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l">
+                <a class="header-link" href="#"> </a></div>
+            <div class="header-m"></div>
+            <div class="header-r">
+                <a class="header-link" href="#">
+                    <p class="header-link-p"></p>
+                    <p class="header-link-o"></p>
+                </a></div>
+        </header>
+        <!-- 工具栏 -->
+        <nav class="bar bar-tab">
+            <a class="tab-item  external active"href="par_index.html">
+                <i class="icon  ico-home"></i>
+                <span class="tab-label">首页</span>
+            </a>
+            <a class="tab-item  external" href="par_maillist.html">
+                <i class="icon ico-tongxunlu"></i>
+                <span class="tab-label">通讯录</span>
+            </a>
+            <a class="tab-item external new" href="par_note.html">
+                <i class="icon ico-tuwen"></i>
+                <span class="tab-label">写实</span>
+            </a>
+            <a class="tab-item  external" href="par_person.html">
+                <i class="icon ico-user"></i>
+                <span class="tab-label">我的</span>
+            </a>
+        </nav>
+        <div class="content">
+            <!-- 菜单入口 -->
+            <div class="menu-box">
+                <ul class="menu clear jz-menu">
+                    <li onclick="window.location.href='par_index_scan.html'">
+                        <div class="icon"><i class="ico ico-saoyisao"></i></div>
+                        <p>扫一扫</p>
+                    </li>
+                    <li onclick="window.location.href='par_index_points.html'">
+                        <div class="icon"><i class="ico ico-jinbi1"></i></div>
+                        <p>我的积分</p>
+                    </li>
+                    <li onclick="window.location.href='par_index_encourage.html'">
+                        <div class="icon"><i class="ico ico-rongyuqiapian"></i></div>
+                        <p>激励卡</p>
+                    </li>
+                    <li onclick="window.location.href='par_index_score.html'">
+                        <div class="icon"><i class="ico ico-jikediancanicon45"></i></div>
+                        <p>成绩分析</p>
+                    </li>
+                    <li onclick="window.location.href='par_index_performance.html'">
+                        <div class="icon"><i class="ico ico-zaishouketang"></i></div>
+                        <p>课堂表现</p>
+                    </li>
+                    <li onclick="window.location.href='par_index_appraise.html'">
+                        <div class="icon"><i class="ico ico-pingjia"></i></div>
+                        <p>民主评价</p>
+                    </li>
+                    <li onclick="window.location.href='par_index_attend.html'">
+                        <div class="icon"><i class="ico ico-kaoqin2"></i></div>
+                        <p>考勤</p>
+                    </li>
+                    <li onclick="window.location.href='par_index_mall.html'">
+                        <div class="icon"><i class="ico ico-shangcheng3"></i></div>
+                        <p>商城</p>
+                    </li>
+
+                </ul>
+            </div>
+
+            <!--信息通知-->
+            <p class="message-bar">
+                <marquee scrollamount="5" scrolldelay="2" loop="-1" behavior="scroll" class="paomadeng"> </marquee>
+            </p>
+            <!--信息列表-->
+<!--             <div class="card message-item">
+                <div class="card-header">
+                    <div class="card-l">
+                        <i class="ico ico-tips color-warning fs-1-2"></i> 考勤通知  07:50</div>
+                    <div class="card-r "><i class="ico ico-more"></i></div>
+                </div>
+                <div class="card-content">
+                    <div class="card-content-inner">
+                        <p class="user-task-info">早自习  迟到</p>
+                    </div>
+                </div>
+            </div> -->
+
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    /* 首页信息 */
+    $(document).ready(function(){
+
+        var stuinfo=JSON.parse(store.get("userinfo"));
+
+        //console.log(stuinfo);       
+        $('.header-l a').text(stuinfo['schoolName']);
+        $('.header-m ').text(stuinfo['userName']);
+        $('.header-link-p').text(stuinfo['gradeName']+stuinfo['className']);
+        $('.header-link-o').text(stuinfo['classHonnorName']);
+
+
+        /* 未读通知公告（家长学生端） */
+            var studentId=Number(stuinfo['studentID']);
+            var schoolId=Number(stuinfo['schoolID']);
+            var noticeval = {
+                    schoolId:schoolId,
+                    studentId:studentId
+               };
+            var noticeval = JSON.stringify(noticeval);
+
+        $.ajax( {
+                url: root_url+"uiAnnouncement/queryUnreadNotificationByParents?schoolId="+schoolId+"&studentId="+studentId,
+
+                type:'GET',
+                success: function( data, textStatus, jqXHR ){ 
+
+                    if(!data.dataList){
+                        $('.message-bar').css('display','none');
+                    }
+                    if(data.code==1){
+                        $.each(data.dataList, function(index, item) {
+
+                                 var html = '';
+                                 var index = Number(index);
+                                 var url = "window.location.href='par_person_notice_detail.html?id="+item['id']+"&announcer="+item['announcer']+"&date="+item['date']+"&content="+item['content']+"&title="+item['title']+"'";
+                                 
+                                 html +=' <span onclick="'+url+'"><i class="ico ico-tongzhi color-blue"></i>&nbsp;';
+                                 html +=item['title']+" &nbsp;&nbsp; <em>"+item['date']+"</em>";
+                                 html+='</span> &nbsp;&nbsp;&nbsp;&nbsp;';
+
+                                 $('.paomadeng').append(html);
+
+                        });     
+                    }else{
+
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            }); 
+
+
+            /* 孩子的动态 */
+            $.ajax( {
+                url: root_url+"uiDynamic/getMyDynamic?studentId="+studentId+"&&pageNo=1&&pageSize=20",
+                success: function( data, textStatus, jqXHR ){ 
+
+                    if(data.code==1){
+                        $.each(data.dataList, function(index, item) {
+                           
+                                var html = '';
+                                var index = Number(index);
+                                var i=index+1;             
+                                html += '<div class="card message-item">';
+                                html += '<div class="card-header">';
+                                html += '<div class="card-l">';
+                                html += '<i class="ico ico-tips color-warning fs-1-2"></i> '+item['typeRemark']+'  '+item['creationTime']+'</div>';
+                                html += '<div class="card-r "><i class="ico ico-more"></i></div>';
+                                html += '</div>';
+                                html += '<div class="card-content">';
+                                html += '<div class="card-content-inner">';
+                                html += ' <p class="user-task-info">'+item['content']+'&nbsp;&nbsp; '+item['scoreName']+'&nbsp;&nbsp;'+item['operNickName']+'</p>';
+                                html += ' </div>';
+                                html += ' </div>';
+                                html += ' </div>';
+                                $('.content').append(html);
+                           
+                          
+                        });     
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });   
+
+
+
+    });
+
+
+</script>
+<script>
+    $(function(){
+        /*当前学期*/
+        var timestamp=new Date().getTime();
+        var stuinfo=JSON.parse(store.get("xuenian"));
+        $.ajax({
+            url:root_url+'/uiExam/getTermListBySchoolYearId?schoolYearId='+stuinfo,
+            type:'GET',
+            async: false,
+            success:function(data){
+               
+                $.each(data.dataList,function(index,item){
+                    var xuq_id = tab(item['startDate'],item['endDate'],timestamp);
+                    if(xuq_id){
+                        var   xuqi_id=item['id'];
+
+                        store.set('xueqi',xuqi_id);
+
+                        return false;
+                    }
+                })
+            },
+        })
+    })
+    /*考试*/
+    var KS_type=[];
+    $.ajax( {
+        type:"GET",
+        url: root_url+"uiExam/queryExamTypeList",
+        aysnc: false , // 默认同步加载
+        success: function( data, textStatus, jqXHR ){
+            
+            if(data.code==1){
+                var i=0;
+                $.each(data.dataList, function(index, item) {
+                    if(item['STATUS']==1){
+                        KS_type[i]=item['id'];
+
+                        i++;
+                        $('.kaoshi').append('<li class="score-screen-list-item ks " classname="kaoshi" data="'+item['id']+'">'+item['examType']+'</li>');
+                    }else{
+                        $('.kaoshi').append('<li class="score-screen-list-item "  cli="cli"  style="background-color:silver" classname="kaoshi" data="'+item['id']+'">'+item['examType']+'</li>');
+                    }
+
+                    store.set('ExamTypeList',KS_type);
+                });
+
+
+            }else{
+                $.toast(data.msg);
+                return false;
+            }
+        }
+    });
+    function tab(date1,date2,today){
+        var oDate1 = new Date(date1);
+        var oDate2 = new Date(date2);
+        if(today>oDate1 && today<oDate2 ){
+            return true;
+        }
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,447 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>年段成绩排行榜</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+ 
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group points-list">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="tch_index.html"></a></div>
+            <div class="header-m">成绩分析</div>
+            <div class="header-r"><a class="ico ico-more" href="#" id="create-actions"></a></div>
+        </header>
+        <div class="content">
+            <!--本周情况-->
+            <div class="developments-title ">
+                <div class="developments-title-l fs-07">
+                    2016-2017 学年下学期期末考试</div>
+                <div class="developments-title-r">
+                    <span class="developments-l-subtitle open-panel" data-panel='#panel-right-demo'> 语文<a class="ico ico-right" href="#"></a></span>
+                  <!--  <a class="header-link button-fill open-panel" data-panel='#panel-right-demo' href="#">筛选</a>-->
+
+                </div>
+
+            </div>
+            <div class="table-wrap border-b bg-white pb-05">
+                <table class="table table-center table-layer table-noallborder table-notbpad">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><p class="color-gray3">最高分</p></td>
+                        <td><p class="color-gray3">最低分</p></td>
+                        <td><p class="color-gray3">平均分</p></td>
+                    </tr>
+<!--                     <tr>
+                        <td class="color-gray">班级</td>
+                        <td><p class="color-blue">189</p></td>
+                        <td><p class="color-blue">174</p></td>
+                        <td><p class="color-blue">105</p></td>
+                    </tr> -->
+<!--                     <tr>
+                        <td class="color-gray">年级</td>
+                        <td><p class="color-gray">192</p></td>
+                        <td><p class="color-gray">168</p></td>
+                        <td><p class="color-gray">98</p></td>
+                    </tr> -->
+                </table>
+            </div>
+            <div class="my-evaluate-chart " >
+          <!--      <img src="images/charts-pic2.png">-->
+                <div id="pie_chart" >
+
+                </div>
+            </div>
+            <div class="developments-title mt-05 border-b">
+                <div class="developments-title-l">趋势对比</div>
+                <div class="developments-title-r fs-07 color-gray">截止 2017-06-20</div>
+            </div>
+            <div class="my-evaluate-chart " id="broken_line">
+            <!--    <img src="images/charts-pic3.png">-->
+            </div>
+        </div>
+
+        <!--content end-->
+
+    </div>
+    <!-- right Panel with Reveal effect -->
+    <div class="panel-overlay"></div>
+    <div class="tch_right_panel panel panel-right panel-reveal" id='panel-right-demo'>
+        <div class="score-screen-wrap">
+            <div class="score-screen-top">
+                <p class="score-screen-title">学年</p>
+                <ul class="score-screen-list clearfix " id="year">
+
+                    <!--<li class="score-screen-list-item">2015-2016学年</li>-->
+                    <input type="hidden" value="" id="year_input">
+                </ul>
+                <p class="score-screen-title">学期</p>
+                <ul class="score-screen-list clearfix " id="term">
+                    <!--<li class="score-screen-list-item">上学期</li>-->
+                    <!--<li class="score-screen-list-item">下学期</li>-->
+                     <input type="hidden" value="" id="term_input">
+                </ul>
+                <p class="score-screen-title   ">考试</p>
+                <ul class="score-screen-list clearfix" id="test">
+                    <!--<li class="score-screen-list-item">单元考1</li>-->
+
+                    <input type="hidden" value="" id="test_input">
+                </ul>
+                <p class="score-screen-title">考试科目</p>
+                <ul class="score-screen-list score-screen-list4 clearfix" id="subject">
+              <!--      <li class="score-screen-list-item">语文</li>
+                    <li class="score-screen-list-item">数学</li>
+                    <li class="score-screen-list-item">英语</li>
+                    <li class="score-screen-list-item">物理</li>
+                    <li class="score-screen-list-item">化学</li>
+                    <li class="score-screen-list-item">历史</li>
+                    <li class="score-screen-list-item">地理</li>
+                    <li class="score-screen-list-item">生物</li>-->
+                    <input type="text">
+                </ul>
+            </div>
+
+            <div class="score-screen-footer">
+                <a href="#" class="score-screen-footer-item">重置</a>
+                <a href="#" class="score-screen-footer-item screen-footer-item-main" id="queding">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="app/store/store.min.js" charset="utf-8"></script>
+<script src="app/lib/light7.min.js" charset="utf-8"></script>
+<script src="app/lib/common.js" charset="utf-8"></script>
+<script src="app/lib/echarts.js" charset="utf-8"></script>
+ 
+ 
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        /*点击确定 提交 start*/
+
+        /* 点击确定 提交 end*/
+        /*查询学年 begin*/
+
+        $.ajax({
+            url:root_url+'uiExam/queryNearlyThreeYearsSchoolYearList',
+            type:'GET',
+            success:function (data) {
+                //console.log(data);
+                $.each(data.dataList,function (index,item) {
+                    var html ='';
+                    var index = Number(index);
+                    html +=' <li class="score-screen-list-item huoqu" classname="year" data_id="'+item['id']+'">'+item['name']+'</li>';
+                    $('#year').append(html);
+
+                        /*学年 学期*/
+                        $.ajax({
+                            url:root_url+'uiExam/getTermListBySchoolYearId?schoolYearId='+item['id'],
+                            type:'GET',
+                            success:function (data) {
+                                $.each(data.dataList,function (index,item) {
+                                    var html ='';
+                                    var index = Number(index);
+                                    html +=' <li class="score-screen-list-item huoqu " data_id="'+item['id']+'" classname="term">'+item['name']+'</li>';
+                                   $('#term').append(html);
+                                })
+
+                            }
+
+                        })
+                })
+
+            }
+
+        });
+        /*查询学年 end */
+
+        /* 学期 begin*/
+//        $.ajax({
+//            url:root_url+'uiExam/getTermListBySchoolYearId?schoolYearId=10',
+//            type:'GET',
+//            success:function (data) {
+//                console.log(data);
+//                $.each(data.dataList,function (index,item) {
+//                    var html ='';
+//                    var index = Number(index);
+//                    html +=' <li class="score-screen-list-item">'+item['name']+'</li>';
+//                    $('#term').append(html);
+//                })
+//
+//            }
+//
+//        })
+        /* 学期 end*/
+
+        /* 考试 begin*/
+        $.ajax({
+            url:root_url+'uiExam/queryExamTypeList',
+            type:'GET',
+            success:function (data) {
+                console.log(data);
+                $.each(data.dataList,function (index,item) {
+                    var html ='';
+                    var index = Number(index);
+                    html +=' <li class="score-screen-list-item huoqu" data_id="'+['id']+'" classname="test">'+item['examType']+'</li>';
+                    $('#test').append(html);
+                })
+
+            }
+
+        })
+        /* 考试 end*/
+
+        /*点击选中 start*/
+        $(document).on('click','.huoqu',function () {
+            var zhi=$(this).attr('data_id');
+            var t= $(this).attr('classname');
+            $(this).parent("ul").children("li").removeClass("active");
+            $(this).addClass("active");
+            $('#'+t+'_input').val(zhi);
+
+//            $(this).parent("ul").children("li").removeClass("active");
+//            $(this).addClass("active");
+//            $(this).parent("ul").children("input").val(zhi);
+        })
+        $(document).on('click','.kemu',function () {
+//            var zhi=$(this).attr('data_id');
+//            var t= $(this).attr('classname');
+            $(this).addClass("active");
+
+
+//            $(this).parent("ul").children("li").removeClass("active");
+//            $(this).addClass("active");
+//            $(this).parent("ul").children("input").val(zhi);
+        })
+        /*点击选中 end*/
+
+            /* 所有考试科目  start*/
+            $.ajax( {
+                url: root_url+"uiExam/querySubjectNameByStudentExam?examTypeId=1",
+                success: function( data, textStatus, jqXHR ){
+                    console.log(data);
+                    if(data.code==1){
+                        $.each(data.dataList, function(index, item) {
+                            var html = '';
+                            var index = Number(index);
+                            if(item['subjectName']){
+                                html += '<li class="score-screen-list-item  kemu" km_id="kemu'+index+'">'+item['subjectName']+'</li>';
+                            }
+
+                            $('#subject').append(html);
+                        });
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }
+
+                }
+            });
+        /* 所有考试科目  end*/
+
+            /* 单科最高分、平均分、最低分以及优良合格低分率统计数据 */
+            $.ajax( {
+                url: root_url+"uiExam/queryReportClassHorizontalAnalysisByGradeId?subjectId=1 &examTypeId=1",               
+                success: function( data, textStatus, jqXHR ){
+                    // console.log(data);
+                    //console.log(data.dataList[0]['interval3Value']);
+                    if(data.code==1){
+                        $.each(data.dataList, function(index, item) {
+                                var html = '';
+                                var index = Number(index);             
+                                html += '<tr>';
+                                html += '<td class="color-gray">班级</td>';
+                                html += '<td><p class="color-blue">'+item['highestScore']+'</p></td>';
+                                html += '<td><p class="color-blue">'+item['lowestScore']+'</p></td>';
+                                html += '<td><p class="color-blue">'+item['averageScore']+'</p></td>';
+                                html += ' </tr>';
+                                $('.table').append(html);                           
+                        });
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }
+
+                   /* 饼状分析图*/
+                    var myChart = echarts.init(document.getElementById('pie_chart'));
+
+                    // 指定图表的配置项和数据
+                /*     var weatherIcons = {
+                        'Sunny': './data/asset/img/weather/sunny_128.png',
+                        'Cloudy': './data/asset/img/weather/cloudy_128.png',
+                        'Showers': './data/asset/img/weather/showers_128.png'
+                    };*/
+                    var option = {
+                   /*     title: {
+                            text: '',
+                            subtext: '',
+                            left: 'center'
+                        },*/
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
+                        legend: {
+                            // orient: 'vertical',
+                            // top: 'middle',
+                            bottom: 10,
+                            left: 'center',
+                            data: ['优', '良好','差','及格','不及格']
+                        },
+                        series : [
+                            {
+                                type: 'pie',
+                                radius : '65%',
+                                center: ['50%', '50%'],
+                                selectedMode: 'single',
+                                data:[
+                                    {
+                                     value:data.dataList[0]['interval1Value'], name: '优'},
+                                    {value:data.dataList[0]['interval2Value'], name: '良'},
+                                    {value:data.dataList[0]['interval3Value'], name: '差'},
+                                    {value:data.dataList[0]['interval4Value'], name: '及格'},
+                                    {value:data.dataList[0]['interval5Value'], name: '不及格'}
+                                ],
+                                itemStyle: {
+                                    emphasis: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                    /* 饼状分析图end*/
+
+                    /* 折线分析图*/
+                    var myChart = echarts.init(document.getElementById('broken_line'));
+                    // 指定图表的配置项和数据
+                    var option = {
+                        title: {
+                           /* text: '趋势对比',
+                            subtext: '平均成绩'*/
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                           /* data:['意向','预购','成交']*/
+                        },
+                   /*     toolbox: {
+                            show: true,
+                            feature: {
+                                magicType: {show: true, type: ['stack', 'tiled']},
+                                saveAsImage: {show: true}
+                            }
+                        },*/
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: ['单元考1','单元考2','期中','单元考3','单元考4','期末考']
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [{
+                            name: '',
+                            type: 'line',
+                            smooth: true,
+                            data: [data.dataList[0]['averageScore'], data.dataList[0]['averageScore'], data.dataList[0]['averageScore'], data.dataList[0]['averageScore'], data.dataList[0]['averageScore'], data.dataList[0]['averageScore'], data.dataList[0]['averageScore']]
+                        }
+
+                            ]
+                    };
+                    myChart.setOption(option);
+                    /* 折现分析图end*/
+                }
+
+            });
+
+            /* 单科多次考试成绩 */
+            $.ajax( {
+                url: root_url+"uiExam/queryAverageScoreBySubjectIdAndClassId?subjectId=1&isSysSubject=1",               
+                success: function( data, textStatus, jqXHR ){ 
+                    //console.log(data);
+                    if(data.code==1){
+                        $.each(data.dataList, function(index, item) {
+                                // var html = '';
+                                // var index = Number(index);             
+                                // html += '<tr>';
+                                // html += '<td class="color-gray">班级</td>';
+                                // html += '<td><p class="color-blue">'+item['highestScore']+'</p></td>';
+                                // html += '<td><p class="color-blue">'+item['lowestScore']+'</p></td>';
+                                // html += '<td><p class="color-blue">'+item['averageScore']+'</p></td>';
+                                // html += ' </tr>';
+                                // $('.table').append(html);                           
+                        });       
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+            
+
+    }); 
+</script>
+
+<script>
+    $(document).on('click','#create-actions', function () {
+        var buttons1 = [
+            {
+                text: '全班学生成绩明细',
+                bold: true,
+                onClick: function() {
+                    window.location.href='tch_index_score_detail.html';
+                }
+            },
+            {
+                text: '成绩变化预警分析',
+                onClick: function() {
+                    window.location.href='tch_index_score_warning.html';
+                }
+            },
+            {
+                text: '个人成绩变化分析',
+                onClick: function() {
+                    window.location.href='tch_index_score_change.html';
+                }
+            },
+                       {
+                text: '年段成绩排行榜',
+                onClick: function() {
+                    window.location.href='tch_index_score_rank.html';
+                }
+            }
+        ];
+        var buttons2 = [
+            {
+                text: '取消',
+                bg: 'blue',
+                color:'danger'
+            }
+        ];
+        var groups = [buttons1, buttons2];
+        $.actions(groups);
+    });
+
+</script>
+</body>
+
+</html>

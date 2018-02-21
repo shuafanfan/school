@@ -1,0 +1,323 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的课堂表现</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">   
+</head>
+
+<body>
+<div class="page-group classroom">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink external" href="par_index.html"></a></div>
+            <div class="header-m">我的课堂表现</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content">
+            <div class="classroom-panel ">
+                <div  class="score-subject">
+                    <p class="score-subject-main"><span class="score-subject-name">全部</span> <i class="ico ico-xiafan"></i></p>
+                    <div class="score-subject-sub">
+                        <p class="timeType" data="1">本日</p>
+                        <p class="timeType" data="2">本周</p>
+                        <p class="timeType" data="3">本月</p>
+                        <!--<p class="timeType" data="4">本学期</p>-->
+                        <!--<p class="timeType" data="5">本学年</p>-->
+                    </div>
+                </div>
+                <div class="score-subject-chart" style="text-align:center" >
+                     <div id="main" style="width: 350px;height:200px;"></div>
+                </div>
+                
+                <div class="classroom-list">
+                    <div class="classroom-list-item">
+                        <p class="classroom-list-display">
+                            <span class=""><span class="rank"></span></span>/<span class="total"></span>
+                        </p>
+                        <p class="classroom-list-name">本周排名</p>
+                    </div>
+                    <div class="classroom-list-item">
+                        <p class="classroom-list-display">
+                            <span class="appraise"></span>分
+                        </p>
+                        <p class="classroom-list-name">表扬</p>
+                    </div>
+                    <div class="classroom-list-item">
+                        <p class="classroom-list-display">
+                            <span class="color-danger"></span>分
+                        </p>
+                        <p class="classroom-list-name">待改进</p>
+                    </div>
+                    <div class="classroom-list-item">
+                        <p class="classroom-list-display">
+                            <span class="avg"></span>分
+                        </p>
+                        <p class="classroom-list-name">本周班级平均分</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="classroom-table mt-05">
+                <table class="table table-last-colr">
+                <!--     <tr>
+                        <td>
+                            <p class="classroom-date">星期三 14:02</p>
+                            <p class="classroom-time">2017-06-14</p>
+                        </td>
+                        <td>语文</td>
+                        <td class="Incentive-num color-danger">-4</td>
+                        <td >课上讲话</td>
+                    </tr> -->
+
+
+                
+                </table>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/echarts.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+
+<script>
+    $('.score-subject-main').click(function () {
+        if($(this).hasClass('on')){
+            $(this).removeClass('on').siblings('.score-subject-sub').fadeOut();
+        }else{
+            $(this).addClass('on').siblings('.score-subject-sub').fadeIn();
+        }
+    });
+    $('.score-subject-sub>p').click(function () {
+        var txt = $(this).html();
+        $('.score-subject-name').html(txt);
+        $('.score-subject-main').removeClass('on').siblings('.score-subject-sub').fadeOut();
+    })
+</script>
+
+<script type="text/javascript">
+
+    var subject;
+
+    /* 课堂表现 */
+    $(document).ready(function(){
+            var stuinfo=JSON.parse(store.get("userinfo"));
+            console.log(stuinfo);
+            var timeType=2;
+            Total(timeType);
+            function Total(timeType){
+                var timeType= parseInt(timeType);
+                var title_name='本周统计';
+                var studentId=stuinfo['uid'];
+                var performanceval = {
+                        timeType:timeType,
+                        studentId:studentId,
+                   };
+                var performanceval = JSON.stringify(performanceval);   
+                $.ajax( {
+                    url: root_url+"uiClassRoom/queryAllClassQuotaResutTotal",
+                    data:performanceval,
+                    success: function( data, textStatus, jqXHR ){
+                        
+                        console.log(data);
+                        if(data.code==1){    
+                            $('.rank').text(data.dataMap['sort']);
+                            $('.total').text(data.dataMap['totalAcount']);
+                            $('.appraise').text('+'+data.dataMap['addScore']);
+                            $('.color-danger').text('-'+data.dataMap['subScore']);
+                            $('.avg').text(data.dataMap['avgScore']);
+                            switch(timeType)
+                            {
+
+                                case 1:
+                                     title_name='本日累计';
+                                    break;
+                                case 2:
+                                      title_name='本周累计';
+                                    break;
+                                case 3:
+                                    title_name='本月累计';
+                                    break;
+                                case 4:
+                                    title_name='本学期累计';
+                                    break;
+                                case 5:
+                                    title_name='本年累计';
+                                    break;
+                                default:
+                                    title_name='本周累计';
+                            }
+                            var data_list ='';
+                            var data_name='';
+
+                            $.each(data.dataList, function(index, item) {
+                                if(!item['score']){
+                                    item['score']=0;
+                                }
+                                data_list += "{value:"+item['score']+", name:'"+item['name']+"'},";
+
+                                data_name +="'"+item['name']+"',";
+                            });
+                           option(title_name,data_list,data_name);
+                        }else{
+                            $.toast(data.msg);
+                            return false;
+                        }
+
+                    }
+                });
+            }
+
+
+            /*获取日周月等概况*/
+            $('.timeType').click(function(){
+
+                timeType=$(this).attr('data');
+                 Total(timeType);
+
+            });
+
+
+            /*课堂表现明细清单*/
+            
+                var stuinfo=JSON.parse(store.get("userinfo"));
+                var studentId=stuinfo['studentID'];
+                var listval = {
+                        timeType:timeType,
+                        studentId:studentId,
+                        type:"2"
+                   };
+                var listval = JSON.stringify(listval); 
+                $.ajax( {
+                    url: root_url+"uiClassRoom/queryAllClassQuotaResut",
+                    data:listval,
+                    success: function( data, textStatus, jqXHR ){
+                        
+                        console.log(data);
+                        subject=data.dataList;
+                        if(data.code==1){    
+                        $.each(data.dataList, function(index, item) {
+                                    var html = '';
+                                    var html2 = '';
+                                    var index = Number(index);
+                                    html += '<tr>';
+                                    html += '<td>';
+                                    html += '<p class="classroom-date">'+item['appraisalTime']+'</p>';
+                                    html += '</td>';
+                                    html += '<td>'+item['appraiserName']+'</td>';
+                                    html += '<td class="Incentive-num color-danger">'+item['score']+'</td>';
+                                    html += '<td >'+item['indicatorCategory2Name']+'</td>';
+                                    html += '</tr>';
+                                    $('.table table-last-colr').append(html);                          
+                            });
+
+                       
+                        }else{
+                            $.toast(data.msg);
+                            return false;
+                        }           
+                    }
+                });
+
+       
+    }); 
+</script>
+
+<script type="text/javascript">
+
+
+    function option(title_name,data_list,data_name){
+
+    console.log(data_list);
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: title_name,
+                left: 'center',
+                top: 0,
+            },
+            legend: {
+                x : 'center',
+                y : 'bottom',
+                data:[]
+            },
+            calculable : true,
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            series : [
+                {
+                    name:title_name,
+                    type:'pie',
+                    radius :[20, 45],
+                    center: ['50%', '50%'],
+                    roseType : 'radius',
+                    data:[
+
+                    ],
+                    roseType: 'radius',
+                    label: {
+                        normal: {
+                            textStyle: {
+                                color: 'rgba(0, 0, 0, 0.3)'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            lineStyle: {
+                                color: 'rgba(0, 0, 0, 0.3)'
+                            },
+                            smooth: 0.2,
+                            length: 10,
+                            length2: 20
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#00ccff',
+                            shadowBlur: 200,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    },
+
+                    animationType: 'scale',
+                    animationEasing: 'elasticOut',
+                    animationDelay: function (idx) {
+                        return Math.random() * 200;
+                    }
+                }
+            ]
+        };
+
+        var htmll="["+data_list+"]";
+        var htmlduixiang = eval(htmll);
+        option['series'][0]['data']=htmlduixiang;
+
+        var data_names="["+data_name+"]";
+        option['legend']['data']=eval(data_names);
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+        
+</script>
+</body>
+
+</html>

@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>自评</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group self-rating">
+    <div class="page page-current self-rating-page">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink   external" href="par_index_appraise.html"></a></div>
+            <div class="header-m">自评</div>
+            <div class="header-r"><a class="header-link button-fill external finish">完成</a></div>
+        </header>
+        <div class="content">
+           <!--  <div class="self-rating-panel ">
+                <p class="self-rating-ques">1、尊敬国旗、国徽、国歌；有民族自尊心、自信心、自豪感；关心政治时事；关心家乡建设；</p>
+                <div class="self-rating-quespic">
+                    <img src="images/self-rating-ques-pic1.png">
+                </div>
+                <div class="self-rating-ansgroup">
+                    <div class="self-rating-ansitem on">A优</div>
+                    <div class="self-rating-ansitem">B良</div>
+                    <div class="self-rating-ansitem">C中</div>
+                    <div class="self-rating-ansitem">D差</div>
+                </div>
+            </div> -->
+          <div class="content-block">
+ 
+  </div>
+        </div>
+        <!--content end-->
+
+    </div>
+
+</div>
+
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+
+
+    /* 评价人信息 */
+    $(document).ready(function(){
+           stuinfo=JSON.parse(store.get("userinfo"));
+            console.log(stuinfo);    
+            var queryval = {};
+            var queryval = JSON.stringify(queryval);   
+            $.ajax( {
+                url: root_url+"uiDemocratic/getProblemAndAnswerBySchoolId",
+                data:queryval,
+
+                success: function( data, textStatus, jqXHR ){
+                    console.log(data);
+
+                    if(data.code==1){
+                       
+                       $.each(data.dataList, function(index, item) {
+                         
+                                var html = '';
+                                var index = Number(index);
+//
+                           html += ' <div class="self-rating-panel aa">';
+                           html += ' <p class="self-rating-ques">'+item['problemId']+'、'+item['problemName']+'</p>';
+                           html += '<div class="self-rating-quespic">';
+                           html += '<img src="images/self-rating-ques-pic1.png">';
+                           html += '</div>';
+                           html += '<div class="self-rating-ansgroup fenshu'+index+' " classname="fenshu'+index+'"  problemId="'+item['problemId']+'" problemName="'+item['problemName']+'"  problemId="'+item['problemId']+'"   >';
+                           html += '<div class="self-rating-ansitem "  Score="'+item['answerOneScore']+'" data_id="'+item['answerOneId']+'" >a、<span>'+item['answerOneName']+'</span></div>';
+                           html += '<div class="self-rating-ansitem"  Score="'+item['answerTwoScore']+'" data_id="'+item['answerTwoId']+'" >b、<span>'+item['answerTwoName']+'</span></div>';
+                           html += '<div class="self-rating-ansitem"   Score="'+item['answerThreeScore']+'"  data_id="'+item['answerThreeId']+'"  >c、<span>'+item['answerThreeName']+'</span></div>';
+                           html += '<div class="self-rating-ansitem" Score="'+item['answerFourScore']+'"  data_id="'+item['answerFourId']+'" >d、<span>'+item['answerFourName']+'</span></div>';
+
+                           html += '</div>';
+                           html += '</div>';
+                           html += '</div>';
+                           $('.content').append(html);
+                        });
+                         
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    } 
+
+                }
+            });
+
+
+            
+            /*评价完成*/
+            $('.finish').click(function(){
+                var id='';
+                 id=$('.on').html();
+
+        //18:05
+                var newList =[];
+                var on =$('.on');
+                if($('.on').length==0 && $('.on').length<20 ){
+                    $.alert('请填写完整');
+                    return false;
+                }
+                console.log($('.on').length);
+
+                for(var i=0;i<$('.on').length;i++){
+
+                            newList[i]=  {
+                                "activityId":1,               //活动Id
+                                "problemId":$('.fenshu'+i).attr('problemId'),                //题目Id
+                                "problemName":$('.fenshu'+i).attr('problemName'),   //题目名称
+                                "answerId":$('.fenshu'+i).find('.on').attr('data_id'),                //答案Id
+                                "answerName":$('.fenshu'+i).find('.on span').html(),              //答案名称
+                                "score":$('.fenshu'+i).find('.on').attr('Score'),                   //分数
+                                "beEvaluatedId":stuinfo['uid'],            //被评价人Id
+                                "beEvaluatedName":stuinfo['userName'],       //被评价人姓名
+                                "evaluationType":1,     //评价类型1:自我评价2:互相评价3:教师评价
+                            }
+
+
+
+
+                }
+
+
+
+                var finishval = JSON.stringify(newList);
+                console.log(finishval)
+                $.ajax( {
+                    url: root_url+"uiDemocratic/insertMyselfDemocraticEvaluation",
+                    data:finishval,
+                    success: function( data, textStatus, jqXHR ){
+                        if(data.code==1){
+                            console.log(data);
+                            $.alert('评价成功',function () {
+                                location.href ="par_index_appraise_result.html?type=1&em="+data['msg']+"";
+                            });
+                        }else{
+                            $.toast(data.msg);
+                            return false;
+                        }
+                    }
+                });
+            })
+
+
+    });
+
+    /*点击选中*/
+
+    $(document).on('click',".self-rating-ansitem",function(){
+        var classname=$(this).parent('.self-rating-ansgroup').attr('classname');
+
+
+        if(!$(this).is('.active')){
+            $('.'+classname+' div'  ).removeClass('on');
+            var id = $(this).attr('data_id');
+            $(this).addClass('on');
+
+        }else{
+
+            $('.'+classname+' div'  ).removeClass('on');
+
+        }
+
+    });
+
+</script>
+
+</body>
+
+</html>

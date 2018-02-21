@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>通讯录</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group mail-list">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="tch_maillist.html"></a></div>
+            <div class="header-m">通讯录</div>
+            <div class="header-r"></div>
+        </header>
+        <!-- 工具栏 -->
+        <nav class="bar bar-tab">
+            <a class="tab-item  external " href="tch_index.html">
+                <i class="icon ico-home"></i>
+                <span class="tab-label">首页</span>
+            </a>
+            <a class="tab-item  external active" href="tch_maillist.html">
+                <i class="icon ico-tongxunlu"></i>
+                <span class="tab-label">通讯录</span>
+            </a>
+            <a class="tab-item external new" href="tch_note.html">
+                <i class="icon ico-tuwen"></i>
+                <span class="tab-label">写实</span>
+            </a>
+            <a class="tab-item  external" href="tch_person.html">
+                <i class="icon ico-user"></i>
+                <span class="tab-label">我的</span>
+            </a>
+        </nav>
+        <div class="content">
+            <div class="searchbar-wrap">
+                <div class="searchbar">
+                    <a class="searchbar-cancel">Cancel</a>
+                    <div class="search-input">
+                        <label class="ico icon ico-search2" for="search"></label>
+                        <input type="search" id='search' placeholder='请输入姓名/拼音首字母搜索'/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-wrap">
+                <div class="buttons-tab">
+                    <a href="#tab1" class="tab-link active button">职工通讯录</a>
+                    <a href="#tab2" class="tab-link button">家长通讯录</a>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div class="tabs">
+                    <div id="tab1" class="tab active">
+                        <div class="list-block list-block-nom contacts-block">
+                            <div class="list-group">
+                                <ul class="list list-col2 worker">
+                                  <!--   <li class="list-group-title">A</li>
+                                    <li class="list-item"  onclick="window.location.href='tch_maillist_detail.html'" >
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">艾青海</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab2" class="tab">
+                        <div class="list-block list-block-nom contacts-block">
+                            <div class="list-group">
+                                <ul class="list list-col2 parent">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    /* 个人信息 */
+    $(document).ready(function(){
+
+            /*教职工通讯录*/
+            var mailval = {
+                    key:"",
+               };
+            var mailval = JSON.stringify(mailval);  
+            $.ajax( {
+                url: root_url+"uiClassRoom/queryAddressBookForTeacher",
+                data:mailval,
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                                var html = '';
+                                var index = Number(index);             
+                                html += '<li class="list-group-title">'+item['initials']+'</li>';
+                                html += '<li class="list-item" onclick=window.location.href="tch_maillist_detail.html?id='+item['id']+'">';
+                                html += '<div class="list-item-l">';
+                                html += '<div class="list-pic">';
+                                html += '<img src="images/list-userpic.png">';
+                                html += '</div>';
+                                html += '<div class="list-title-box">';
+                                html += '<p class="list-title">'+item['realName']+'</p>';
+                                html += '<p class="list-subtitle">'+item['mobilephone']+'</p>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</li>';
+                                $('.worker').append(html);                           
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+
+            /*家长通讯录*/
+            var mailval = {
+                    "classId":131,
+                    key:"",
+               };
+            var mailval = JSON.stringify(mailval);  
+            $.ajax( {
+                url: root_url+"uiClassRoom/queryAddressBookForParents",
+                data:mailval,
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                                var html = '';
+                                var index = Number(index);             
+                                html += '<li class="list-group-title">'+item['initials']+'</li>';
+                                html += '<li class="list-item" onclick=window.location.href="tch_maillist_detail.html?pid='+item['parentId']+'">';
+                                html += '<div class="list-item-l">';
+                                html += '<div class="list-pic">';
+                                html += '<img src="images/list-userpic.png">';
+                                html += '</div>';
+                                html += '<div class="list-title-box">';
+                                html += '<p class="list-title">'+item['parentName']+'</p>';
+                                html += '<p class="list-subtitle">'+item['mobilephone']+'</p>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</li>';
+                                $('.parent').append(html);                           
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+    }); 
+</script>
+<script>
+    $(".contacts-block").indexList();
+    $("#tab2").click(function(){
+      $("#tab1").hide();
+      $("#tab2").show();
+    });
+    $("#tab1").click(function(){
+      $("#tab2").hide();
+      $("#tab1").show();
+    });
+</script>
+</body>
+
+</html>

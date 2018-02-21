@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>购物车</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group askleave integral-shop">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink external" href="par_index_mall.html"></a></div>
+            <div class="header-m">购物车</div>
+            <div class="header-r"><a class="header-link " href="#"> </a></div>
+        </header>
+        <!-- 工具栏 -->
+        <nav class="bar bar-tab">
+                <p class="tab-item  external integral-shop-sum" >
+                    <span class="num"></span>
+                </p>
+            <a class="tab-item  external score-screen-footer-item screen-footer-item-main" href="par_index_mall_pay.html">查看购物车
+            </a>
+        </nav>
+        <div class="content">
+            <div class="list-block media-list list-block-nom">
+                <ul>
+                    <!--<li>-->
+                        <!--<div class="item-content">-->
+                            <!--<div class="item-media" onclick="window.location.href='par_index_mall_goods.html'"><img src="images/shop-thing.png" style='width: 4.2rem;'></div>-->
+                            <!--<div class="item-inner">-->
+                                <!--<div class="item-title-row">-->
+                                    <!--<div class="item-title">超大麦克风话筒圆珠笔蓝笔芯幼儿园儿童老师奖励学习用品</div>-->
+                                <!--</div>-->
+                                <!--<div class="item-subtitle clearfix">-->
+                                    <!--<div class=" fl integral-shopjf"><span class="integral-shop-jfnum">3000</span>积分</div>-->
+                                    <!--<a href="#" class="fr button button-fill button-warning cart">加入购物车</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                </ul>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+   /*获取url参数*/
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+    /* 商城信息 */
+    $(document).ready(function(){       
+    /*获取*/
+        var ID =getQueryVariable('typeId')
+            /*单类商品列表*/
+            $.ajax( {
+                type:"GET",
+                url: root_url+"uiMall/getProductListByTypeId?typeId="+ID,
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                       // console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                                 var html = '';
+                                 var index = Number(index);
+                            var url ="window.location.href='par_index_mall_goods.html?typeId="+item['id']+"'";
+
+                            html += '  <li><div class="item-content">';
+                            html +=' <div class="item-media" onclick="'+url+'"><img src="'+item['imgUrl']+'" style="width: 4.2rem;"></div>';
+                            html +='<div class="item-inner"><div class="item-title-row">';
+                            html +='<div class="item-title">'+item['name']+'</div>';
+                            html +=' </div> <div class="item-subtitle clearfix"><div class=" fl integral-shopjf">';
+                            html +='  <span class="integral-shop-jfnum">'+item['integral']+'</span>积分</div>';
+                            html +=' <a href="#" class="fr button button-fill button-warning cart" productId="'+item['id']+'"  productName="'+item['name']+'" productType="'+item['type']+'" integral="'+item['integral']+'" imgUrl="'+item['imgUrl']+'" productId="'+item['id']+'" >加入购物车</a>';
+                            html +='</div></div></div></li>';
+                            $('.list-block-nom ul').append(html);
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+            /*加入购物车*/
+        $(document).on('click','.cart',function(){
+            var cartval = {
+                productId: Number($(this).attr('productId')),           //产品Id
+                productName: $(this).attr('productName'),      //产品名称
+                productType: $(this).attr('productType'),      //产品类别
+                integral: Number($(this).attr('integral')),          //产品所需积分(单个)
+                imgUrl: $(this).attr('imgUrl'),  //产品图片
+                count: "1"                //兑换数量
+            };
+            var cartval = JSON.stringify(cartval);
+           // console.log(cartval);
+            $.ajax( {
+                url: root_url+"uiMall/addShoppingCart",
+                data:cartval,
+                success: function( data, textStatus, jqXHR ){
+                    //console.log(data);
+                    if(data.code==1){
+                        $.alert('加入成功');
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }
+                }
+            });
+        })
+
+
+    });
+
+
+</script>
+</body>
+
+</html>

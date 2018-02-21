@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>结算</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group askleave integral-shop">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink external " href="par_index_mall_type.html"></a></div>
+            <div class="header-m">结算</div>
+            <div class="header-r"><a class="header-link " href="#"> </a></div>
+        </header>
+        <!-- 工具栏 -->
+        <nav class="bar bar-tab">
+            <p class="tab-item  external integral-shop-sum" >
+                共<span class="num">0</span>件
+            </p>
+            <a class="tab-item  external score-screen-footer-item screen-footer-item-main goods_end" href="#">结算
+            </a>
+        </nav>
+        <div class="content">
+            <div class="commodity-pic-wrap fs-0">
+                <img class="images" src="">
+            </div>
+            <p class="commodity-name"></p>
+            <div class="list-block list-block-nom">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title commodity-name" data_id=""><!--超大麦克风话筒圆珠笔蓝笔芯幼儿园儿童老师奖励学习用品--></div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title commodity-jf"><span class="Incentive-num color-nice"><!--600--></span>积分</div>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="mt-05">
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title commodity-info">商品详情</div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div>
+                                <div class="xiangqing">
+                                    <!--因拍摄灯光及客户所用显示器存在不同程度-->
+                                </div>
+                                <div class="item-title commodity-jf clearfix"><span class="Incentive-num color-nice"><!--600--></span>积分
+                                <span class="fr lightgray"><!--已兑换2次--></span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+    /* 商城信息 */
+    $(document).ready(function(){       
+        var ID=getQueryVariable('typeId')
+
+            /*商品明细接口*/
+            $.ajax( {
+                type:"GET",
+                url: root_url+"uiMall/getProductDetailById?productId="+ID,
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList,function(index,item){
+                            $('.commodity-name').attr('data_id',item['id']);                           
+                            $('.commodity-name').text(item['name']);
+                            $('.xiangqing').text(item['contents']);
+                            $('.color-nice').text(item['integral']);
+                            $('.images').attr('src',item['imgUrl']);
+                            $('.num').text(item['amount']);
+
+                        });
+
+
+
+
+
+
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+        $('.goods_end').click(function(){
+            var num =$('.num').html();
+
+
+            var goods_data={
+
+                "productId":  Number($('.commodity-name').attr('data_id')),           //产品Id
+                "productName": $('.commodity-name').html(),      //产品名称
+                "productType":$('.header-m').html(),      //产品类别
+                "integral":  Number($('.color-nice').html()),          //产品所需积分(单个)
+                "imgUrl":  $('.images').attr('src'),  //产品图片
+                "count": 1,               //兑换数量
+                "totalIntegral":  $('.color-nice').html(),     //所需总积分
+            }
+            console.log(goods_data);
+            var listval = JSON.stringify(goods_data);
+
+            /*兑换 start*/
+            $.ajax( {
+                type:"post",
+                url: root_url+"uiMall/addOrderList",
+                data:listval,
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        store.set('goods_success',listval);
+                        window.location.href='par_index_mall_success.html';
+
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }
+                }
+            });
+            /*兑换 end*/
+
+        });
+
+    });
+
+
+</script>
+</body>
+
+</html>

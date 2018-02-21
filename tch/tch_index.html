@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>首页</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css"> 
+</head>
+
+<body>
+<div class="page-group index">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"></div>
+            <div class="header-m">欢迎使用</div>
+            <div class="header-r"><a class="ico ico-tips news external" href="tch_index.html"></a></div>
+        </header>
+        <!-- 工具栏 -->
+        <nav class="bar bar-tab">
+            <a class="tab-item  external active" href="tch_index.html">
+                <i class="icon  ico-home"></i>
+                <span class="tab-label">首页</span>
+            </a>
+            <a class="tab-item  external" href="tch_maillist.html">
+                <i class="icon ico-tongxunlu"></i>
+                <span class="tab-label">通讯录</span>
+            </a>
+            <a class="tab-item external new" href="tch_note.html">
+                <i class="icon ico-tuwen"></i>
+                <span class="tab-label">写实</span>
+            </a>
+            <a class="tab-item  external" href="tch_person.html">
+                <i class="icon ico-user"></i>
+                <span class="tab-label">我的</span>
+            </a>
+        </nav>
+        <div class="content">
+            <!-- 菜单入口 -->
+            <div class="menu-box">
+                <ul class="menu clear">
+                    <li onclick="window.location.href='tch_index_scan.html'">
+                        <div class="icon"><i class="ico ico-saoyisao"></i></div>
+                        <p>扫一扫</p>
+                    </li>
+                    <li onclick="window.location.href='tch_index_hongqi.html'">
+                        <div class="icon"><i class="ico ico-xiaohongqi01"></i></div>
+                        <p>红旗班级</p>
+                    </li>
+                    <li onclick="window.location.href='tch_index_performance.html'">
+                        <div class="icon"><i class="ico ico-zaishouketang"></i></div>
+                        <p>课堂点评</p>
+                    </li>
+                    <li onclick="window.location.href='tch_index_encourage.html'">
+                        <div class="icon"><i class="ico ico-rongyuqiapian"></i></div>
+                        <p>激励卡</p>
+                    </li>
+                    <li  onclick="window.location.href='tch_index_points.html'">
+                        <div class="icon"><i class="ico ico-jinbi1"></i></div>
+                        <p>学生积分</p>
+                    </li>
+
+                    <li onclick="window.location.href='tch_index_praise.html'">
+                        <div class="icon"><i class="ico ico-pingfen"></i></div>
+                        <p>即时激励</p>
+                    </li>
+                    <li onclick="window.location.href='tch_index_score.html'">
+                        <div class="icon"><i class="ico ico-jikediancanicon45"></i></div>
+                        <p>成绩分析</p>
+                    </li>
+                    <li onclick="window.location.href='tch_index_appraise.html'">
+                        <div class="icon"><i class="ico ico-pingjia"></i></div>
+                        <p>民主评价</p>
+                    </li>
+                    <li onclick="window.location.href='tch_index_attend.html'">
+                        <div class="icon"><i class="ico ico-kaoqin"></i></div>
+                        <p>学生考勤</p>
+                    </li>
+                    <li onclick="window.location.href='tch_online.html'">
+                        <div class="icon"><i class="ico ico-pingfen2"></i></div>
+                        <p>学生报告</p>
+                    </li>
+
+                </ul>
+            </div>
+
+            <!--五项评比-->
+            <div class="l-panel mt-05" id='five-today'>
+                <div class="panel-title">
+                    <div class="panel-title-l panel-title-name">五项评比-今日概况</div>
+
+                </div>
+                <div class="l-panel-content pb-info-wrap l-flex-jsc">
+                    <div class="pb-info-l">
+
+                    </div>
+                    <div class="pb-info-r l-list list-row2">
+<!--                         <div class="l-list-item">
+                            <span class="pb-info-name">迟到</span>
+                            <span class="pb-info-grade">-2</span>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <!--班级表现-今日概况-->
+            <div class="l-panel mt-05">
+                <div class="panel-title">
+                    <div class="panel-title-l panel-title-name">班级表现-今日概况</div>
+                    <div class="panel-title-r">
+                        <a class="ico ico-right"></a>
+                    </div>
+                </div>
+                <div class="l-panel-content tddoing-info l-list list-row2 ">
+                    <div class="tddoing-info-item l-list-item praise">
+                        <i class="ico ico-biaoqing"></i>
+                        <!-- <span class="tddoing-info-txt">表扬<span class="tddoing-grade Incentive-num biaoyang">+20</span></span> -->
+                    </div>
+                    <div class="tddoing-info-item l-list-item improv">
+                        <i class="ico ico-ku"></i>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--激励卡-今日概况-->
+            <div class="l-panel mt-05">
+                <div class="panel-title">
+                    <div class="panel-title-l panel-title-name">激励卡-今日概况</div>
+                    <div class="panel-title-r">
+                        <a class="ico ico-right"></a>
+                    </div>
+                </div>
+                <div class="l-panel-content cardjl-info l-list list-row2 ">
+
+                </div>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    /* 首页信息 */
+    $(document).ready(function(){
+            var tchinfo=store.get('tchinfo');
+            console.log(tchinfo);
+            console.log(store.get('phone'));
+            store.each(function(value, key) {
+                console.log(key, '==', value)
+            })
+
+            var classval = {};
+            var classval = JSON.stringify(classval);
+            /*红旗班级-今日概况-总分*/  
+            $.ajax( {
+                url: root_url+"uiRoleHomepage/getReportFiveEvaluationStatisticsForDay",
+                data:classval,
+                success: function( data, textStatus, jqXHR ){
+                
+                    if(data.code==1){
+                        // if(empty(data.dataList[0])){
+                        //     $('')
+                        // }
+                        console.log(data);
+                        var html = '';
+                        //html += '<div class="pb-info-pm-ico"><i class="'+data.dataList[0]['picValue']+'"></i></div>';
+                        html += '<div class="pb-info-pm-fs">';
+                        html += '<p class="pb-pm-fs-p">-'+data.dataList[0]['totalDeductScore']+'分</p>';
+                        html += '<p class="pb-pm-fs-p">第'+data.dataList[0]['sort']+'名</p>';
+                        html += '</div>';
+                        $('.pb-info-l').append(html);                                    
+                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+            /*红旗班级-今日概况-扣分详情*/
+            $.ajax( {
+                url: root_url+"uiRoleHomepage/getFiveEvaluationQuotaResut",
+                success: function( data, textStatus, jqXHR ){
+                    
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                                var html = '';
+                                var index = Number(index);             
+                                html += '<div class="l-list-item">';
+                                html += '<span class="pb-info-name">'+item['logogram']+'</span>';
+                                html += '<span class="pb-info-grade">-'+item['score']+'</span>';   
+                                html += '</div>';
+                                $('.pb-info-r').append(html);                             
+                        });                                    
+                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+            /*课堂表现-今日概况*/  
+            $.ajax( {
+                url: root_url+"uiRoleHomepage/queryClassQuotaResutByTime",
+                success: function( data, textStatus, jqXHR ){        
+                    if(data.code==1){
+                        console.log(data);
+                        var biaoqing=0;
+                        var ku=0;
+                        $.each(data.dataList, function(index, item) {
+                                // var html = '';
+                                // var index = Number(index);             
+                                // html += '<div class="l-list-item">';
+                                // html += '<span class="pb-info-name">迟到</span>';
+                                // html += '<span class="pb-info-grade">-2</span>';   
+                                // html += '</div>';
+                                // $('.pb-info-r').append(html);
+                                if(item['typeValue']==1){
+                                    biaoqing=biaoqing+item['score'];
+                                }else{
+                                    ku=ku+item['score'];
+                                }                            
+                        });
+                        $('.praise').append('<span class="tddoing-info-txt">表扬<span class="tddoing-grade Incentive-num biaoyang">+'+biaoqing+'</span></span>');                             
+                        $('.improv').append('<span class="tddoing-info-txt">待改进<span class="tddoing-grade Incentive-num ku">-'+ku+'</span></span>');                                    
+                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+            /*激励卡今日概况*/  
+            $.ajax( {
+                url: root_url+"uiRoleHomepage/getCardByDate",
+                success: function( data, textStatus, jqXHR ){
+                    
+                    if(data.code==1){
+                        console.log(data);
+                        var biaoqing=0;
+                        var ku=0;
+                        $.each(data.dataList, function(index, item) {
+                                var html = '';
+                                var index = Number(index);             
+                                html += '<div class="cardjl-info-info-item l-list-item ">';
+                                html += '<img src="images/card-jl-01.png" class="cardjl-info-pic">';
+                                html += '<p class="cardjl-info-txt">'+item['cardTypeName']+'<span class="cardjl-info-num">'+item['quantity']+'</span>张</p>';   
+                                html += '</div>';
+                                $('.cardjl-info').append(html);
+                              
+                        });                                   
+                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+    }); 
+</script>
+<script>
+    $(function(){
+//        获得当前民主评价活动
+        $.ajax( {
+            url: root_url+"uiDemocratic/getCurrentDemocraticActivity",
+            type:'GET',
+            success: function( data, textStatus, jqXHR ){
+                if(data.code==1){
+
+                    store.set('activityId',data.dataList[0]['id']);
+
+                }else{
+                    $.toast(data.msg);
+                    return false;
+                }
+            }
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>创建任务</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <style>
+        .date_input{
+            float: left;
+            width:34%;
+            font-size: 0.75rem;
+            padding-top: 0.1rem;
+            float: left
+        }
+        .xian{
+            float: left;padding-top: 0.2rem;font-size: 1.1rem
+        }
+
+    </style>
+</head>
+
+<body class="realistic-body">
+<div class="page-group realistic publish-article">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="tch_note.html"></a></div>
+            <div class="header-m">创建任务</div>
+            <div class="header-r" id="finish"><a class="header-link" href="#">完成</a></div>
+        </header>
+        <div class="content">
+            <div class="bg-white list-block list-block-nom">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-inner flex-initial creattask-item-inner">
+                            <div class="item-title">任务类别</div>
+                            <div class="item-after2 creattask-wrap">
+<!--                                 <span class="realistic-activity active">军旅生活</span>
+                                <span class="realistic-activity ">校园活动</span>
+                                <span class="realistic-activity ">社会实践</span>
+                                <span class="realistic-activity ">节日汇报</span> -->
+
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner l-item-input">
+                                <div class="item-title ">任务名称</div>
+                                <div class="item-input l-item-input">
+                                    <input type="text" placeholder="必填 " id="title">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner l-item-input">
+                                <div class="item-title ">任务期限</div>
+                                <div class="item-input l-item-input" style="width:80%">
+                                    <input type="text" value="2017-06-01" id="startDate" class="date-item date_input" >
+                                    <span class="xian">-</span>
+                                    <input type="text" value="2017-06-01" id="endDate" class="date-item date_input" >
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="creattask-list-wrap">
+                <p class="creattask-list-h">
+                    历史任务 <i class="ico ico-xiafan"></i>
+                </p>
+<!--                 <div class="creattask-list-item">
+                    <p class="creattask-list-title">五一劳动节 </p>
+                    <p class="creattask-list-subtitle">2017-05-01 至 2017-05-05</p>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    /* 个人信息 */
+    $(".date_input").calendar();/*初始化日历时间*/
+
+    $(document).ready(function(){
+
+            /*写实任务活动类别*/
+            $.ajax( {
+                url: root_url+"uiCircle/getCircleTaskType",
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                                var html = '';
+                                var index = Number(index);           
+                                html += '<span class="realistic-activity " id='+item['id']+'>'+item['name']+'</span>';
+                                $('.creattask-wrap').append(html);
+
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }
+
+                    /*写实任务活动类别选中事件*/
+                    $(".realistic-activity").click(function () {
+                        $(".realistic-activity").removeClass("active");
+                        $(this).addClass("active");
+                        
+
+                    });
+                }
+
+            });
+
+
+            /*近期的写实任务*/
+            $.ajax( {
+                url: root_url+"uiCircle/getRecentCircleTaskList",
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                                var html = '';
+                                var index = Number(index);
+                                html += '<div class="creattask-list-item">';
+                                html += '<p class="creattask-list-title">'+item['name']+' </p>';
+                                html += '<p class="creattask-list-subtitle">'+item['startDate']+'至'+item['endDate']+'';
+                                html += ' </div>';
+                                $('.creattask-list-wrap').append(html);                       
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+            $(document).on("click", "#finish", function() {
+                    var id=$('.active').attr("id");
+                    var name=$('.active').html();
+                    console.log(name);
+                    var title=$('#title').val();
+                    var startDate=$('#startDate').val();
+                    var endDate=$('#endDate').val();
+                    var remark="";
+                    if(typeof(name) == "undefined"){ 
+                        $.toast("请选择任务类别！");
+                        return false; 
+                    }
+                    if(title.length==0 ){ 
+                        $.toast("请填写任务名称！");
+                        return false; 
+                    }
+                    if(startDate.length==0 || endDate.length==0){ 
+                        $.toast("请选择时间！");
+                        return false; 
+                    }
+                    var finishval = {
+                            taskTypeId:id,
+                            taskType:name,
+                            title:title,
+                            remark:remark,
+                            startDate:startDate,
+                            endDate:endDate
+                       };
+                    var finishval = JSON.stringify(finishval);   
+                    $.ajax( {
+                        url: root_url+"uiCircle/publishTask",
+                        data:finishval,
+                        success: function( data, textStatus, jqXHR ){                    
+                            if(data.code==1){
+                                console.log(data);
+                                $.alert('发表成功',function () {
+                                    location.href ="tch_note.html";
+                                });
+                            }else{
+                                $.toast(data.msg);
+                                return false;
+                            }           
+                        }
+                    });
+                   
+                });
+
+    });
+
+            
+
+</script>
+</body>
+
+</html>

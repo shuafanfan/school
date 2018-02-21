@@ -1,0 +1,330 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>单科成绩趋势图</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+<div class="page-group score ">
+    <div class="page page-current score-subject-page">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink  external" href="par_index.html"></a></div>
+            <div class="header-m">单科成绩趋势图</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content">
+            <div class="score-subject-panel ">
+                <div  class="score-subject">
+                    <p class="score-subject-main"><span class="score-subject-name" data_id=""></span> <i class="ico ico-xiafan"></i></p>
+                    <div class="score-subject-sub " id="echarts">
+
+                        <!--<p>语文</p>-->
+                        <!--<p>数学</p>-->
+                        <!--<p>英语</p>-->
+                        <!--<p>物理</p>-->
+                    </div>
+                </div>
+                <div class="score-subject-chart" style="height: 500px">
+                    <div id="main" style="width: 100%;height:100%;"></div>
+                </div>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/echarts.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+
+<script>
+    $(function(){
+
+        /*获获取url 参数*/
+
+        var url = window.location.href;
+        var obj = {};
+        var reg = /\?/;
+        if(url.match(reg)) {
+            //判断传入参数，以问号截取，问号后是参数
+            var chars = url.split('?')[1];
+
+            //再截&号
+            var arr = chars.split('&');
+
+            //获得截取后的数组为键值对字符串
+            for (var i = 0; i < arr.length; i++) {
+
+                //保守一点确定看是否为 name=value形式
+                var num = arr[i].indexOf("=");
+
+                if (num > 0) {
+                    //拼接字符串
+                    var name = arr[i].substring(0, num);
+                    var value = arr[i].substr(num + 1);
+
+                    //拼接对象，并转码
+                    obj[decodeURIComponent(name)] = decodeURIComponent(value);
+                }
+            }
+        }
+        /*end*/
+        /*考试科目 start*/
+        $.ajax( {
+            type:"GET",
+            url: root_url+"uiExam/querySubjectNameByStudentExam?examTypeId="+obj['examTypeId'],
+            success: function( data, textStatus, jqXHR ){
+                console.log(data);
+                if(data.code==1){
+
+                    $.each(data.dataList, function(index, item) {
+
+            if(item['subjectId']==obj['subjectId']){
+                $('.score-subject-name').attr('data_id',item['subjectId']);
+                store.set('subjectName',item['subjectName']);
+                $('.score-subject-name').text(item['subjectName'])
+            }else{
+                var html='';
+                html +='<p data_id="'+item['subjectId']+'" isSysSubject="'+item['isSysSubject']+'">'+item['subjectName']+'</p>';
+                $('.score-subject-sub').append(html);
+            }
+
+
+                    });
+                }else{
+                    $.toast(data.msg);
+                    return false;
+                }
+            }
+        });
+
+        /*考试科目 end*/
+        var stuinfo=JSON.parse(store.get("userinfo"));
+        /*单科趋势图 start*/
+        $.ajax( {
+            type:"GET",
+            url: root_url+"uiExam/getStudentVerticalAnalysisByCondition?schoolYearId="+obj['schoolYearId']+"&termId="+obj['termId']+"&studentId="+stuinfo['uid']+"&subjectId="+obj['subjectId']+"&isSysSubject="+obj['isSysSubject']+"",
+            success: function( data, textStatus, jqXHR ){
+                console.log(data);
+                if(data.code==1){
+                    var data_name='';
+                    var data_list ='';
+                    $.each(data.dataList,function(index,item){
+                     data_name +="'"+item['examTypeName']+"',";
+                     data_list +=item['score']+",";
+
+                    })
+                    option(data_name,data_list);
+                }else{
+                    $.toast(data.msg);
+                    return false;
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).on('click','.score-subject-main',function(){
+
+        if($(this).hasClass('on')){
+            $(this).removeClass('on').siblings('.score-subject-sub').fadeOut();
+        }else{
+            $(this).addClass('on').siblings('.score-subject-sub').fadeIn();
+        }
+    });
+
+
+
+    $(document).on('click','.score-subject-sub>p',function(){
+        var txt = $(this).html();
+        var obj = url_option();
+        var subjectId=$(this).attr('data_id');
+        var isSysSubject=$(this).attr('isSysSubject');
+        var stuinfo=JSON.parse(store.get("userinfo"));
+         /*点击显示单科成绩图*/
+        $.ajax( {
+            type:"GET",
+            url: root_url+"uiExam/getStudentVerticalAnalysisByCondition?schoolYearId="+obj['schoolYearId']+"&termId="+obj['termId']+"&studentId="+stuinfo['uid']+"&subjectId="+subjectId+"&isSysSubject="+obj['isSysSubject']+"",
+            success: function( data, textStatus, jqXHR ){
+                console.log(data);
+                if(data.code==1){
+                    var data_names='';
+                    var data_lists ='';
+                    var subjectName_title='';
+                    $.each(data.dataList,function(index,item){
+                        data_names +="'"+item['examTypeName']+"',";
+                        data_lists +=item['score']+",";
+                        subjectName_title = item['subjectName']
+
+                    })
+                    options(data_names,data_lists,subjectName_title);
+                }else{
+                    $.toast(data.msg);
+                    return false;
+                }
+            }
+        });
+        $('.score-subject-name').html(txt);
+        $('.score-subject-main').removeClass('on').siblings('.score-subject-sub').fadeOut();
+    })
+</script>
+<script>
+    function url_option(){
+        var url = window.location.href;
+        var obj = {};
+        var reg = /\?/;
+        if(url.match(reg)) {
+            //判断传入参数，以问号截取，问号后是参数
+            var chars = url.split('?')[1];
+
+            //再截&号
+            var arr = chars.split('&');
+
+            //获得截取后的数组为键值对字符串
+            for (var i = 0; i < arr.length; i++) {
+
+                //保守一点确定看是否为 name=value形式
+                var num = arr[i].indexOf("=");
+
+                if (num > 0) {
+                    //拼接字符串
+                    var name = arr[i].substring(0, num);
+                    var value = arr[i].substr(num + 1);
+
+                    //拼接对象，并转码
+                    obj[decodeURIComponent(name)] = decodeURIComponent(value);
+                }
+            }
+        }
+        return obj;
+    }
+</script>
+<script>
+    function  option(data_name,data_list){
+        var myChart = echarts.init(document.getElementById('main'));
+        var stuinfo=store.get("subjectName");
+
+        option = {
+            title: {
+                text:stuinfo,
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                y : 'bottom',
+                data:['成绩图']
+            },
+            xAxis:  {
+                type: 'category',
+                boundaryGap: false,
+                data: ['周一','周二','周三','周四','周五','周六','周日']
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            series: [
+                {
+                    name:'成绩图',
+                    type:'line',
+                    data:[1, 2, 3, 4, 5, 6, 7],
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                },
+
+            ]
+        };
+        var html="["+data_name+"]";
+
+        option['xAxis']['data']=eval(html);
+        var html_list="["+data_list+"]";
+        console.log(html_list);
+        option['series'][0]['data']=eval(html_list);
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+</script>
+<script>
+    function  options(data_name,data_list,subjectName_title){
+        var myChart = echarts.init(document.getElementById('main'));
+
+        option = {
+            title: {
+                text:subjectName_title,
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                y : 'bottom',
+                data:['成绩图']
+            },
+            xAxis:  {
+                type: 'category',
+                boundaryGap: false,
+                data: ['周一','周二','周三','周四','周五','周六','周日']
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            series: [
+                {
+                    name:'成绩图',
+                    type:'line',
+                    data:[],
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                },
+
+            ]
+        };
+        var html="["+data_name+"]";
+
+        option['xAxis']['data']=eval(html);
+        var html_list="["+data_list+"]";
+
+        option['series'][0]['data']=eval(html_list);
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+</script>
+</body>
+
+</html>

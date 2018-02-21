@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我操作的即时激励</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group classroom">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="tch_index_praise.html"></a></div>
+            <div class="header-m">我操作的即时激励</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content bg-white">
+            <div class="classroom-table classroom-history">
+                <table class="table table-last-colr ">
+<!--                     <tr>
+                        <td>
+                            <p class="classroom-date">星期三 14:02</p>
+                            <p class="classroom-time">2017-06-14</p>
+                        </td>
+                        <td>
+                            <p class="classroom-date">艾青海</p>
+                            <p class="classroom-time">五年4班</p>
+                        </td>
+                        <td>
+                            <p class="classroom-date">+1</p>
+                            <p class="classroom-time">积极发言</p>
+                        </td>
+                        <td>
+                            <a href="#" class="color-blue ico ico-xiugai fs-1-1"></a>
+                            <a href="#" class="color-danger ico ico-shanchu1 fs-1-1"></a>
+                        </td>
+                    </tr> -->
+                </table>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+    /* 我操作的即时激励数据接口 */
+    $(document).ready(function(){
+
+
+            /*我操作的即时激励数据接口*/
+            $.ajax( {
+                url: root_url+"uiInspire/getMyInspireList?pageNo=1&&pageSize=20",
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                           
+                                var html = '';
+                                var index = Number(index);             
+                                html += '<tr>';
+                                html += '<td>';
+                                html += '<p class="classroom-date">'+item['dayOfWeek']+'</p>';
+                                html += '<p class="classroom-time">'+item['createTime']+'</p>';
+                                html += '</td>';                                
+                                html += '<td>';
+                                html += '<p class="classroom-date">'+item['studentName']+'</p>';
+                                html += '<p class="classroom-time">'+item['studentClassName']+'</p>';
+                                html += '</td>';                                
+                                html += '<td>';
+                                html += '<p class="classroom-date">'+item['quotaPoint']+'</p>';
+                                html += '<p class="classroom-time">'+item['quotaShortName']+'</p>';
+                                html += '</td>';
+                                html += '<td>';
+                                html += '<a href="#" class="color-blue ico ico-xiugai fs-1-1"></a>';
+                                html += '<a href="#" class="color-danger ico ico-shanchu1 fs-1-1"></a>';
+                                html += '</td>';
+                                html += '</tr>';                  
+                                $('.table').append(html);               
+                        });                                     
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+    }); 
+</script>
+</body>
+
+</html>

@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>写实</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group realistic create-actions-page">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="tch_index.html"></a></div>
+            <div class="header-m">写实</div>
+            <div class="header-r"><a class="ico ico-paizhao" href="#" id="create-actions"> </a></div>
+        </header>
+        <div class="content ">
+            <div class="really_title" onclick="window.location.href='tch_note_task.html'">
+                
+            </div>
+            <!-- <div class="release-wrap">
+                <div class="release-l"><div class="release-user-pic"><img src="images/list-userpic.png"></div></div>
+                <div class="release-r">
+                    <p class="release-title">说的和方式</p>
+                    <p class="release-subtitle">2017-06-09</p>
+                    <ul class="pic-group clearfix">
+                        <li class="pic-group-item"><img src="images/xs-pic-01.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-02.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-03.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-04.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-05.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-06.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-07.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-08.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-09.png"></li>
+                    </ul>
+                    <div class="release-opear-wrap tr">
+                        <div class="release-opear">
+                            <a class="release-opear-item release-pj">
+                                <i class=" ico ico-pingjia1 release_pingjia"></i>
+                                <div class="release-pingjia-wrap">
+                                    <p class="release-star-box">
+                                        <i class="ico ico-pingfenfill star-get"></i>
+                                        <i class="ico ico-pingfenfill star-get"></i>
+                                        <i class="ico ico-pingfenfill star-get"></i>
+                                        <i class="ico ico-pingfenfill"></i>
+                                        <i class="ico ico-pingfenfill"></i>
+                                    </p>
+                                </div>
+                            </a>
+                            <a class="release-opear-item ico ico-huifu"></a>
+                            <a class="release-opear-item ico ico-pingfen"></a>
+                            <a class="release-opear-item ico ">...</a>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+
+        </div>
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7-swiper.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    /* 个人信息 */
+    $(document).ready(function(){
+
+            /*写实列表*/
+            var noteval = {
+                    key:"",
+               };
+            var noteval = JSON.stringify(noteval);  
+            $.ajax( {
+                url: root_url+"uiCircle/getCircle?lastCircleId=0",
+                data:noteval,
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                             var html = '';
+                             var script="";
+                                var index = Number(index);             
+                                html += '<div class="release-wrap">';
+                                html += '<div class="release-l"><div class="release-user-pic"><img src="'+item['personImgUrl']+'"></div></div>';
+                                html += '<div class="release-r">';
+                                html += '<p class="release-title">'+item['personNickName']+'</p>';
+                                html += '<p class="release-subtitle">'+item['createTime']+'</p>';
+                                html += item['circleContent'];
+                                
+                                html += '<ul class="pic-group clearfix">';
+                                var photos=[];
+                                for (var i = 0; i < item['imgList'].length; i++) {
+                                     html += '<li class="pic-group-item pic-'+item['circleTaskId']+' "><img src="'+item['imgList'][i]['circleImg1Url']+'"></li>';
+                                     photos[i] = '"'+item['imgList'][i]['circleImg1Url']+'"';                                     
+                                }; 
+                                html += '</ul>';
+                                
+                                if(item['imgList'].length>0){
+                                   script += "<script>$(function(){";
+								   script += "var Captions"+item['circleTaskId']+" = $.photoBrowser({";
+								   script += "   photos :["+photos+"]"
+								   script += "});";
+								  
+								   script += "$(document).on('click','.pic-"+item['circleTaskId']+"',function () {";
+								   script += "    Captions"+item['circleTaskId']+".open();";
+								   script += "});";
+								   script += "});<\/script>";
+								}
+                                
+                                html += '<div class="release-opear-wrap tr">';
+                                html += '<div class="release-opear">';
+                                html += '<a class="release-opear-item release-pj">';
+                                html += '<span class=" ico ico-pingjia1 release_pingjia"></span>';
+                                html += '<div class="release-pingjia-wrap">';
+                                html += '<p class="release-star-box">';
+                                html += '<i class="ico ico-pingfenfill"></i>';
+                                html += '<i class="ico ico-pingfenfill "></i>';
+                                html += '<i class="ico ico-pingfenfill "></i>';
+                                html += '<i class="ico ico-pingfenfill "></i>';
+                                html += '<i class="ico ico-pingfenfill "></i>';
+                                html += '<input type="text">';
+                                html += '<input type="hide" class="score" value='+item['circleTaskId']+'>';
+                                html += '</p>';
+                                html += '</div>';
+                                html += '</a>';
+                                html += '<a class="release-opear-item ico ico-huifu"></a>';
+                                html += '<a class="release-opear-item ico ico-pingfen"></a>';
+                                html += '<a class="release-opear-item ico ">...</a>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</div>';
+                                $('.content').append(html);
+                                $('.content').append(script); 
+                               
+                               
+                              
+                               
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }
+
+                    /*    星星评分点击显示隐藏*/
+                    $('.release-pj').click(function () {
+                        $(this).children('.release-pingjia-wrap').fadeToggle();
+
+                        var score=$(this).find(".score").val();/*获取分数*/
+                        console.log(score);
+
+                    });
+
+
+                    /*    星星评分*/
+                    var stars = $('.release-star-box');
+                    var Len = stars.length;
+                    //每次触发事件，清除该项父容器下所有子元素的样式所有样式
+                    for(i=0;i<Len;i++) {
+                        //每次触发事件，清除该项父容器下所有子元素的样式所有样式
+                        function clearAll(obj) {
+                            obj.parent().children('i').removeClass('star-get');
+                        }
+                        stars.eq(i).find('i').click(function () {
+                            $('.release-pingjia-wrap').show();
+                            var num = $(this).index();
+                            clearAll($(this));
+                            //当前包括前面的元素都加上样式
+                            $(this).addClass('star-get').prevAll('i').addClass('star-get');
+                            //给隐藏域input赋值
+                            $(this).siblings('input').val(num+1);
+                        });
+
+                    }
+                    /*    星星评分end*/
+
+                }
+
+            });
+            
+            
+         	/* 获取任务与消息条数*/
+            $.ajax( {
+                url: root_url+"uiCircle/message",
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        var len = data.dataList.length;
+                        $(".really_title").html(' <span class="message-title">'+len+'条消息&任务</span>');                   
+                    }         
+                }
+            });
+            
+
+    }); 
+    
+    
+ 
+  
+</script>
+
+
+<script>
+
+ 
+    $(document).on('click','#create-actions', function () {
+        var buttons1 = [
+            {
+                text: '直接发表文字',
+                bold: true,
+                onClick: function() {
+                    window.location.href='tch_note_publish_text.html';
+                }
+            },
+            {
+                text: '拍照片或者视频',
+                onClick: function() {
+                    window.location.href='tch_note_publish.html';
+                }
+            },
+            
+            {
+                text: '创建任务',
+                onClick: function() {
+                    window.location.href='tch_note_createtask.html';
+                }
+            },
+            {
+                text: '我的写实记录',
+                onClick: function() {
+                    window.location.href='tch_note_self.html';
+                }
+            }
+        ];
+        var buttons2 = [
+            {
+                text: '取消',
+                bg: 'blue'
+            }
+        ];
+        var groups = [buttons1, buttons2];
+        $.actions(groups);
+    });
+</script>
+
+</body>
+
+</html>

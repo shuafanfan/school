@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>发表写实</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body class="realistic-body">
+<div class="page-group realistic publish-article">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink external" href="tch_note.html"></a></div>
+            <div class="header-m">发表写实</div>
+            <div class="header-r"><a class="header-link fabu-note" href="#">完成</a></div>
+        </header>
+        <div class="content bg-white">
+            <div class="list-block list-block-nom">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-inner flex-initial">
+                            <div class="item-title">我的任务</div>
+                            <div class="item-after2 creattask-wrap">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <textarea name="content" id="content" placeholder="说说此刻心情如何？"></textarea>
+                    </li>
+                </ul>
+            </div>
+            <input type="hidden" value="" name="circleTaskId" id="circleTaskId" />
+            <input type="hidden" value="" name="circleTaskTitle" id="circleTaskTitle" />
+        </div>
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+ 
+
+    /* 个人信息 */
+    $(document).ready(function(){
+    	
+    	
+    	/*写实任务活动类别选中事件*/
+        $(document).on ("click",'.realistic-activity',function () {
+        	
+        	if(!$(this).is('.active')){
+            	$(".realistic-activity").removeClass("active");	            
+	            $(this).addClass("active");
+	            var id = $(this).attr("data");
+	            $("#circleTaskId").val(id);
+	            $("#circleTaskTitle").val($(this).text());            
+	        }else{
+	        	$("#circleTaskId").val('');
+	            $("#circleTaskTitle").val('');     
+	        	$(".realistic-activity").removeClass("active");
+	        }
+            
+         });
+                    
+    	
+    	/* 发布写实 */
+    	$(".fabu-note").click(function () {
+    		
+    		var circleType      = 1;
+    		var circleTaskId    = Number($("#circleTaskId").val());
+            var circleTaskTitle = $("#circleTaskTitle").val();
+            var content = $("#content").val();
+            if(circleTaskId>0){
+            	circleType  = 2;
+            }
+            if(content==""){
+            	$.alert("写实内容不能为空！");
+            	return false;
+            }else{
+            
+        		var data = {
+                            circleType:circleType,
+                            circleTaskId:circleTaskId,
+                            circleTaskTitle:circleTaskTitle,
+                            content:content
+                       };
+                var data = JSON.stringify(data);   
+                $.ajax( {
+                        url: root_url+"uiCircle/writeCircle",
+                        data:data,
+                        success: function( data, textStatus, jqXHR ){                    
+                            if(data.code==1){
+                                console.log(data);
+                                $.alert('发表成功',function () {
+                                    location.href ="tch_note.html";
+                                });
+                            }else{
+                                $.toast(data.msg);
+                                return false;
+                            }           
+                        }
+                });
+            }    
+    		
+    	});
+    	
+        /*近期的写实任务*/
+        $.ajax( {
+                url: root_url+"uiCircle/getRecentCircleTaskList",
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                                var html = '';
+                                var index = Number(index);
+                                html += '<span class="realistic-activity " data="'+item['id']+'">'+item['name']+'</span>';
+                                $('.creattask-wrap').append(html);
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+        });
+
+
+    }); 
+</script>
+</body>
+
+</html>

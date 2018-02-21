@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>扣分记录</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group points-list">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="tch_index_hongqi.html"></a></div>
+            <div class="header-m">扣分记录</div>
+            <div class="header-r"></div>
+        </header>
+        <div class="content  bg-white">
+            <!--<div class="points-list-item">-->
+                <!--<ul class="list list-jsc list-noborder">-->
+                    <!--<li class="list-item">-->
+                        <!--<div class="list-item-l">-->
+                            <!--<p class="Incentive-num time"></p>-->
+                            <!--&lt;!&ndash; <p class="honor-time">2017.08.08  星期三</p> &ndash;&gt;-->
+                        <!--</div>-->
+                        <!--<div class="list-item-m">-->
+                            <!--<span class="Incentive-num score"></span>分-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; <div class="list-item-r"><span class="Incentive-num color-danger">-88</span>分</div> &ndash;&gt;-->
+                    <!--</li>-->
+                <!--</ul>-->
+
+                <!--<ul class="list list-col3 pd-25">-->
+                    <!--<li class="list-item"><img src="images/xs-pic-01.png"></li>-->
+                    <!--<li class="list-item"><img src="images/xs-pic-02.png"></li>-->
+                    <!--<li class="list-item"><img src="images/xs-pic-03.png"></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+          <!--<div class="points-list-item">-->
+                <!--<ul class="list list-jsc list-noborder">-->
+                    <!--<li class="list-item">-->
+                        <!--<div class="list-item-l">-->
+                            <!--<p class="Incentive-num">昨天</p>-->
+                            <!--<p class="honor-time">2017.08.08  星期三</p>-->
+                        <!--</div>-->
+                        <!--<div class="list-item-m">-->
+                            <!--<span class="Incentive-num">88</span>分-->
+                        <!--</div>-->
+                        <!--<div class="list-item-r"><span class="Incentive-num "></span></div>-->
+                    <!--</li>-->
+                <!--</ul>-->
+                <!--<div class="l-flex-jsc points-list-info list-noborder">-->
+                    <!--<p class="">09:12</p>-->
+                    <!--<p>迟到</p>-->
+                    <!--<p>督导队</p>-->
+                <!--</div>-->
+                <!--<ul class="list list-col3 pd-25">-->
+                    <!--<li class="list-item"><img src="images/xs-pic-01.png"></li>-->
+                    <!--<li class="list-item"><img src="images/xs-pic-02.png"></li>-->
+                    <!--<li class="list-item"><img src="images/xs-pic-03.png"></li>-->
+                <!--</ul>-->
+                <!--<div class="l-flex-jsc points-list-info">-->
+                    <!--<p class="">09:12</p>-->
+                    <!--<p>迟到</p>-->
+                    <!--<p>督导队</p>-->
+                <!--</div>-->
+                <!--<ul class="list list-col3 pd-25">-->
+                    <!--<li class="list-item"><img src="images/xs-pic-01.png"></li>-->
+                    <!--<li class="list-item"><img src="images/xs-pic-02.png"></li>-->
+                    <!--<li class="list-item"><img src="images/xs-pic-03.png"></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+
+        </div>
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+    /* 红旗班级-今日概况-扣分详情 */
+    $(document).ready(function(){
+
+           var formatime= dateRangeUtil.formatDate(dateRangeUtil.getCurrentWeek()[0]);
+            var today = dateRangeUtil.formatDate(new Date);
+        /*本周开始毫秒*/
+        var matimes= Date.parse(formatime);
+        /*今天开始毫秒**/
+        var todat_times=Date.parse(today);
+        /*本周开始时间戳*/
+        matimes = matimes / 1000;
+        /*今天时间戳*/
+        todat_times = todat_times / 1000;
+        var days_num = Number((todat_times-matimes)/86400);
+
+        var tchinfo=JSON.parse(store.get("tchinfo"));
+        //console.log(tchinfo);
+        var classval = {};
+        var classval = JSON.stringify(classval);
+
+        $.ajax( {
+            url: root_url+"uiRoleHomepage/getFiveEvaluationQuotaResutMore?startDate="+formatime+"&endDate="+today,
+            success: function( data, textStatus, jqXHR ){
+                console.log(data);
+                var day_times=todat_times;
+                if(data.code==1){
+
+                    for(var i= 0;i<=days_num;i++){
+                        var total=0;
+                        if(i==0){
+                            var total='';
+                            var html = '';
+                            var num=0;
+                            var title='';
+                            var weekday='';
+                            $.each(data.dataList, function(index, item) {
+
+                                if(dateRangeUtil.formatDate(new Date(Date.parse(today)))==item['appraisalDate']){
+                                    title =item['appraisalDate'];
+                                    weekday = getMyDay(new Date(item['appraisalDate']));
+                                    html += '<div class="l-flex-jsc points-list-info  ">';
+                                    html += '<p class="">' + formatDateTime(item['createdTime']) + '</p>';
+                                    html += '<p>' + item['logogram'] + '</p>';
+                                    html += '<p>缺少监督人</p>';
+                                    html += '</div>';
+                                    html +='<ul class="list list-col3 pd-25">';
+                                    for(var pic=0;pic<item['images'].length;pic++){
+                                    html +=' <li class="list-item"><img src="'+item['images'][pic]['imageAddress']+'"></li>'
+                                    }
+                                    html+='</ul>';
+                                }
+
+
+
+                            });
+                            /*包裹*/
+                            total +=' <div class="points-list-item">';
+                            /*头部*/
+                            total +=' <ul class="list list-jsc list-noborder">';
+                            total +=' <li class="list-item">';
+                                total +=' <div class="list-item-l">';
+                                total +=' <p class="Incentive-num">'+weekday+'</p>';
+                                total +=' <p class="honor-time">'+title+'</p>';
+                                total +=' </div>';
+                            total +='<div class="list-item-m">';
+                            total +=' <span class="Incentive-num">缺少分数字段</span>分';
+                            total +=' </div>';
+                            total +='  <div class="list-item-r"><span class="Incentive-num "></span></div>';
+                            total +='   </li>';
+                            total +=' </ul>';
+                            total +=html;
+                            total +='</div>';
+
+                            $('.bg-white').append(total);
+                        }else {
+                            var total='';
+                            var html = '';
+                            var num=0;
+                            var title='';
+                            var weekday='';
+
+
+                            $.each(data.dataList, function(index, item) {
+
+                                if(dateRangeUtil.formatDate(new Date(Date.parse(today)-i*86400*1000))==item['appraisalDate']){
+                                    title =item['appraisalDate'];
+                                    weekday = getMyDay(new Date(item['appraisalDate']));
+                                    html += '<div class="l-flex-jsc points-list-info  ">';
+                                    html += '<p class="">' + formatDateTime(item['createdTime']) + '</p>';
+                                    html += '<p>' + item['logogram'] + '</p>';
+                                    html += '<p>缺少监督人</p>';
+                                    html += '</div>';
+                                    html +='<ul class="list list-col3 pd-25">';
+                                    for(var pic=0;pic<item['images'].length;pic++){
+                                        html +=' <li class="list-item"><img src="'+item['images'][pic]['imageAddress']+'"></li>'
+                                    }
+                                    html+='</ul>';
+                                }
+
+
+
+                            });
+                            /*包裹*/
+                            total +=' <div class="points-list-item">';
+                            /*头部*/
+                            total +=' <ul class="list list-jsc list-noborder">';
+                            total +=' <li class="list-item">';
+                            total +=' <div class="list-item-l">';
+                            total +=' <p class="Incentive-num">'+weekday+'</p>';
+                            total +=' <p class="honor-time">'+title+'</p>';
+                            total +=' </div>';
+                            total +='<div class="list-item-m">';
+                            total +=' <span class="Incentive-num">缺少分数字段</span>分';
+                            total +=' </div>';
+                            total +='  <div class="list-item-r"><span class="Incentive-num "></span></div>';
+                            total +='   </li>';
+                            total +=' </ul>';
+                            total +=html;
+                            total +='</div>';
+
+                            $('.bg-white').append(total);
+
+                        }
+
+                    }
+
+                    
+
+                }else{
+                    $.toast(data.msg);
+                    return false;
+                }
+            }
+        });
+
+//        $.ajax( {
+//            url: root_url+"uiRoleHomepage/getReportFiveEvaluationStatisticsForDay",
+//            success: function( data, textStatus, jqXHR ){
+//               // console.log(data);
+//                if(data.code==1){
+//                        $('.time').append(data.dataList[0]['date']+' '+getMyDay(new Date(data.dataList[0]['date'])));
+//                        $('.score').append(data.dataList[0]['totalDeductScore']);
+//
+//                }else{
+//                    $.toast(data.msg);
+//                    return false;
+//                }
+//            }
+//        });
+
+           function formatDateTime(inputTime) {    
+                var date = new Date(inputTime);  
+                var y = date.getFullYear();    
+                var m = date.getMonth() + 1;    
+                m = m < 10 ? ('0' + m) : m;    
+                var d = date.getDate();    
+                d = d < 10 ? ('0' + d) : d;    
+                var h = date.getHours();  
+                h = h < 10 ? ('0' + h) : h;  
+                var minute = date.getMinutes();  
+                var second = date.getSeconds();  
+                minute = minute < 10 ? ('0' + minute) : minute;    
+                second = second < 10 ? ('0' + second) : second;   
+                return h+':'+minute+':'+second;    
+            };
+
+             
+            function getMyDay(date){
+            var week;
+            if(date.getDay()==0) week="周日"
+            if(date.getDay()==1) week="周一"
+            if(date.getDay()==2) week="周二"
+            if(date.getDay()==3) week="周三"
+            if(date.getDay()==4) week="周四"
+            if(date.getDay()==5) week="周五"
+            if(date.getDay()==6) week="周六"
+            return week;
+            }
+            var w1 = getMyDay(new Date("2015-7-12"));
+                         
+                     
+
+});
+</script>
+<script>
+    /**
+     * 日期范围工具类
+     */
+
+    var dateRangeUtil = (function () {
+        /***
+         * 获得当前时间
+         */
+        this.getCurrentDate = function () {
+            return new Date();
+        };
+        //格局化日期：yyyy-MM-dd
+        this.formatDate=function(date){
+            var myyear = date.getFullYear();
+            var mymonth = date.getMonth()+1;
+            var myweekday = date.getDate();
+            //alert("formatDate"+myyear+":"+mymonth+":"+myweekday)
+            if(mymonth < 10){
+                mymonth = "0" + mymonth;
+            }
+            if(myweekday < 10){
+                myweekday = "0" + myweekday;
+            }
+            return (myyear+"-"+mymonth + "-" + myweekday);
+        }
+        /*时间格式转成时间戳*/
+        this.timeStamp=function(data){
+            var timeStamps= Date.parse(data)/1000;
+            return timeStamps;
+        }
+        /***
+         * 获得本周起止时间
+         */
+        this.getCurrentWeek = function () {
+            //起止日期数组
+            var startStop = new Array();
+            //获取当前时间
+            var currentDate = this.getCurrentDate();
+            //返回date是一周中的某一天
+            var week = currentDate.getDay();
+            //返回date是一个月中的某一天
+            var month = currentDate.getDate();
+
+            //一天的毫秒数
+            var millisecond = 1000 * 60 * 60 * 24;
+            //减去的天数
+            var minusDay = week != 0 ? week - 1 : 6;
+            //alert(minusDay);
+            //本周 周一
+            var monday = new Date(currentDate.getTime() - (minusDay * millisecond));
+            //本周 周日
+            var sunday = new Date(monday.getTime() + (6 * millisecond));
+            //添加本周时间
+            startStop.push(monday); //本周起始时间
+            //添加本周最后一天时间
+            startStop.push(sunday); //本周终止时间
+            //返回
+            return startStop;
+        };
+        return this;
+
+    })();
+
+
+</script>
+</body>
+
+</html>

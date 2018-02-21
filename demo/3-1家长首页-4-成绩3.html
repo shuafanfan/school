@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>课堂表现</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7-swiper.min.js"></script>
+</head>
+
+<body>
+<div class="page-group score ">
+    <div class="page page-current score-subject-page">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="3-0首页.html"></a></div>
+            <div class="header-m">我的课堂表现</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content">
+            <div class="score-subject-panel ">
+                <div  class="score-subject">
+                    <p class="score-subject-main"><span class="score-subject-name">语文</span> <i class="ico ico-xiafan"></i></p>
+                    <div class="score-subject-sub  ">
+                        <p>语文</p>
+                        <p>数学</p>
+                        <p>英语</p>
+                        <p>物理</p>
+                    </div>
+                </div>
+                <div class="score-subject-chart">
+                    <img src="images/my-score-chart1.png">
+                </div>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script>
+    $('.score-subject-main').click(function () {
+        if($(this).hasClass('on')){
+            $(this).removeClass('on').siblings('.score-subject-sub').fadeOut();
+        }else{
+            $(this).addClass('on').siblings('.score-subject-sub').fadeIn();
+        }
+    });
+    $('.score-subject-sub>p').click(function () {
+        var txt = $(this).html();
+        $('.score-subject-name').html(txt);
+        $('.score-subject-main').removeClass('on').siblings('.score-subject-sub').fadeOut();
+    })
+</script>
+</body>
+
+</html>

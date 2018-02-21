@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>通知</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/common.css"> 
+</head>
+
+<body>
+<div class="page-group notice">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink external" href="par_index.html"></a></div>
+            <div class="header-m">通知</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content">
+            <!-- 通知列表 -->
+            <div class="list-block media-list notice-list">
+                <ul>
+
+                </ul>
+            </div>
+
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    /* 学校通知 */
+    $(document).ready(function(){
+        var stuinfo=JSON.parse(store.get("userinfo"));
+        var xueqi=JSON.parse(store.get("xueqi"));
+
+            var pageSize = 'pageSize=20';
+            var pageNo = '&pageNo=1';
+            var schoolId = '&schoolId=' +Number(stuinfo['schoolID']);
+            var studentId = '&studentId=' +Number(stuinfo['uid']);
+            var termId = '&termId='+xueqi;
+            var strUrl ="?"+pageSize+pageNo+schoolId+studentId+termId;
+
+
+
+
+            $.ajax( {
+                url: root_url+"uiAnnouncement/queryAllNotificationByStudent"+strUrl,
+
+                success: function( data, textStatus, jqXHR ){                   
+
+                    if(data.code==1){    
+                        $.each(data.dataList, function(index, item) {
+                                 var html = '';
+                                 var index = Number(index);
+                                 var url = "window.location.href='par_person_notice_detail.html?id="+item['id']+"&announcer="+item['announcer']+"&date="+item['date']+"&content="+item['content']+"&title="+item['title']+"'";
+                                 html +=' <li class="on" onclick="'+url+'">';
+                                 html +='<div class="item-content">';
+                                 html +='<div class="item-media">'
+                            html +='<div class="notice-ico"><i class="ico ico-tips"></i></div> </div>';
+                            html +='<div class="item-inner"><div class="item-title-row">';
+                            html +=' <div class="item-title notice-title">'+item['title']+'</div> </div>';
+                            html +=' <div class="item-subtitle notice-subtitle">'+item['announcer']+' <span class="notice-time"></span>'+item['date']+'</div>';
+                            html +=' </div></div></li>';
+                            $('.notice-list ul').append(html);
+
+                        });   
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+       
+         
+    }); 
+</script>
+</body>
+
+</html>

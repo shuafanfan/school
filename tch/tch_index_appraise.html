@@ -1,0 +1,385 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>民主评价</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+<div class="page-group points-list">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink external" href="tch_index.html"></a></div>
+            <div class="header-m">民主评价</div>
+            <div class="header-r"><a class="ico ico-more" href="#" id="create-actions"></a></div>
+        </header>
+        <div class="content">
+            <!--本周情况-->
+            <div class="developments-title huping" display="none">
+                <div class="developments-title-l fs-07 color-danger">
+                    ！本期评价你还未设置互评人员
+                </div>
+                <div class="developments-title-r">
+                    <span class="developments-l-subtitle"><a href="tch_index_appraise_set.html" class="external">去设置</a></span>
+                    <a class="ico ico-right" href="#"></a>
+                </div>
+            </div>
+
+            <div class="developments-title weipingjia ">
+                <div class="developments-title-l fs-07 color-danger">
+                    ！本期评价你还未设置互评人员
+                </div>
+                <div class="developments-title-r">
+                    <span class="developments-l-subtitle">随机评价</span>
+                    <a class="ico ico-right" href="#"></a>
+                </div>
+            </div>
+
+            <div class="developments-title  border-b">
+                <div class="developments-title-l">人员占比分布图</div>
+             <!--   <div class="developments-title-r fs-07 color-gray">截止 2017-06-20</div>-->
+            </div>
+            <div class="my-evaluate-chart " style="padding-bottom: 0">
+                <div id="personnel_left" ></div><!--饼状图-->
+                <div id="personnel_right">
+                    <!--<p><span style="background: #bf3739"></span>优:15人&nbsp;占比25%&nbsp;年段平均25%</p>-->
+                    <!--<p><span style="background: #374d5b"></span>良:15人&nbsp;占比25%&nbsp;年段平均25%</p>-->
+                    <!--<p><span style="background: #639fa9"></span>中:15人&nbsp;占比25%&nbsp;年段平均25%</p>-->
+                    <!--<p><span style="background: #d58165"></span>差:15人&nbsp;占比25%&nbsp;年段平均25%</p>-->
+
+                </div>
+            </div>
+            <div class="developments-title mt-05 border-b">
+                <div class="developments-title-l" >指标占比分布图 接口不解</div>
+          <!--      <div class="developments-title-r fs-07 color-gray">截止 2017-06-20</div> -->
+               </div>
+            <div class="my-evaluate-chart" >
+                <div  id="zhibiao" style="height:10rem;width: 100%">
+
+                </div>
+            </div>
+        </div>
+
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script src="./app/lib/echarts.js"></script>
+<script>
+    $(function(){
+//        本期评价是否已开始接口
+        $.ajax({
+            url: root_url+"uiDemocratic/isCurrentDemocraticStart",
+
+            type:'GET',
+            success: function( data, textStatus, jqXHR ){
+                //打印数据
+                console.log(data);
+
+                if(data.code==1){
+
+
+                }else{
+                    $('.huping').hide();
+                    $('.weipingjia').hide();
+                    $.toast(data.msg);
+                    return false;
+                }
+            }
+
+        });
+
+        /*互评人员是否已设置接口*/
+//        $.ajax({
+//            url: root_url+"uiDemocratic/isEachEvaluationStudentsSetting",
+//
+//            type:'GET',
+//            success: function( data, textStatus, jqXHR ){
+//                //打印数据
+//                console.log(data);
+//
+//                if(data.code==1){
+//
+//
+//                }else{
+//                    $.toast(data.msg);
+//                    return false;
+//                }
+//            }
+//
+//        });
+
+//        未评价人员统计
+//        $.ajax({
+//            url: root_url+"uiDemocratic/isEachEvaluationStudentsSetting",
+//
+//            type:'GET',
+//            success: function( data, textStatus, jqXHR ){
+//                //打印数据
+//                console.log(data);
+//
+//                if(data.code==1){
+//
+//
+//                }else{
+//                    $.toast(data.msg);
+//                    return false;
+//                }
+//            }
+//
+//        });
+//        人员占比分布
+        $.ajax({
+            url: root_url+"uiDemocratic/getAlreadyEvaluationDataPercent?activityId=1",
+
+            type:'GET',
+            success: function( data, textStatus, jqXHR ){
+                //打印数据
+                console.log(data.dataMap);
+                var class_list=[];
+                var shoold_list=[];
+                if(data.code==1){
+
+                    class_list [0]= {value:data.dataMap['classExcellentPercent'], name:'优秀'};
+                    class_list [1]= {value:data.dataMap['classGoodPercent'], name:'良'};
+                    class_list [2]= {value:data.dataMap['classPassPercent'], name:'中'};
+                    class_list [3]= {value:data.dataMap['classImprovePercent'], name:'差'};
+                    shoold_list [0]= {value:data.dataMap['gradeExcellentPercent'], name:'优秀'};
+                    shoold_list [1]= {value:data.dataMap['gradeGoodPercent'], name:'良'};
+                    shoold_list [2]= {value:data.dataMap['gradePassPercent'], name:'中'};
+                    shoold_list [3]= {value:data.dataMap['gradeImprovePercent'], name:'差'};
+
+
+
+                    main_option(class_list,shoold_list);
+
+
+
+                }else{
+                    class_list [0]= {value:data.dataMap['classExcellentPercent'], name:'优秀'};
+                    class_list [1]= {value:data.dataMap['classGoodPercent'], name:'良'};
+                    class_list [2]= {value:data.dataMap['classPassPercent'], name:'中'};
+                    class_list [3]= {value:data.dataMap['classImprovePercent'], name:'差'};
+                    shoold_list [0]= {value:data.dataMap['gradeExcellentPercent'], name:'优秀'};
+                    shoold_list [1]= {value:data.dataMap['gradeGoodPercent'], name:'良'};
+                    shoold_list [2]= {value:data.dataMap['gradePassPercent'], name:'中'};
+                    shoold_list [3]= {value:data.dataMap['gradeImprovePercent'], name:'差'};
+
+                    main_option(class_list,shoold_list);
+                    zhibiao_option();
+                    $.toast(data.msg);
+                    return false;
+                }
+            }
+
+        });
+
+    });
+
+</script>
+<script>
+    function main_option(class_list,shoold_list){
+        var myChart = echarts.init(document.getElementById('personnel_left'));
+        // 指定图表的配置项和数据
+        var option = {
+
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+
+                data:['优秀','良','中','差']
+            },
+            series: [
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    selectedMode: 'single',
+                    radius: [0, '30%'],
+
+                    label: {
+                        normal: {
+                            position: 'inner'
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data:[
+                        {value:335, name:'优'/*, selected:true*/},
+                        {value:679, name:'良'},
+                        {value:1548, name:'中'},
+                        {value:1548, name:'差'}
+                    ]
+                },
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    radius: ['40%', '55%'],
+                    data:[
+                        {value:335, name:'优'/*, selected:true*/},
+                        {value:679, name:'良'},
+                        {value:1548, name:'中'},
+                        {value:1548, name:'差'}
+                    ]
+                }
+            ]
+        };
+
+
+        option['series'][0]['data']=eval(class_list);
+        var html_list="["+shoold_list+"]";
+        console.log(html_list);
+        option['series'][1]['data']=eval(shoold_list);
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        /*人员占比饼状图end*/
+
+    }
+    function zhibiao_option(){
+
+        var myChart2= echarts.init(document.getElementById('zhibiao'));
+        var  option2 = {
+            /*      title: {
+             text: '世界人口总量',
+             subtext: '数据来自网络'
+             },*/
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            /*      legend: {
+             data: ['2011年', '2012年']
+             },*/
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+                type: 'category',
+                data: ['3.上课积极发言','2.积极参加班级活动','1.按时上课，不迟到，不早退']
+            },
+            series: [
+
+                {
+                    name: '2012年',
+                    type: 'bar',
+                    data: [15, 20, 40]
+                }
+            ]
+        };
+
+        myChart2.setOption(option2);
+    }
+    $(document).ready(function(){
+       /*人员占比饼状图*/
+
+
+
+        $.ajax( {
+
+            url: root_url+"uiDemocratic/getStudentListByClassId?classId=28",
+            success: function( data, textStatus, jqXHR ){
+
+                if(data.code==1){
+                   // console.log(data);
+                    var biaoqing=0;
+                    var ku=0;
+                  /*  $.each(data.dataList, function(index, item) {
+                        var html = '';
+                        var index = Number(index);
+                        html += '<div class="cardjl-info-info-item l-list-item ">';
+                        html += '<img src="images/card-jl-01.png" class="cardjl-info-pic">';
+                        html += '<p class="cardjl-info-txt">'+item['cardTypeName']+'<span class="cardjl-info-num">'+item['quantity']+'</span>张</p>';
+                        html += '</div>';
+                        $('.cardjl-info').append(html);
+
+                    });*/
+
+                }else{
+                    $.toast(data.msg);
+                    return false;
+                }
+            }
+        });
+
+
+    });
+
+</script>
+<script>
+    $(document).on('click','#create-actions', function () {
+        var buttons1 = [
+            {
+                text: '历史点评记录',
+                bold: true,
+                onClick: function() {
+                    window.location.href='tch_index_appraise_history.html';
+                }
+            },
+            {
+                text: '设置互评人员',
+                onClick: function() {
+                    window.location.href='tch_index_appraise_set.html';
+                }
+            },
+            {
+                text: '未评价人员',
+                onClick: function() {
+                    window.location.href='tch_index_appraise_not.html';
+                }
+            },
+            {
+                text: '已评价人员',
+                onClick: function() {
+                    window.location.href='tch_index_appraise_yes.html';
+                }
+            },
+            {
+                text: '随机评价',
+                onClick: function() {
+                    window.location.href='tch_index_appraise_random_excessive.html';
+                }
+            }
+        ];
+        var buttons2 = [
+            {
+                text: '取消',
+                bg: 'blue',
+                color:'danger'
+            }
+        ];
+        var groups = [buttons1, buttons2];
+        $.actions(groups);
+    });
+
+</script>
+
+</body>
+
+</html>

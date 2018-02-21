@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>荣誉排行榜</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group points-list">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="tch_index_encourage.html"></a></div>
+            <div class="header-m">荣誉排行榜</div>
+            <div class="header-r"></div>
+        </header>
+        <div class="content">
+            <!--荣誉排行榜-多维度-->
+            <div class="table-wrap">
+                <div class="developments-title">
+                    <div class="developments-title-l fs-07">
+                        荣誉排行榜-多维度
+                        <span class="developments-l-subtitle fs-06">(截止 2017-06-14 星期三)</span>
+                    </div>
+                    <div class="developments-title-r"><a class="ico ico-right fs-07" href="#"></a></div>
+                </div>
+                <table class="table table-left ">
+                    <tr>
+                        <td><i class="ico ico-paiming fs-1-2 color-blue"></i></td>
+                        <td>艾青海</td>
+                        <td><span class="fs-06 color-gray">000213 五年4班</span></td>
+                        <td>四好学生</td>
+                    </tr>
+                    <tr>
+                        <td><i class="ico ico-paiming2 fs-1-2 color-blue"></i></td>
+                        <td>白展堂</td>
+                        <td><span class="fs-06 color-gray">000213 五年4班</span></td>
+                        <td>四好学生</td>
+                    </tr>
+                    <tr>
+                        <td><i class="ico ico-paiming3 fs-1-2 color-blue"></i></td>
+                        <td>陈良</td>
+                        <td><span class="fs-06 color-gray">000213 五年4班</span></td>
+                        <td>三好学生</td>
+                    </tr>
+                    <tr>
+                        <td class="fs-1-2">4</td>
+                        <td>代嘉兴</td>
+                        <td><span class="fs-06 color-gray">000213 五年4班</span></td>
+                        <td>三好学生</td>
+                    </tr>
+                    <tr>
+                        <td class="fs-1-2">5</td>
+                        <td>方文山</td>
+                        <td><span class="fs-06 color-gray">000213 五年4班</span></td>
+                        <td>三好学生</td>
+                    </tr>
+                </table>
+            </div>
+            <!--荣誉排行榜-思想品德-->
+            <div class="table-wrap mt-05">
+                <div class="developments-title ">
+                    <div class="developments-title-l fs-07">
+                        荣誉排行榜-思想品德
+                        <span class="developments-l-subtitle fs-06">(截止 2017-06-14 星期三)</span>
+                    </div>
+                    <div class="developments-title-r"><a class="ico ico-right fs-07" href="#"></a></div>
+                </div>
+                <table class="table grade-ranking-table">
+                    <tr>
+                        <td><i class="ico ico-paiming fs-1-2 color-blue"></i></td>
+                        <td>艾青海</td>
+                        <td><span class="fs-06 color-gray">000213 五年4班</span></td>
+                        <td>道德标兵</td>
+                        <td class="fs-1">59</td>
+                    </tr>
+                    <tr>
+                        <td><i class="ico ico-paiming2 fs-1-2 color-blue"></i></td>
+                        <td>白展堂</td>
+                        <td><span class="fs-06 color-gray">000213 五年4班</span></td>
+                        <td>道德标兵</td>
+                        <td class="fs-1">59</td>
+                    </tr>
+                    <tr>
+                        <td><i class="ico ico-paiming3 fs-1-2 color-blue"></i></td>
+                        <td>陈良</td>
+                        <td><span class="fs-06 color-gray">000213 五年4班</span></td>
+                        <td>道德标兵</td>
+                        <td class="fs-1">59</td>
+                    </tr>
+                    <tr>
+                        <td class="fs-1-2">4</td>
+                        <td>代嘉兴</td>
+                        <td><span class="fs-06 color-gray">000213 五年4班</span></td>
+                        <td>道德标兵</td>
+                        <td class="fs-1">59</td>
+                    </tr>
+                    <tr>
+                        <td class="fs-1-2">5</td>
+                        <td>方文山</td>
+                        <td><span class="fs-06 color-gray">000213 五年4班</span></td>
+                        <td>道德标兵</td>
+                        <td class="fs-1">59</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+    /* 多维度荣誉称号接口 */
+    $(document).ready(function(){       
+            $.ajax( {
+                url: root_url+"uiCard/pageQueryCardCountAnalysisGroupByMultiTitle?pageNo=1&pageSize=20",               
+                success: function( data, textStatus, jqXHR ){ 
+                    console.log(data);                
+                    if(data.code==1){
+                        $.each(data.dataList, function(index, item) {
+
+                                var html = '';
+                                var index = Number(index);
+                                html += '<li class="Incentive-item">';
+                                html += '<div class="Incentive-card">';
+                                html += '<div class="Incentive-pic">';
+                                html += '<img src="images/card-jl-01.png" class="cardjl-info-pic">';
+                                html += '</div>';
+                                html += '<p class="Incentive-txt">'+item['cardTypeName']+'<span class="Incentive-num">'+item['quantity']+'</span>张</p>';
+                                html += '</div>';
+                                html += '</li>';
+                                $('.Incentive-list').append(html);
+                                                         
+                        });
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+            
+
+    }); 
+</script>
+</body>
+
+</html>

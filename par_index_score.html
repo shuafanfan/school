@@ -1,0 +1,694 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>成绩</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">   
+</head>
+
+<body>
+<div class="page-group score">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink   external" href="par_index.html"></a></div>
+            <div class="header-m">我的成绩</div>
+            <div class="header-r"><a class="header-link button-fill open-panel" data-panel='#panel-right-demo' href="#">筛选</a></div>
+        </header>
+        <div class="content">
+
+            <!--<div class="score-panel">-->
+                <!--<p class="score-title">-->
+                    <!--2016-2017-->
+                    <!--<span class="score-title-spacing">学年</span>-->
+                    <!--<span class="score-title-spacing">下学期</span>-->
+                    <!--<span class="score-title-spacing">单元考4</span>-->
+                <!--</p>-->
+                <!--<div class="table-wrap">-->
+                    <!--<table class="table table-last-colr">-->
+                        <!--<tr>-->
+                            <!--<th >科目</th>-->
+                            <!--<th >分数</th>-->
+                            <!--<th >班级平均分</th>-->
+                            <!--<th >同比上次考试</th>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>语文</td>-->
+                            <!--<td>98</td>-->
+                            <!--<td>88</td>-->
+                            <!--<td>+7</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>数学</td>-->
+                            <!--<td>100</td>-->
+                            <!--<td>76</td>-->
+                            <!--<td>+6</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>英语</td>-->
+                            <!--<td>86</td>-->
+                            <!--<td>82</td>-->
+                            <!--<td>+0</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>物理</td>-->
+                            <!--<td>97</td>-->
+                            <!--<td>84</td>-->
+                            <!--<td class="color-danger">-5</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>化学</td>-->
+                            <!--<td>87</td>-->
+                            <!--<td>81</td>-->
+                            <!--<td>+2</td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                <!--</div>-->
+            <!--</div>-->
+
+        </div>
+        <!--content end-->
+    </div>
+    <!-- right Panel with Reveal effect -->
+    <div class="panel-overlay"></div>
+    <div class="panel panel-right panel-reveal" id='panel-right-demo'>
+        <div class="score-screen-wrap">
+            <div class="score-screen-top">
+                <p class="score-screen-title">学年</p>
+                <ul class="score-screen-list clearfix xuenian">
+
+                    <!--<li class="score-screen-list-item">2015-2016学年</li>-->
+                </ul>
+                <p class="score-screen-title ">学期</p>
+                <ul class="score-screen-list clearfix xueqi">
+
+                    <!--<li class="score-screen-list-item">下学期</li>-->
+                </ul>
+                <p class="score-screen-title">考试</p>
+                <ul class="score-screen-list clearfix kaoshi">
+
+                    <!--<li class="score-screen-list-item">单元考2</li>-->
+                </ul>
+                <p class="score-screen-title">考试科目</p>
+                <ul class="score-screen-list score-screen-list4 clearfix kemu">
+                    <!--<li class="score-screen-list-item" onclick="window.location.href='par_index_score_trend.html'">测试语文</li>-->
+                    <!--<li class="score-screen-list-item">数学</li>-->
+
+                </ul>
+            </div>
+
+            <div class="score-screen-footer">
+                <!--隐藏域-->
+                <input type="hidden" name="xuenian"  id="xuenian_input" data-title="" value="">
+                <input type="hidden" name="xueqi"  id="xueqi_input" data-title="" value="">
+                <input type="hidden" name="kaoshi" id="kaoshi_input"data-title="" value="">
+                <input type="hidden" name="kemu"  id="kemu_input" data-title="" value="">
+                <input type="hidden" name="isSysSubject" id="isSysSubject_input" value="">
+
+                <a href="#" class="score-screen-footer-item">重置</a>
+                <a href="#" class="score-screen-footer-item screen-footer-item-main" id="queding">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+    /* 学生成绩 */
+    $(document).ready(function(){
+//
+        var KS_type=[];
+        $(document).on('click',".score-screen-list-item",function(){
+            var classname=$(this).attr('classname');
+            if($(this).attr('isSysSubject')){
+
+                $("#isSysSubject_input").val($(this).attr('isSysSubject'));
+            }
+            if($(this).attr('cli')){
+                return false;
+            }
+            if(!$(this).is('.active')){
+                $("."+classname+" li " ).removeClass('active');
+                var id = $(this).attr('data');
+
+                $("#"+classname+"_input").attr('data-title',$(this).html())
+                $("#"+classname+"_input").val(id);
+                $(this).addClass('active');
+
+            }else{
+                $("#"+classname+"_input").val('');
+                $("."+classname+" li " ).removeClass('active');
+
+            }
+
+        });
+
+        /* 近3个学年接口 */
+             $.ajax( {
+                type:"GET",
+                url: root_url+"uiExam/queryNearlyThreeYearsSchoolYearList",
+                success: function( data, textStatus, jqXHR ){
+                    //console.log(data);
+                    if(data.code==1){
+                        $.each(data.dataList, function(index, item) {
+                           $('.xuenian').append('<li class="score-screen-list-item xn" classname="xuenian" data="'+item['id']+'">'+item['name']+'</li>');
+
+                            /* 学期接口 */
+                            $.ajax( {
+                                type:"GET",
+                                url: root_url+"uiExam/getTermListBySchoolYearId?schoolYearId="+item['id'],
+                                success: function( data, textStatus, jqXHR ){
+                                   // console.log(data);
+                                    if(data.code==1){
+                                        $.each(data.dataList, function(index, item) {
+                                            $('.xueqi').append('<li class="score-screen-list-item "  classname="xueqi" data="'+item['id']+'">'+item['name']+'</li>');
+
+
+                                        })
+
+
+                                    }else{
+                                        $.toast(data.msg);
+                                        return false;
+                                    }
+                                }
+                            });
+
+                        })
+
+
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }
+                }
+            });
+
+
+            /*考试*/
+
+        $.ajax( {
+            type:"GET",
+            url: root_url+"uiExam/queryExamTypeList",
+            aysnc: false , // 默认同步加载
+            success: function( data, textStatus, jqXHR ){
+
+               //console.log(data);
+                if(data.code==1){
+                    var i=0;
+                    $.each(data.dataList, function(index, item) {
+                        if(item['STATUS']==1){
+                            KS_type[i]=item['id'];
+
+                            i++;
+                            $('.kaoshi').append('<li class="score-screen-list-item ks " classname="kaoshi" data="'+item['id']+'">'+item['examType']+'</li>');
+                        }else{
+                            $('.kaoshi').append('<li class="score-screen-list-item "  cli="cli"  style="background-color:silver" classname="kaoshi" data="'+item['id']+'">'+item['examType']+'</li>');
+                        }
+
+
+
+                    });
+
+
+                }else{
+                    $.toast(data.msg);
+                    return false;
+                }
+            }
+        });
+
+        /*当前 学年 当前学期 start*/
+        var ExamTypeListye=store.get("ExamTypeList");
+        var schoolYearId = store.get("xuenian");
+        var termId =store.get('xueqi');
+
+        var stui = {
+            schoolYearId:1,   //学年ID
+            termId:10,         //学期ID
+            examTypeId:'',     //考试类型ID
+            subjectId:'',      //考试科目
+            isSysSubject:'',   //是否为系统科目
+        };
+
+
+
+        var listval = JSON.stringify(stui);
+
+        $.ajax( {
+
+            url: root_url+"uiExam/getStudentVerticalAnalysis?pageNo=1&pageSize=5",
+            data:listval,
+            success: function( data, textStatus, jqXHR ){
+                //console.log(data);
+                for(var i=0;i<=ExamTypeListye.length;i++){
+                    var is=1;
+                    $.each(data.dataList,function(index,item){
+                        if(ExamTypeListye[i]==item['examTypeId']){
+                        if(is==1){
+                            //console.log(item);
+            /*标题*/        var title='';
+                            title +='<div class="score-panel  ">'
+                            title +='<p class="score-title">';
+                            title +=item['schoolYearName'];
+                            title +='<span class="score-title-spacing">'+item['termName']+'</span>';
+                            title +=' <span class="score-title-spacing">'+item['examTypeName']+'</span>';
+                            title +=' </p>';
+                            title +=' <div class="table-wrap">';
+                            title +=' <table class="table table-last-colr title'+i+' ">';
+                            title +='<tr><th >科目</th><th >分数</th><th >班级平均分</th><th >同比上次考试</th></tr>';
+                            title +='</table>';
+                            title +='<div>';
+                            title +='<div>';
+
+
+                            $('.content').append(title);
+                            var ttr ='';
+                            ttr +='<tr>';
+                            ttr +=' <td>'+item['subjectName']+'</td>';
+                            ttr +='  <td>'+item['score']+'</td>';
+                            ttr +='  <td>'+item['classAverageScore']+'</td>';
+                            if(item['amplitudeType']==1){
+                                ttr +='<td>+'+item['amplitudeScore']+'</td>';
+                            }else if(item['amplitudeType']==2){
+                                ttr +='<td class="color-danger">-'+item['amplitudeScore']+'</td>';
+                            }else{
+                                ttr +='<td>+'+item['amplitudeScore']+'</td>';
+                            }
+                            ttr +='</tr>';
+                            $('.title'+i).append(ttr);
+
+                        }else{
+                            var ttr ='';
+                            ttr +='<tr>';
+                            ttr +=' <td>'+item['subjectName']+'</td>';
+                            ttr +='  <td>'+item['score']+'</td>';
+                            ttr +='  <td>'+item['score']+'</td>';
+                            if(item['amplitudeType']==1){
+                            ttr +='<td>+'+item['amplitudeScore']+'</td>';
+                            }else if(item['amplitudeType']==2){
+                                ttr +='<td>+'+item['amplitudeScore']+'</td>';
+                            }else{
+                                ttr +='<td>+'+item['amplitudeScore']+'</td>';
+                            }
+                            ttr +='</tr>';
+
+                            $('.title'+i).append(ttr);
+
+                        }
+                            is++;
+
+                        }
+                    })
+
+
+                }
+
+
+
+                    }
+                })
+
+
+
+
+
+        /*当前 学年 当前学期 end*/
+
+
+        /*点击学年 获取学期 start*/
+        $(document).on('click','.xn',function(){
+           var id = $(this).attr('data');
+            $.ajax( {
+                type:"GET",
+                url: root_url+"uiExam/getTermListBySchoolYearId?schoolYearId="+id,
+                success: function( data, textStatus, jqXHR ){
+                    //console.log(data);
+                    if(data.code==1){
+                        $('.xueqi').empty();
+                        $.each(data.dataList, function(index, item) {
+
+                            $('.xueqi').append('<li class="score-screen-list-item "  classname="xueqi" data="'+item['id']+'">'+item['name']+'</li>');
+
+
+                        })
+
+
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }
+                }
+            });
+
+
+        })
+
+        /*点击学年 获取学期 end*/
+
+        /*点击考试 获取考试科目 start*/
+        $(document).on('click','.ks',function(){
+             // 考试类型
+            var type =$(this).attr('data');
+            /*考试科目*/
+            $.ajax( {
+                type:"GET",
+                url: root_url+"uiExam/querySubjectNameByStudentExam?examTypeId="+type,
+                success: function( data, textStatus, jqXHR ){
+                   console.log(data);
+                    if(data.code==1){
+                        $('.kemu').empty();
+                        $.each(data.dataList, function(index, item) {
+
+                            $('.kemu').append('<li class="score-screen-list-item" classname="kemu"  isSysSubject ="'+item['isSysSubject']+'" data="'+item['subjectId']+'">'+item['subjectName']+'</li>');
+
+
+                        });
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }
+                }
+            });
+        });
+        /*点击考试 获取考试科目 end*/
+
+        /*考试科目*/
+//        $.ajax( {
+//            type:"GET",
+//            url: root_url+"uiExam/querySubjectNameByStudentExam?examTypeId=1",
+//            success: function( data, textStatus, jqXHR ){
+//                console.log(data);
+//                if(data.code==1){
+//                    $.each(data.dataList, function(index, item) {
+//                        $('.kemu').append('<li class="score-screen-list-item" data="'+item['id']+'">'+item['subjectName']+'</li>');
+//
+//
+//                    });
+//                }else{
+//                    $.toast(data.msg);
+//                    return false;
+//                }
+//            }
+//        });
+
+
+
+        $("#queding").click(function(){
+            var xuenian =$('#xuenian_input').val();
+            var xueqi = $('#xueqi_input').val();
+            var kaoshi = $("#kaoshi_input").val();
+            var kemu =$("#kemu_input").val();
+            var isSysSubject =$('#isSysSubject_input').val();
+            var noticeval = {
+                schoolYearId:xuenian,   //学年ID
+                termId:xueqi,         //学期ID
+                examTypeId:kaoshi,     //考试类型ID
+                subjectId:kemu,      //考试科目
+                isSysSubject:isSysSubject,   //是否为系统科目
+            };
+            var noticeval = JSON.stringify(noticeval);
+            console.log(noticeval);
+            if(!xuenian){
+                $.alert('请选择学年');
+            }
+          if(xuenian&&xueqi&&kaoshi&&kemu&&isSysSubject){
+
+              window.location.href='par_index_score_trend.html?schoolYearId='+xuenian+'&termId='+xueqi+'&examTypeId='+kaoshi+'&subjectId='+kemu+'&isSysSubject='+isSysSubject;
+            }else if(xuenian&&xueqi&&kaoshi){
+                var schoolYearId =xuenian;
+                var termId =xueqi;
+
+                var stui = {
+                    schoolYearId:xuenian,   //学年ID
+                    termId:xueqi,         //学期ID
+                    examTypeId:kaoshi,     //考试类型ID
+                    subjectId:'',      //考试科目
+                    isSysSubject:'',   //是否为系统科目
+                };
+                console.log(stui);
+                var listval = JSON.stringify(stui);
+                /**学年 学期 考试类型 begin*/
+                $.ajax( {
+
+                    url: root_url+"uiExam/getStudentVerticalAnalysis?pageNo=1&pageSize=5",
+                    data:listval,
+                    success: function( data, textStatus, jqXHR ){
+                        console.log(data);
+                        if(data.code==1) {
+                            $('.content').empty();
+
+                                var is = 1;
+                                $.each(data.dataList, function (index, item) {
+
+                                        if (is == 1) {
+                                            console.log(item);
+                                            /*标题*/
+                                            var title = '';
+                                            title += '<div class="score-panel  ">'
+                                            title += ' <p class="score-title">';
+                                            title += item['schoolYearName'];
+                                            title += ' <span class="score-title-spacing">' + item['termName'] + '</span>';
+                                            title += ' <span class="score-title-spacing">' + item['examTypeName'] + '</span>';
+                                            title += ' </p>';
+                                            title += '  <div class="table-wrap">';
+                                            title += ' <table class="table table-last-colr title ">';
+                                            title += '<tr><th >科目</th><th >分数</th><th >班级平均分</th><th >同比上次考试</th></tr>';
+                                            title += '</table>';
+                                            title += '<div>';
+                                            title += '<div>';
+
+
+                                            $('.content').append(title);
+                                            var ttr = '';
+                                            ttr += '<tr>';
+                                            ttr += ' <td>' + item['subjectName'] + '</td>';
+                                            ttr += '  <td>' + item['score'] + '</td>';
+                                            ttr += '  <td>' + item['classAverageScore'] + '</td>';
+                                            if (item['amplitudeType'] == 1) {
+                                                ttr += '<td>+' + item['amplitudeScore'] + '</td>';
+                                            } else if (item['amplitudeType'] == 2) {
+                                                ttr += '<td class="color-danger">-' + item['amplitudeScore'] + '</td>';
+                                            } else {
+                                                ttr += '<td>+' + item['amplitudeScore'] + '</td>';
+                                            }
+                                            ttr += '</tr>';
+                                            $('.title').append(ttr);
+
+                                        } else {
+                                            var ttr = '';
+                                            ttr += '<tr>';
+                                            ttr += ' <td>' + item['subjectName'] + '</td>';
+                                            ttr += '  <td>' + item['score'] + '</td>';
+                                            ttr += '  <td>' + item['score'] + '</td>';
+                                            if (item['amplitudeType'] == 1) {
+                                                ttr += '<td>+' + item['amplitudeScore'] + '</td>';
+                                            } else if (item['amplitudeType'] == 2) {
+                                                ttr += '<td>+' + item['amplitudeScore'] + '</td>';
+                                            } else {
+                                                ttr += '<td>+' + item['amplitudeScore'] + '</td>';
+                                            }
+                                            ttr += '</tr>';
+
+                                            $('.title').append(ttr);
+
+                                        }
+                                        is++;
+
+
+                                })
+
+
+
+                        }else{
+                            $.toast(data.msg);
+                            return false;
+                        }
+
+
+                    }
+                })
+                /**学年 学期 考试类型 end*/
+
+            }else if(xuenian&&xueqi){
+                /*学期学年*/
+
+                var schoolYearId =xuenian;
+                var termId =xueqi;
+
+                var stui = {
+                    schoolYearId:xuenian,   //学年ID
+                    termId:xueqi,         //学期ID
+                    examTypeId:'',     //考试类型ID
+                    subjectId:'',      //考试科目
+                    isSysSubject:'',   //是否为系统科目
+                };
+
+
+                console.log(stui);
+                var listval = JSON.stringify(stui);
+
+                $.ajax( {
+
+                    url: root_url+"uiExam/getStudentVerticalAnalysis?pageNo=1&pageSize=5",
+                    data:listval,
+                    success: function( data, textStatus, jqXHR ){
+                        console.log(data);
+                        if(data.code==1) {
+                            $('.content').empty();
+                            for (var i = 0; i <= ExamTypeListye.length; i++) {
+                                var is = 1;
+                                $.each(data.dataList, function (index, item) {
+                                    if (ExamTypeListye[i] == item['examTypeId']) {
+                                        if (is == 1) {
+                                            console.log(item);
+                                            /*标题*/
+                                            var title = '';
+                                            title += '<div class="score-panel  ">'
+                                            title += ' <p class="score-title">';
+                                            title += item['schoolYearName'];
+                                            title += ' <span class="score-title-spacing">' + item['termName'] + '</span>';
+                                            title += ' <span class="score-title-spacing">' + item['examTypeName'] + '</span>';
+                                            title += ' </p>';
+                                            title += '  <div class="table-wrap">';
+                                            title += ' <table class="table table-last-colr title' + i + ' ">';
+                                            title += '<tr><th >科目</th><th >分数</th><th >班级平均分</th><th >同比上次考试</th></tr>';
+                                            title += '</table>';
+                                            title += '<div>';
+                                            title += '<div>';
+
+
+                                            $('.content').append(title);
+                                            var ttr = '';
+                                            ttr += '<tr>';
+                                            ttr += ' <td>' + item['subjectName'] + '</td>';
+                                            ttr += '  <td>' + item['score'] + '</td>';
+                                            ttr += '  <td>' + item['score'] + '</td>';
+                                            if (item['amplitudeType'] == 1) {
+                                                ttr += '<td>+' + item['amplitudeScore'] + '</td>';
+                                            } else if (item['amplitudeType'] == 2) {
+                                                ttr += '<td class="color-danger">-' + item['amplitudeScore'] + '</td>';
+                                            } else {
+                                                ttr += '<td>+' + item['amplitudeScore'] + '</td>';
+                                            }
+                                            ttr += '</tr>';
+                                            $('.title' + i).append(ttr);
+
+                                        } else {
+                                            var ttr = '';
+                                            ttr += '<tr>';
+                                            ttr += ' <td>' + item['subjectName'] + '</td>';
+                                            ttr += '  <td>' + item['score'] + '</td>';
+                                            ttr += '  <td>' + item['score'] + '</td>';
+                                            if (item['amplitudeType'] == 1) {
+                                                ttr += '<td>+' + item['amplitudeScore'] + '</td>';
+                                            } else if (item['amplitudeType'] == 2) {
+                                                ttr += '<td>+' + item['amplitudeScore'] + '</td>';
+                                            } else {
+                                                ttr += '<td>+' + item['amplitudeScore'] + '</td>';
+                                            }
+                                            ttr += '</tr>';
+
+                                            $('.title' + i).append(ttr);
+
+                                        }
+                                        is++;
+
+                                    }
+                                })
+
+
+                            }
+                        }else{
+                            $.toast(data.msg);
+                              return false;
+                        }
+
+
+                    }
+                })
+            }
+
+        })
+
+            /* 学生成绩 */
+            // var schoolYearId=1;   //学年ID
+            // var stuinfo=JSON.parse(store.get("userinfo"));
+            //     console.log(stuinfo);
+            // var scoreval = {
+            //         schoolYearId,   //学年ID
+            //         termId,         //学期ID
+            //         examTypeId,     //考试类型ID
+            //         subjectId,      //考试科目
+            //         isSysSubject,   //是否为系统科目
+            //    };
+            // var scoreval = JSON.stringify(scoreval);
+            // $.ajax( {
+            //     url: root_url+"uiExam/getStudentVerticalAnalysis?pageNo=1&pageSize=5",
+            //     data:scoreval,
+            //     success: function( data, textStatus, jqXHR ){
+
+            //         console.log(data);
+            //         if(data.code==1){
+
+
+            //         }else{
+            //             $.toast(data.msg);
+            //             return false;
+            //         }
+            //     }
+            // });
+            // var scoreval = {};
+            // var scoreval = JSON.stringify(scoreval);
+            // $.ajax( {
+            //     type:"GET",
+            //     url: root_url+"uiExam/getStudentVerticalAnalysis",
+            //     success: function( data, textStatus, jqXHR ){
+
+            //         console.log(data);
+            //         if(data.code==1){
+
+            //             console.log(data);
+
+            //         }else{
+            //             $.toast(data.msg);
+            //             return false;
+            //         }
+            //     }
+            // });
+         
+    });
+    /*单科*/
+//    $.ajax( {
+//        type:"GET",
+//        url: root_url+"uiExam/getStudentVerticalAnalysisByCondition?examTypeId="+type,
+//        success: function( data, textStatus, jqXHR ){
+//            console.log(data);
+//            if(data.code==1){
+//                $('.kemu').empty();
+//                $.each(data.dataList, function(index, item) {
+//
+//                    $('.kemu').append('<li class="score-screen-list-item" classname="kemu"  isSysSubject ="'+item['isSysSubject']+'" data="'+item['subjectId']+'">'+item['subjectName']+'</li>');
+//
+//
+//                });
+//            }else{
+//                $.toast(data.msg);
+//                return false;
+//            }
+//        }
+//    });
+
+</script>
+</body>
+
+</html>

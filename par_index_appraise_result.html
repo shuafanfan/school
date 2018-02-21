@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>互评</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+<div class="page-group assessment">
+    <div class="page page-current assessment-page">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="par_index_appraise_other.html"></a></div>
+            <div class="header-m"></div>
+            <div class="header-r"></div>
+        </header>
+        <div class="content assessment-content">
+            <p class="assessment-result-title"></p>
+            <p class="assessment-result-tips"> 评价结果为</p>
+            <p class="assessment-result-ico"><img src="images/ico-flower.png"></p>
+            <p class="assessment-result"></p>
+            <p class="btn-box only-line-btnbox"><a href="" class="button button-big external">返回</a></p>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script>
+    $(function(){
+        var url = window.location.href;
+
+
+        var obj = {};
+        var reg = /\?/;
+        if(url.match(reg)) {
+            //判断传入参数，以问号截取，问号后是参数
+            var chars = url.split('?')[1];
+
+            //再截&号
+            var arr = chars.split('&');
+
+            //获得截取后的数组为键值对字符串
+            for (var i = 0; i < arr.length; i++) {
+
+                //保守一点确定看是否为 name=value形式
+                var num = arr[i].indexOf("=");
+
+                if (num > 0) {
+                    //拼接字符串
+                    var name = arr[i].substring(0, num);
+                    var value = arr[i].substr(num + 1);
+
+                    //拼接对象，并转码
+                    obj[decodeURIComponent(name)] = decodeURIComponent(value);
+                }
+            }
+        }
+        if(obj['type']==2){
+            $('.header-m').text('互评-'+obj['name']);
+            $('.assessment-result-title').text('你已完成对 '+obj['name']+' 的评价');
+            $('.button').attr('href','par_index_appraise_choose.html');
+        }else {
+            $('.header-m').text('自评');
+            $('.assessment-result-title').text('你已完成对  自我 的评价');
+            $('.button').attr('href','par_index_appraise.html');
+        }
+        $('.assessment-result').text(obj['em']);
+
+    })
+</script>
+</body>
+
+</html>

@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>自评</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group chooserating">
+    <div class="page page-current chooserating-page">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink   external" href="par_index_appraise.html"></a></div>
+            <div class="header-m">选择互评人员</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content">
+            <div class="chooserating-panel ">
+                <div class="searchbar-wrap">
+                    <div class="searchbar">
+                        <a class="searchbar-cancel">Cancel</a>
+                        <div class="search-input">
+                            <label class="ico icon ico-search2" for="search"></label>
+                            <input type="search" id='search' placeholder='请输入姓名/拼音首字母搜索'/>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-wrap">
+                    <div class="buttons-tab">
+                        <a href="#tab1" class="tab-link active button">全部</a>
+                        <a href="#tab2" class="tab-link button">只看未评</a>
+                        <a href="#tab3" class="tab-link button">只看已评</a>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="tabs">
+                        <div id="tab1" class="tab active">
+                            <ul class="list list-col2">
+
+                            </ul>
+                        </div>
+                        <div id="tab2" class="tab">
+                            <ul  class="list list-col2">
+
+                            </ul>
+                        </div>
+                        <div id="tab3" class="tab">
+                            <ul  class="list list-col2">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    /* 评价人信息 */
+    $(document).ready(function(){
+
+        /*查询 start*/
+         $(document).on('change','#search',function () {
+             var cx =$(this).val();
+             $.ajax( {
+                 type:"GET",
+                 url: root_url+"uiDemocratic/getDemocraticEvaluationResultByAppraiserId?activityId=1&status=0",
+                 success: function( data, textStatus, jqXHR ){
+                     console.log(""+cx+"");
+                     console.log(data);
+                     if(data.code==1){
+                         var url="window.location.href='par_index_appraise_other.html'";
+                         $.each(data.dataList,function (index,item){
+                            if(item['studentName']==""+cx+""){
+
+                                var html='';
+
+                                html +=' <li class="list-item" onclick="'+url+'">';
+                                html +=' <div class="list-item-l">';
+                                html +='  <div class="list-pic">';
+                                html +=' <img src="images/list-userpic.png">';
+                                html +=' </div>';
+                                html +=' <div class="list-title-box">';
+                                html +=' <p class="list-title">'+item['studentName']+'</p>';
+                                html +=' <p class="list-subtitle">'+item['studentNumber']+'</p>';
+                                html +=' </div></div>';
+                                html +='<div class="list-item-r chooserating-ico">';
+                                if(item['eachLevel']=='未评价'){
+                                    html +=' <i class="ico ico-pingjia2 color-bad"></i>'+item['eachLevel'];
+                                }else if(item['eachLevel']=='优秀'){
+                                    html +=' <i class="ico ico-pingjia2 color-best"></i>'+item['eachLevel'];
+                                }else if(item['eachLevel']=='良'){
+                                    html +=' <i class="ico ico-pingjia2 color-nice"></i>'+item['eachLevel'];
+                                }else if(item['eachLevel']=='中'){
+                                    html +=' <i class="ico ico-pingjia2 color-nice"></i>'+item['eachLevel'];
+                                }else if(item['eachLevel']=='待改进'){
+                                    html +=' <i class="ico ico-pingjia2 color-bad"></i>'+item['eachLevel'];
+                                }
+                                html +=' </div> </li>';
+                                $('#tab1 ul').empty();
+                                $('#tab1 ul').append(html);
+                            }else if(item['studentNumber']==""+cx+""){
+                                 var html='';
+                                 html +=' <li class="list-item" onclick="'+url+'">';
+                                 html +=' <div class="list-item-l">';
+                                 html +='  <div class="list-pic">';
+                                 html +=' <img src="images/list-userpic.png">';
+                                 html +=' </div>';
+                                 html +=' <div class="list-title-box">';
+                                 html +=' <p class="list-title">'+item['studentName']+'</p>';
+                                 html +=' <p class="list-subtitle">'+item['studentNumber']+'</p>';
+                                 html +=' </div></div>';
+                                 html +='<div class="list-item-r chooserating-ico">';
+                                if(item['eachLevel']=='未评价'){
+                                    html +=' <i class="ico ico-pingjia2 color-bad"></i>'+item['eachLevel'];
+                                }else if(item['eachLevel']=='优秀'){
+                                    html +=' <i class="ico ico-pingjia2 color-best"></i>'+item['eachLevel'];
+                                }else if(item['eachLevel']=='良'){
+                                    html +=' <i class="ico ico-pingjia2 color-nice"></i>'+item['eachLevel'];
+                                }else if(item['eachLevel']=='中'){
+                                    html +=' <i class="ico ico-pingjia2 color-nice"></i>'+item['eachLevel'];
+                                }else if(item['eachLevel']=='待改进'){
+                                    html +=' <i class="ico ico-pingjia2 color-bad"></i>'+item['eachLevel'];
+                                }
+                                html +=' </div> </li>';
+                                $('#tab1 ul').empty();
+                                $('#tab1 ul').append(html);
+                            }
+
+
+                         })
+                     }else{
+                         $.toast(data.note);
+                         return false;
+                     }
+                 }
+             })
+
+         })
+        /*查询 end*/
+
+//        我操作的互评数据
+        $.ajax( {
+            type:"GET",
+            url: root_url+"uiDemocratic/getDemocraticEvaluationResultByAppraiserId?activityId=1&status=0",
+            success: function( data, textStatus, jqXHR ){
+               console.log(data);
+                if(data.code==1){
+
+                $.each(data.dataList,function (index,item) {
+                    var html='';
+                    var index = Number(index);
+                    var html3='';
+                    var name =""+item['studentName']+"";
+                    var url="window.location.href='par_index_appraise_other.html?beEvaluatedId="+item['studentId']+"&beEvaluatedName="+name+"'";
+                    html +=' <li class="list-item" onclick="'+url+'">';
+                    html +=' <div class="list-item-l">';
+                    html +='  <div class="list-pic">';
+                    html +=' <img src="images/list-userpic.png">';
+                    html +=' </div>';
+                    html +=' <div class="list-title-box">';
+                    html +=' <p class="list-title">'+item['studentName']+'</p>';
+                    html +=' <p class="list-subtitle">'+item['studentNumber']+'</p>';
+                    html +=' </div></div>';
+                    html +='<div class="list-item-r chooserating-ico">';
+                    if(item['eachLevel']=='未评价'){
+                        html +=' <i class="ico ico-pingjia2 color-bad"></i>'+item['eachLevel'];
+                        html +=' </div> </li>';
+                        $('#tab2 ul').append(html);
+                    }else if(item['eachLevel']=='优秀'){
+                        html +=' <i class="ico ico-pingjia2 color-best"></i>'+item['eachLevel'];
+                        html +=' </div> </li>';
+                        $('#tab3 ul').append(html);
+                    }else if(item['eachLevel']=='良'){
+                        html +=' <i class="ico ico-pingjia2 color-nice"></i>'+item['eachLevel'];
+                        html +=' </div> </li>';
+                        $('#tab3 ul').append(html);
+                    }else if(item['eachLevel']=='待改进'){
+                        html +=' <i class="ico ico-pingjia2 color-bad"></i>'+item['eachLevel'];
+                        html +=' </div> </li>';
+                        $('#tab3 ul').append(html);
+                    }else{
+                        html +=' <i class="ico ico-pingjia2 color-nice"></i>'+item['eachLevel'];
+                        html +=' </div> </li>';
+                        $('#tab3 ul').append(html);
+                    }
+                $('#tab1 ul').append(html);
+
+                })
+
+
+                }else{
+                    $.toast(data.note);
+                    return false;
+                }
+            }
+        });
+
+
+
+
+        /*评价明细*/
+            $.ajax( {
+                type:"GET",
+                url: root_url+"uiDemocratic/getEvaluationResultByStudentId?activityId=1",
+                success: function( data, textStatus, jqXHR ){    
+                   // console.log(data);
+                    if(data.code==1){    
+                          
+                    }else{
+                        $.toast(data.note);
+                        return false;
+                    }           
+                }
+            });
+           
+    });
+
+
+</script>
+</body>
+
+</html>

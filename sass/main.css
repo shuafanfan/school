@@ -1,0 +1,11 @@
+.flex {
+  display: flex;
+  display: -webkit-flex; }
+  .flex.flex-between {
+    -webkit-justify-content: space-between;
+    justify-content: space-between; }
+  .flex.flex-aic {
+    -webkit-align-items: center;
+    align-items: center; }
+
+/*# sourceMappingURL=main.css.map */

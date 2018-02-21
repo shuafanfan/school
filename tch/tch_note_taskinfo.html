@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>任务详情</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <style>
+        .stars{ overflow: hidden; clear: both; margin: 10px; padding: 10px; border: 1px saddlebrown solid;}
+        .stars span{ float: left; height: 30px; line-height: 30px; cursor:default;}
+        .stars i{width: 30px; height: 30px; line-height: 30px; float: left; margin-right: 30px; background: #ccc; color: #fff; text-align: center; cursor:default; font-style: normal;}
+        .stars .on{ color: #a71417;}
+    </style>
+</head>
+
+<body>
+<div class="page-group realistic create-actions-page ">
+    <div class="page  page-current bg-white">
+        <header class="bar bar-nav">
+            <div class="header-l">
+                <a class="ico ico-left" href="tch_note_task.html"></a>
+            </div>
+            <div class="header-m">任务详情</div>
+            <div class="header-r"></div>
+        </header>
+        <div class="content">
+            <div class="release-wrap border-b">
+                <!-- <div class="release-l">
+                    <div class="release-user-pic">
+                        <img src="images/list-userpic.png">
+                    </div>
+                </div>
+                <div class="release-r no-border">
+                    <p class="release-title">说的和方式</p>
+                    <div class="release-state-wrap clearfix fs-07 mt-05">
+                        <div class="release-state-l fl">#六一儿童节#</div>
+                        <div class="release-state-r color-danger fr">
+                            <i class="ico ico-dengdai fs-1 mr-02"></i>未评分
+                        </div>
+                    </div>
+                    <div class="release-info fs-07 mt-05 color-gray6">
+                        今天过六一，很开心，老师组织我们去参加表演了，这是我第一次参加表演
+                    </div>
+                    <ul class="pic-group clearfix">
+                        <li class="pic-group-item"><img src="images/xs-pic-01.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-02.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-03.png"></li>
+                    </ul>
+                    <div class="release-opear-wrap tr">
+                        <a class="button button-primary release-opear-btn no-border">
+                            <i class="ico ico-pingfen"></i>
+                            +1
+                        </a>
+                    </div>
+                </div> -->
+            </div>
+            <div class="task-evaluate-wrap">
+                <div class="task-evaluate-star">
+                    <span>任务评分</span>
+                    <i class="ico ico-pingfenfill "></i>
+                    <i class="ico ico-pingfenfill "></i>
+                    <i class="ico ico-pingfenfill "></i>
+                    <i class="ico ico-pingfenfill"></i>
+                    <i class="ico ico-pingfenfill"></i>
+                    <input type="hidden" id="fenshu" class="starscore">
+                </div>
+
+                <div class="task-evaluate-txt">
+                    <textarea id="remark" placeholder="评论内容" class="task-evaluate-area" rows="3"></textarea>
+                    <div class="btn-box tr clearfix">
+                        <a class="button button-primary button-fill fr">发布评论</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+    /* 个人信息 */
+    $(document).ready(function(){
+            var id=getQueryVariable('id');
+            /*任务与消息*/
+            $.ajax( {
+                url: root_url+"uiCircle/message",
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                            
+                            if(item['id']==id){
+                                var html = '';
+                                var index = Number(index);             
+                                html += '<div class="release-l">';
+                                html += '<div class="release-user-pic">';
+                                html += '<img src="images/list-userpic.png">';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<div class="release-r no-border">';
+                                html += '<p class="release-title">'+item['personNickName']+'</p>';
+                                html += '<div class="release-state-wrap clearfix fs-07 mt-05">';
+                                if(item['taskName']==null){
+                                    html += '<div class="release-state-l fl"></div>';
+                                }else{
+                                    html += '<div class="release-state-l fl">#'+item['taskName']+'#</div>';
+                                }
+                                html += '<div class="release-state-r color-danger fr">';
+                                html += '<i class="ico ico-dengdai fs-1 mr-02"></i>未评分';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<div class="release-info fs-07 mt-05 color-gray6">';
+                                html += ''+item['circleContent']+'</div>';
+                                // html += '<ul class="pic-group clearfix">';
+                                // html += '<li class="pic-group-item"><img src="images/xs-pic-01.png"></li>';
+                                // html += '<li class="pic-group-item"><img src="images/xs-pic-01.png"></li>';
+                                // html += '<li class="pic-group-item"><img src="images/xs-pic-01.png"></li>';
+                                // html += '</ul>';
+                                html += '<div class="release-opear-wrap tr">';
+                                html += '<a class="button button-primary release-opear-btn no-border">';
+                                html += '<i class="ico ico-pingfen"></i>+1</a>';
+                                html += '</div>';
+                                html += '</div>';   
+                                $('.release-wrap').append(html);
+                            }
+
+                                                
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+
+            /*提交评论*/
+            
+            $(document).on("click", ".button-fill", function() {
+                var remark=$('#remark').val();
+                $.ajax( {
+                url: root_url+"uiCircle/scoreTask?circleId="+id,
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.alert('评分成功',function () {
+                            location.href ="tch_note_task.html";
+                        });                                  
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+            });
+
+
+            /*获取url参数*/
+            function getQueryVariable(variable)
+            {
+                   var query = window.location.search.substring(1);
+                   var vars = query.split("&");
+                   for (var i=0;i<vars.length;i++) {
+                           var pair = vars[i].split("=");
+                           if(pair[0] == variable){return pair[1];}
+                   }
+                   return(false);
+            }
+
+
+            var stars = $('.task-evaluate-star');
+            var Len = stars.length;
+
+            //每次触发事件，清除该项父容器下所有子元素的样式所有样式
+                for(i=0;i<Len;i++) {
+
+                    //每次触发事件，清除该项父容器下所有子元素的样式所有样式
+                    function clearAll(obj) {
+                        obj.parent().children('i').removeClass('star-get');
+                    }
+
+                    stars.eq(i).find('i').click(function () {
+                        var num = $(this).index();
+                        clearAll($(this));
+                        //当前包括前面的元素都加上样式
+                        $(this).addClass('star-get').prevAll('i').addClass('star-get');
+                        //给隐藏域input赋值
+                        $(this).siblings('input').val(num);
+                    });
+
+                }
+
+});
+</script>
+<script>
+    $('.release_pingjia').click(function () {
+        $(this).siblings('.release-pingjia-wrap').fadeToggle();
+    })
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/common.css"> 
+</head>
+
+<body>
+<div class="page-group user">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l">
+            </div>
+            <div class="header-m">我的</div>
+            <div class="header-r">
+            </div>
+        </header>
+        <!-- 工具栏 -->
+        <nav class="bar bar-tab">
+            <a class="tab-item  external "href="par_index.html">
+                <i class="icon ico ico-home"></i>
+                <span class="tab-label">首页</span>
+            </a>
+            <a class="tab-item  external" href="par_maillist.html">
+                <i class="icon ico-tongxunlu"></i>
+                <span class="tab-label">通讯录</span>
+            </a>
+            <a class="tab-item external new" href="par_note.html">
+                <i class="icon ico-tuwen"></i>
+                <span class="tab-label">写实</span>
+            </a>
+            <a class="tab-item  external active" href="par_person.html">
+                <i class="icon ico-user"></i>
+                <span class="tab-label">我的</span>
+            </a>
+        </nav>
+        <div class="content ">
+            <div class="list-block list-block-nom media-list user-info-wrap">
+                <ul>
+                    <li>
+                        <a href="par_person_avater.html" class="item-link item-content external">
+                            <div class="item-media"><img src="images/list-userpic.png" style='width: 2.8rem;'></div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title"><span class="realName"></span></div>
+                                </div>
+                                <div class="item-text"><span class="pinyin"></span></div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block mt-05 user-opear-wrap">
+                <ul>
+                    <li class="item-content item-link">
+                        <a class="item-inner l-flex-js external" href="par_welcome.html">
+                            <div class="l-flex l-flex-jsc">
+                                <div class="item-media"><i class="icon ico ico-xuesheng1"></i></div>
+                                <div class="item-title">我的孩子</div>
+                            </div>
+                            <div class="item-after"><span class="stuinfo"></span></div>
+                        </a>
+                    </li>
+                    <li class="item-content">
+                        <a class="item-inner external" href="par_person_honor.html">
+                            <div class="item-media"><i class="icon ico ico-jiangbei1"></i></div>
+                            <div class="item-title">孩子的荣誉</div>
+                        </a>
+                    </li>
+                    <li class="item-content">
+                        <a class="item-inner external" href="par_person_aginst.html">
+                            <div class="item-media"><i class="icon ico ico-xuesheng1"></i></div>
+                            <div class="item-title">孩子的违规违纪</div>
+                        </a>
+                    </li>
+                    <li class="item-content">
+                        <a class="item-inner external" href="par_online.html">
+                            <div class="item-media"><i class="icon ico ico-xuesheng1"></i></div>
+                            <div class="item-title">孩子的报告</div>
+                        </a>
+                    </li>
+                    <li class="item-content">
+                        <a class="item-inner external" href="par_person_task.html">
+                            <div class="item-media"><i class="icon ico ico-renwu"></i></div>
+                            <div class="item-title">我的任务</div>
+                        </a>
+                    </li>
+                    <li class="item-content">
+                        <a class="item-inner external" href="par_person_notice.html">
+                            <div class="item-media"><i class="icon ico ico-tongzhi"></i></div>
+                            <div class="item-title">我的通知</div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block mt-05 user-opear-wrap mb-05">
+                <ul>
+                    <li class="item-content">
+                        <a class="item-inner external" href="par_password.html">
+                            <div class="item-media"><i class="icon ico ico-mima"></i></div>
+                            <div class="item-title">修改密码</div>
+                        </a>
+                    </li>
+                    <li class="item-content logout">
+                        <a class="item-inner">
+                            <div class="item-media"><i class="icon ico ico-zhuxiao"></i></div>
+                            <div class="item-title">注销登录</div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    /* 个人中心 */
+    $(document).ready(function(){
+            var stuinfo=JSON.parse(store.get("userinfo"));
+            var parentinfo=JSON.parse(store.get("parentinfo"));
+            $('.realName').text(parentinfo['realName']);
+            $('.pinyin').text(parentinfo['pinyin']);
+            $('.stuinfo').text(stuinfo['userName']);
+                //console.log(stuinfo);
+                //console.log(parentinfo);
+
+          $(document).on("click", ".logout", function() {   
+            $.ajax( {
+                url: root_url+"uiLogin/logout",
+                success: function( data, textStatus, jqXHR ){
+
+                    //console.log(data);
+                    if(data.code==1){
+                        $.alert('注销成功',function () {
+                            //store.remove('token');//移除某一项
+                            window.localStorage.clear()//清除全部
+                            location.href ="index.html";
+                        });
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+           
+        });
+       
+         
+    }); 
+</script>
+</body>
+
+</html>

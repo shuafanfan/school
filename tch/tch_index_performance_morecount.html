@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的课堂表现</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group classroom">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l" style="width: 2rem"><a class="ico ico-left-nolink   external" href="tch_index_performance.html"></a></div>
+            <div class="header-m">课堂表现统计分析-五年4班</div>
+            <div class="header-r" style="width: 2rem"> </div>
+        </header>
+        <div class="content">
+            <div class="classroom-table">
+                <div class="developments-title">
+                    <div class="developments-title-l">本周情况</div>
+                    <div class="developments-title-r">
+                        <span class="developments-l-subtitle">（数据统计 截止当前 2017-06-15）</span>
+                    </div>
+                </div>
+                <table class="table table-last-colr ">
+                    <tr>
+                        <td>本日</td>
+                        <td>表扬</td>
+                        <td><span class="Incentive-num">+96</span>分</td>
+                        <td>待改进</td>
+                        <td><span class="Incentive-num color-danger">-15</span>分</td>
+                    </tr>
+                    <tr>
+                        <td>本周</td>
+                        <td>表扬</td>
+                        <td><span class="Incentive-num">+96</span>分</td>
+                        <td>待改进</td>
+                        <td><span class="Incentive-num color-danger">-15</span>分</td>
+                    </tr>
+                    <tr>
+                        <td>本月</td>
+                        <td>表扬</td>
+                        <td><span class="Incentive-num">+96</span>分</td>
+                        <td>待改进</td>
+                        <td><span class="Incentive-num color-danger">-15</span>分</td>
+                    </tr>
+                    <tr>
+                        <td>本学期</td>
+                        <td>表扬</td>
+                        <td><span class="Incentive-num">+96</span>分</td>
+                        <td>待改进</td>
+                        <td><span class="Incentive-num color-danger">-15</span>分</td>
+                    </tr>
+                    <tr>
+                        <td>本学年</td>
+                        <td>表扬</td>
+                        <td><span class="Incentive-num">+96</span>分</td>
+                        <td>待改进</td>
+                        <td><span class="Incentive-num color-danger">-15</span>分</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="classroom-table mt-05">
+                <div class="developments-title border-b">
+                    <div class="developments-title-l">本周情况</div>
+                    <div class="developments-title-r">
+                        <span class="developments-l-subtitle">（数据统计 截止当前 2017-06-15）</span>
+                    </div>
+                </div>
+                <div class="my-evaluate-chart">
+                    <img src="images/charts-pic2.png">
+                </div>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+
+            /* 课堂表现统计分析概况接口 */
+            var loginval = {
+			                            		    	
+			
+											            classId:1
+											       };
+			var loginval = JSON.stringify(loginval); 
+            $.ajax( {		   
+                url: root_url+"uiClassRoom/queryClassRoomStatisticalAnalysisByClassId",
+                data:loginval,
+                success: function( data, textStatus, jqXHR ){ 
+                    console.log(data);                
+                    if(data.code==1){
+                        $.each(data.dataList, function(index, item) {
+                                var html = '';
+                                var index = Number(index);
+                                var i=index+1;             
+                                html += '<tr>';
+                                html += '<td>'+i+'</td>';
+                                html += '<td>艾青海<span class="fs-07 color-gray">缺少学号 '+item['gradeName']+item['className']+'</span></td>';
+                                html += '<td class="fs-1">'+item['score']+'</td>';
+                                html += ' </tr>';
+                                $('.all').append(html);                           
+                        });     
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });   
+              
+
+    }); 
+</script>
+</body>
+
+</html>

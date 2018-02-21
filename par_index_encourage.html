@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>激励卡</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">   
+</head>
+
+<body>
+<div class="page-group incentive">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink external" href="par_index.html"></a></div>
+            <div class="header-m">激励卡</div>
+            <div class="header-r"><a class="header-link external" href="par_index_encourage_list.html">获卡明细</a></div>
+        </header>
+        <div class="content">
+            <div class="incentive-top">
+                <div class="incentive-top-l">
+                    <div class="incentive-top-img"><img src="images/incentive-top-pic.png"></div>
+                    <div class="incentive-top-title">
+                        <p class="incentive-top-title1"></p>
+                        <p class="incentive-top-title2">荣誉称号</p>
+                    </div>
+                </div>
+                <div class="incentive-top-r">
+                    <p class="incentive-top-num"><span class="sum"></span>张</p>
+                    <p class="incentive-top-allnum">获卡总数</p>
+                </div>
+            </div>
+            <!--思想品德-->
+            <div class="incentive-list-panel mt-05" id="sixiang" style="display: none">
+                <p class="incentive-list-title">
+                    <span class="dimensionName" id="si_title"></span><span class="Incentive-num" id="si_num"></span>张 <i class="ico ico-xin"></i>
+                </p>
+                <ul class="Incentive-list " id="si_list">
+                    <!-- <li class="Incentive-item">
+                        <div class="Incentive-card">
+                            <div class="Incentive-pic">                        
+                            <img src="images/card-jl-01.png" class="cardjl-info-pic">
+                            </div>
+                            <p class="Incentive-txt">文明表现卡<span class="Incentive-num">10</span>张</p>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <!--专业水平-->
+            <div class="incentive-list-panel mt-05" id="zuanye" style="display: none">
+                <p class="incentive-list-title">
+                    <span class="dimensionName" id="ye_title"></span><span class="Incentive-num" id="ye_num"></span>张 <i class="ico ico-xin"></i>
+                </p>
+                <ul class="Incentive-list " id="ye_list">
+                    <!-- <li class="Incentive-item">
+                        <div class="Incentive-card">
+                            <div class="Incentive-pic">
+                            <img src="images/card-jl-01.png" class="cardjl-info-pic">
+                            </div>
+                            <p class="Incentive-txt">文明表现卡<span class="Incentive-num">10</span>张</p>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <!--身心健康-->
+            <div class="incentive-list-panel mt-05" id="shenxin" style="display: none">
+                <p class="incentive-list-title">
+                    <span class="dimensionName" id="xin_title"></span><span class="Incentive-num" id="xin_num"></span>张 <i class="ico ico-xin"></i>
+                </p>
+                <ul class="Incentive-list " id="xin_list">
+                    <!-- <li class="Incentive-item">
+                        <div class="Incentive-card">
+                            <div class="Incentive-pic">
+                            <img src="images/card-jl-01.png" class="cardjl-info-pic">
+                            </div>
+                            <p class="Incentive-txt">文明表现卡<span class="Incentive-num">10</span>张</p>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <!--艺术素养-->
+            <div class="incentive-list-panel mt-05" id="yishu" style="display: none">
+                <p class="incentive-list-title">
+                    <span class="dimensionName" id="yi_title"></span><span class="Incentive-num" id="yi_num"></span>张 <i class="ico ico-xin"></i>
+                </p>
+                <ul class="Incentive-list " id="yi_list">
+                    <!-- <li class="Incentive-item">
+                        <div class="Incentive-card">
+                            <div class="Incentive-pic">
+                            <img src="images/card-jl-01.png" class="cardjl-info-pic">
+                            </div>
+                            <p class="Incentive-txt">文明表现卡<span class="Incentive-num">10</span>张</p>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <!--实践创新-->
+            <div class="incentive-list-panel mt-05" id="shijian" style="display: none">
+                <p class="incentive-list-title">
+                    <span class="dimensionName" id="shi_title"></span><span class="Incentive-num" id="shi_num"></span>张 <i class="ico ico-xin"></i>
+                </p>
+                <ul class="Incentive-list " id="shi_list">
+                    <!-- <li class="Incentive-item">
+                        <div class="Incentive-card">
+                            <div class="Incentive-pic">
+                            <img src="images/card-jl-01.png" class="cardjl-info-pic">
+                            </div>
+                            <p class="Incentive-txt">文明表现卡<span class="Incentive-num">10</span>张</p>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+
+           <!--  <div class="incentive-list-panel mt-05">
+                <p class="incentive-list-title">
+                    学业水平<span class="Incentive-num">5</span>张 <i class="ico ico-zuoye"></i>
+                </p>
+                <ul class="Incentive-list ">
+                    <li class="Incentive-item">
+                        <div class="Incentive-card">
+                            <div class="Incentive-pic">                        <img src="images/card-jl-01.png" class="cardjl-info-pic"></div>
+                            <p class="Incentive-txt">文明表现卡<span class="Incentive-num">10</span>张</p>
+                        </div>
+                    </li>
+                    <li class="Incentive-item flex">
+                        <div class="Incentive-card">
+                            <div class="Incentive-pic">                        <img src="images/card-jl-02.png" class="cardjl-info-pic"></div>
+                            <p class="Incentive-txt">乐于助人卡<span class="Incentive-num">10</span>张</p>
+                        </div>
+                    </li>
+                    <li class="Incentive-item">
+                        <div class="Incentive-card">
+                            <div class="Incentive-pic">                        <img src="images/card-jl-01.png" class="cardjl-info-pic"></div>
+                            <p class="Incentive-txt">文明表现卡<span class="Incentive-num">10</span>张</p>
+                        </div>
+                    </li>
+                    <li class="Incentive-item flex">
+                        <div class="Incentive-card">
+                            <div class="Incentive-pic">                        <img src="images/card-jl-02.png" class="cardjl-info-pic"></div>
+                            <p class="Incentive-txt">乐于助人卡<span class="Incentive-num">10</span>张</p>
+                        </div>
+                    </li>
+                </ul>
+            </div> -->
+
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+    /* 激励卡 */
+    $(document).ready(function(){
+            var stuinfo=JSON.parse(store.get("userinfo"));
+            console.log(stuinfo);          
+            var termId=1;  
+            $.ajax( {
+                type:"GET",
+                url: root_url+"uiCard/getCardCountAnalysisByStudentId",
+                success: function( data, textStatus, jqXHR ){ 
+                    console.log(data);                
+                    if(data.code==1){
+
+//                        $('.dimensionName').text(data.dataList[0]['dimensionName']);
+//                        $('.Incentive-num').text(data.dataList[0]['multiCount']);
+
+
+                        var sixiang =0;
+                        var zuanye =0;
+                        var shenxin=0;
+                        var yishu=0;
+                        var shijian=0;
+                        $.each(data.dataList, function(index, item) {
+                            if(item['singleTitle']!=''){
+                                $('.incentive-top-title1').empty();
+                                $('.incentive-top-title1').text(item['singleTitle']);
+                            }
+                            if(item['dimensionName']=="思想品德"){
+                                $('#sixiang').show();
+                                $('#si_title').empty();
+                                $('#si_title').text(item['dimensionName'])
+                                var html = '';
+                                var index = Number(index);
+                                html += '<li class="Incentive-item">';
+                                html += '<div class="Incentive-card">';
+                                html += '<div class="Incentive-pic">';
+                                html += '<img src="images/card-jl-01.png" class="cardjl-info-pic">';
+                                html += '</div>';
+                                if(item['cardTypeName']==undefined){
+                                    item['cardTypeName']='';
+                                }
+                                if(item['cardTypeAmount']==undefined){
+                                    item['cardTypeAmount']=0;
+                                }
+                                html += '<p class="Incentive-txt">'+item['cardTypeName']+'<span class="Incentive-num">'+item['cardTypeAmount']+'</span>张</p>';
+                                html += '</div>';
+                                html += '</li>';
+                                sixiang=sixiang+item['cardTypeAmount'];
+                                $('#si_num').empty();
+                                $('#si_num').text(sixiang)
+                                $('#si_list').append(html);
+                            }else if(item['dimensionName']=="学业水平"){
+                                $('#zuanye').show();
+                                $('#ye_title').empty();
+                                $('#ye_title').text(item['dimensionName'])
+                                var html = '';
+                                var index = Number(index);
+                                html += '<li class="Incentive-item">';
+                                html += '<div class="Incentive-card">';
+                                html += '<div class="Incentive-pic">';
+                                html += '<img src="images/card-jl-01.png" class="cardjl-info-pic">';
+                                html += '</div>';
+                                if(item['cardTypeName']==undefined){
+                                    item['cardTypeName']='';
+                                }
+                                if(item['cardTypeAmount']==undefined){
+                                    item['cardTypeAmount']=0;
+                                }
+                                html += '<p class="Incentive-txt">'+item['cardTypeName']+'<span class="Incentive-num">'+item['cardTypeAmount']+'</span>张</p>';
+                                html += '</div>';
+                                html += '</li>';
+                                zuanye=zuanye+item['cardTypeAmount'];
+                                $('#ye_num').empty();
+                                $('#ye_num').text(zuanye)
+                                $('#ye_list').append(html);
+                            }else if(item['dimensionName']=="身心健康"){
+                                $('#shenxin').show();
+                                $('#xin_title').empty();
+                                $('#xin_title').text(item['dimensionName'])
+                                var html = '';
+                                var index = Number(index);
+                                html += '<li class="Incentive-item">';
+                                html += '<div class="Incentive-card">';
+                                html += '<div class="Incentive-pic">';
+                                html += '<img src="images/card-jl-01.png" class="cardjl-info-pic">';
+                                html += '</div>';
+                                if(item['cardTypeName']==undefined){
+                                    item['cardTypeName']='';
+                                }
+                                if(item['cardTypeAmount']==undefined){
+                                    item['cardTypeAmount']=0;
+                                }
+                                html += '<p class="Incentive-txt">'+item['cardTypeName']+'<span class="Incentive-num">'+item['cardTypeAmount']+'</span>张</p>';
+                                html += '</div>';
+                                html += '</li>';
+                                zuanye=zuanye+item['cardTypeAmount'];
+                                $('#xin_num').empty();
+                                $('#xin_num').text(zuanye)
+                                $('#xin_list').append(html);
+                            }else if(item['dimensionName']=="艺术素养"){
+                                $('#yishu').show();
+                                $('#yi_title').empty();
+                                $('#yi_title').text(item['dimensionName'])
+                                var html = '';
+                                var index = Number(index);
+                                html += '<li class="Incentive-item">';
+                                html += '<div class="Incentive-card">';
+                                html += '<div class="Incentive-pic">';
+                                html += '<img src="images/card-jl-01.png" class="cardjl-info-pic">';
+                                html += '</div>';
+                                if(item['cardTypeName']==undefined){
+                                    item['cardTypeName']='';
+                                }
+                                if(item['cardTypeAmount']==undefined){
+                                    item['cardTypeAmount']=0;
+                                }
+                                html += '<p class="Incentive-txt">'+item['cardTypeName']+'<span class="Incentive-num">'+item['cardTypeAmount']+'</span>张</p>';
+                                html += '</div>';
+                                html += '</li>';
+                                yishu=yishu+item['cardTypeAmount'];
+                                $('#yi_num').empty();
+                                $('#yi_num').text(yishu)
+                                $('#yi_list').append(html);
+                            }else if(item['dimensionName']=="实践创新"){
+                                $('#shijian').show();
+                                $('#shi_title').empty();
+                                $('#shi_title').text(item['dimensionName'])
+                                var html = '';
+                                var index = Number(index);
+                                html += '<li class="Incentive-item">';
+                                html += '<div class="Incentive-card">';
+                                html += '<div class="Incentive-pic">';
+                                html += '<img src="images/card-jl-01.png" class="cardjl-info-pic">';
+                                html += '</div>';
+                                if(item['cardTypeName']==undefined){
+                                    item['cardTypeName']='';
+                                }
+                                if(item['cardTypeAmount']==undefined){
+                                    item['cardTypeAmount']=0;
+                                }
+                                html += '<p class="Incentive-txt">'+item['cardTypeName']+'<span class="Incentive-num">'+item['cardTypeAmount']+'</span>张</p>';
+                                html += '</div>';
+                                html += '</li>';
+                                shijian=shijian+item['cardTypeAmount'];
+                                $('#shi_num').empty();
+                                $('#shi_num').text(shijian)
+                                $('#shi_list').append(html);
+                            }
+
+                        });
+                        $('.sum').text(parseInt(sixiang+zuanye+shenxin+yishu+shijian));
+
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+            
+
+    }); 
+</script>
+</body>
+
+</html>

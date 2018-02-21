@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>图片组</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7-swiper.min.js"></script>
+</head>
+
+<body>
+<div class="page-group realistic create-actions-page">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="3-0首页.html"></a></div>
+            <div class="header-m">写实</div>
+            <div class="header-r"><a class="ico ico-paizhao" href="#" id="create-actions"> </a></div>
+        </header>
+        <div class="content">
+            <div class="release-wrap">
+                <div class="release-l"><div class="release-user-pic"><img src="images/list-userpic.png"></div></div>
+                <div class="release-r">
+                    <p class="release-title">说的和方式</p>
+                    <p class="release-subtitle">2017-06-09</p>
+                    <ul class="pic-group clearfix">
+                        <li class="pic-group-item"><img src="images/xs-pic-01.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-02.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-03.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-04.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-05.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-06.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-07.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-08.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-09.png"></li>
+                    </ul>
+                    <div class="release-opear-wrap tr">
+                        <div class="release-opear">
+                            <a class="release-opear-item release-pj">
+                                <i class=" ico ico-pingjia1 release_pingjia"></i>
+                                <div class="release-pingjia-wrap">
+                                    <p class="release-star-box">
+                                        <i class="ico ico-pingfenfill star-get"></i>
+                                        <i class="ico ico-pingfenfill star-get"></i>
+                                        <i class="ico ico-pingfenfill star-get"></i>
+                                        <i class="ico ico-pingfenfill"></i>
+                                        <i class="ico ico-pingfenfill"></i>
+                                    </p>
+                                </div>
+                            </a>
+                            <a class="release-opear-item ico ico-huifu"></a>
+                            <a class="release-opear-item ico ico-pingfen"></a>
+                            <a class="release-opear-item ico ">...</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="release-wrap">
+                <div class="release-l"><div class="release-user-pic"><img src="images/list-userpic.png"></div></div>
+                <div class="release-r">
+                    <p class="release-title">五年一班班主任 刘辉</p>
+                    <p class="release-subtitle">六一快乐啊小伙伴们</p>
+                    <ul class="pic-group clearfix">
+                        <li class="pic-group-item"><img src="images/xs-pic-01.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-02.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-03.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-04.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-05.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-06.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-07.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-08.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-09.png"></li>
+                    </ul>
+                    <div class="release-opear-wrap tr">
+                        <div class="release-opear">
+                            <a class="release-opear-item release-pj">
+                                <i class=" ico ico-pingjia1 release_pingjia"></i>
+                                <div class="release-pingjia-wrap">
+                                    <p class="release-star-box">
+                                        <i class="ico ico-pingfenfill star-get"></i>
+                                        <i class="ico ico-pingfenfill star-get"></i>
+                                        <i class="ico ico-pingfenfill star-get"></i>
+                                        <i class="ico ico-pingfenfill"></i>
+                                        <i class="ico ico-pingfenfill"></i>
+                                    </p>
+                                </div>
+                            </a>
+                            <a class="release-opear-item ico ico-huifu"></a>
+                            <a class="release-opear-item ico ico-pingfen"></a>
+                            <a class="release-opear-item ico ">...</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script>
+    $('.release_pingjia').click(function () {
+        $(this).siblings('.release-pingjia-wrap').fadeToggle();
+    })
+
+
+    $(document).on('click','#create-actions', function () {
+        var buttons1 = [
+            {
+                text: '直接发表文字',
+                bold: true,
+                onClick: function() {
+                    $.alert("你选择了“直接发表文字“");
+                }
+            },
+            {
+                text: '拍照片或者视频',
+                onClick: function() {
+                    $.alert("你选择了“拍照片或者视频“");
+                }
+            },
+            {
+                text: '从手机相册选择',
+                onClick: function() {
+                    $.alert("你选择了“从手机相册选择");
+                }
+            },
+            {
+                text: '我的写实记录',
+                onClick: function() {
+                    $.alert("你选择了“我的写实记录“");
+                }
+            }
+        ];
+        var buttons2 = [
+            {
+                text: '取消',
+                bg: 'blue'
+            }
+        ];
+        var groups = [buttons1, buttons2];
+        $.actions(groups);
+    });
+</script>
+
+</body>
+
+</html>

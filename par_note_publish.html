@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>图片组</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body class="realistic-body">
+<div class="page-group realistic publish-article">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="par_note.html"></a></div>
+            <div class="header-m">发表写实</div>
+            <div class="header-r"><a class="header-link success_btn" href="#">完成</a></div>
+        </header>
+        <div class="content bg-white">
+            <div class="list-block list-block-nom">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-inner flex-initial">
+                            <div class="item-title">我的任务</div>
+                            <div class="item-after2">
+                       <!--          <span class="realistic-activity active">五一劳动节</span>
+                                <span class="realistic-activity ">六一儿童节</span>
+                          -->  </div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <input type="hidden" id="data_id" value="">
+                        <input type="hidden" id="data_title" value="">
+                        <textarea placeholder="说说此刻心情如何？" id="content"></textarea>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="release-wrap">
+                <div class="release-l">
+                    <p class="realistic-date tc fs-08">图片</p>
+                </div>
+                <div class="release-r">
+                    <ul class="pic-group clearfix">
+                        <li class="pic-group-item" id="li1">
+                            <input type="file"  id="" data="1" class="imgae input_img" name="pic" value="" onchange="readFile(this,1)" data=""/>
+                            <img src="images/pic-add.png" id="img1">
+                            <span class="del-pic" data="1">x</span>
+
+                        </li>
+
+                     </ul>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    var li_length=1;
+    function readFile(obj,i){
+        var file = obj.files[0];
+        //判断类型是不是图片
+        if(!/image\/\w+/.test(file.type)){
+            $.alert("请确保文件为图像类型");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e){
+        /*  $('.pic-group-item img').attr('src',this.result);*/
+            $("#img"+i).attr('src',this.result);
+            //$('.imgae').prop('data',this.result);
+            $(".del-pic").show();
+            $("#img"+i).prev(".input_img").hide();
+            $(obj).attr('data',this.result);
+            var id = $('#picFile').attr('id');
+            //$.alert(this.result); //就是base64
+
+            li_length++;
+            $(".pic-group").append(
+                "<li class='pic-group-item'id='li"+li_length+"' >" +
+            " <input type='file'  class='imgae input_img' name='pic'  onchange='readFile(this,"+li_length+")' > " +
+            "<img src='images/pic-add.png' id='img"+li_length+"'> " +
+                "<span class='del-pic' data='"+li_length+"'>x</span> "+"</li>")
+        }
+    }
+    $('.input_img').click(function () {
+        $(this).hide();
+    });
+    $('.pic-group-item').click(function () {
+     $(this).children(".del-pic").show();
+     });
+
+      $(document).on ("click",'.del-pic',function () {
+          var del_data=$(this).attr("data");
+         $("#li"+del_data).remove();
+     });
+
+    /* 个人信息 */
+    $(document).ready(function(){
+
+        /*近期的写实任务*/
+            $.ajax( {
+                url: root_url+"uiCircle/getRecentCircleTaskList",
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                                var html = '';
+                                var index = Number(index);
+                                html += '<span class="realistic-activity " classname="renwu" data="'+item['id']+'">'+item['name']+'</span>';
+                                $('.item-after2').append(html);
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+        /*完成发表写实*/
+        $('.success_btn').click(function(){
+            var inputid=[];
+            var inputArray=$("input[name='pic']");//取到所有的input text 并且放到一个数组中
+            var i=0;
+            inputArray.each(//使用数组的循环函数 循环这个input数组
+                    function (){
+
+                        var input =$(this);//循环中的每一个input元素
+                        if(input.attr("data")){
+                            inputid[i]=input.attr("data");//查看循环中的每一个input的id
+
+                            i++;
+
+                        }
+
+                    }
+            )
+
+            var circleType='';
+            var circleTaskTitle='';
+            var id = Number($("#data_id").val());
+            var title = $("#data_title").val();
+
+            if(id==''){
+                id=0;
+                circleType=1;
+            }else{
+                circleTaskTitle=title
+                circleType=2;
+            }
+            var content =$("#content").val();
+            var data ={
+                "circleType":circleType, // 写实类别 1-普通写实 2-任务型写实
+                "circleTaskId":id, // 写实任务ID 普通写实这里传0
+                "circleTaskTitle":circleTaskTitle, //  写实任务标题，普通写实这里传空串
+                "content":content, //  写实内容
+                "circleImg":inputid,
+
+            }
+            console.log(data);
+
+            var data = JSON.stringify(data);
+            $.ajax( {
+                type:"post",
+                url: root_url+"uiCircle/writeCircle",
+                data:data,
+                success: function( data, textStatus, jqXHR ){
+
+                    console.log(data);
+                    if(data.code==1){
+
+
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }
+                }
+            });
+        })
+
+        /*点击添加样式*/
+        $(document).on('click',".realistic-activity",function(){
+            var classname=$(this).attr('classname');
+
+            if(!$(this).is('.active')){
+                $(".realistic-activity").removeClass('active');
+                var id = $(this).attr('data');
+                var title = $(this).html();
+                $('#data_title').val(title);
+                $('#data_id').val(id);
+                $(this).addClass('active');
+
+            }else{
+                $("#data_id").val('');
+                $('#data_title').val('');
+                $(".realistic-activity" ).removeClass('active');
+
+            }
+
+        });
+    }); 
+</script>
+</body>
+
+</html>

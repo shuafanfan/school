@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>消息&任务</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group realistic create-actions-page ">
+    <div class="page  page-current bg-white">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="tch_index.html"></a></div>
+            <div class="header-m">消息&任务</div>
+            <div class="header-r"></div>
+        </header>
+        <div class="content">
+         <!--    <div class="release-wrap" onclick="window.location.href='tch_note_taskinfo.html'">
+                <div class="release-l"><div class="release-user-pic"><img src="images/list-userpic.png"></div></div>
+                <div class="release-r">
+                    <p class="release-title">说的和方式</p>
+                    <div class="release-state-wrap clearfix fs-07 mt-05">
+                        <div class="release-state-l fl">#六一儿童节#</div>
+                        <div class="release-state-r color-danger fr">
+                            <i class="ico ico-dengdai fs-1"></i>未评分
+                        </div>
+                    </div>
+                    <div class="release-info fs-07 mt-05 color-gray6">
+                        今天过六一，很开心，老师组织我们去参加表演了，这是我第一次参加表演
+                    </div>
+                    <div class="release-opear-wrap tr">
+                        <a class="button button-primary release-opear-btn" href="7-教师首页-6消息任务2.html">
+                            <i class="ico ico-kaoshixinxi"></i>
+                            评价
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="release-wrap">
+                <div class="release-l">
+                    <div class="release-user-pic">
+                        <img src="images/list-userpic.png">
+                    </div>
+                </div>
+                <div class="release-r">
+                    <p class="release-title">二年一班 李思思</p>
+                    <div class="release-state-wrap clearfix fs-07 mt-05">
+                        <div class="release-state-l fl">#六一儿童节#</div>
+                        <div class="release-state-r color-gray fr">
+                            <i class="ico ico-renwu1 fs-1"></i>已评分
+                        </div>
+                    </div>
+                    <div class="release-info fs-07 mt-05 color-gray6">
+                        今天过六一， 班上好多同学上台表演了，我手受伤了，不能参加，我好难过！
+                    </div>
+                    <div class="release-myevaluate pd5 yellow fs-07">
+                        [我的评论]：没事，还很多机会，下次继续努力哦！
+                    </div>
+
+                </div>
+            </div>
+ -->
+
+        </div>
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    /* 个人信息 */
+    $(document).ready(function(){
+
+            /*任务与消息*/
+            $.ajax( {
+                url: root_url+"uiCircle/message",
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                            /*未评分*/
+                            if(item['score']==null){
+                                var html = '';
+                                var index = Number(index);             
+                                html += '<div class="release-wrap" >';
+                                html += '<div class="release-l"><div class="release-user-pic"><img src="images/list-userpic.png"></div></div>';
+                                html += '<div class="release-r">';
+                                html += '<div class="release-title">';
+                                 
+                                html += '<span class="release-state-l personNickName">'+item['personNickName']+' </span>';
+                                
+                                if(item['taskName']!=null && item['taskName']!=''){                                    
+                                    html += '<span class="release-state-l release-taskName">#'+item['taskName']+'#</span>';
+                                }
+                                
+                                if(item['type']==4){
+	                                html += '<span class="release-state-r color-danger fr">';
+	                                html += '<i class="ico ico-dengdai fs-1"></i>未评分';
+	                                html += '</span>';
+                                }
+                                html += '</div>';
+                                
+                                html += '<div class="release-info fs-07 mt-05 color-gray6 clearfox row">'
+                                html += '<div class="release-circleContent col-50">'+item['circleContent']+'</div>';
+                                if(item['comentContent']){
+	                                html += '<div class=" release-comentContent col-50 tr">'+item['comentContent']+'</div>';
+                                }
+                                html += '</div>';
+                                
+                                if(item['type']==4){/* 班主任特有功能 */
+	                                html += '<div class="release-opear-wrap tr">';
+	                                html += '<a class="button button-primary release-opear-btn external" href="tch_note_taskinfo.html?id='+item['id']+'">';
+	                                html += '<i class="ico ico-kaoshixinxi"></i>';
+	                                html += '评价';
+	                                html += '</a>';
+	                                html += '</div>';
+                                }
+                                
+                                
+                                
+                                html += '</div>';
+                                html += '</div>';
+                                $('.content').append(html);
+                            }
+
+                                                
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+
+    }); 
+</script>
+<script>
+    $('.release_pingjia').click(function () {
+        $(this).siblings('.release-pingjia-wrap').fadeToggle();
+    })
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>图片组</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7-swiper.min.js"></script>
+</head>
+
+<body class="realistic-body">
+<div class="page-group realistic">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="3-0首页.html"></a></div>
+            <div class="header-m">我的头像</div>
+            <div class="header-r"><a class="ico ico-more" href="#" id="create-actions"> </a></div>
+        </header>
+        <div class="content pic-content">
+            <div class="img-box">
+                <img src="images/pic-01.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).on('click','#create-actions', function () {
+        var buttons1 = [
+            {
+                text: '拍照',
+                bold: true,
+                onClick: function() {
+                    $.alert("你选择了“拍照“");
+                }
+            },
+            {
+                text: '从手机相册选择',
+                onClick: function() {
+                    $.alert("你选择了“从手机相册选择“");
+                }
+            },
+            {
+                text: '保存图片',
+                onClick: function() {
+                    $.alert("你选择了“保存图片");
+                }
+            }
+        ];
+        var buttons2 = [
+            {
+                text: '取消',
+                bg: 'blue',
+                color:'danger'
+            }
+        ];
+        var groups = [buttons1, buttons2];
+        $.actions(groups);
+    });
+</script>
+</body>
+
+</html>

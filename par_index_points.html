@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>学生积分记录明细</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group myintegral">
+    <div class="page page-current">
+        <header class="bar bar-nav noborder">
+            <div class="header-l"><a class="ico ico-left " href="par_index.html"></a></div>
+            <div class="header-m">学生积分记录明细</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content">
+            <div class="myintegral-grade-wrap">
+                <p class="myintegral-grade"></p>
+                <p class="myintegral-grade-ico">
+                    <i class="ico ico-pingfen1"></i>当前积分
+                </p>
+                <div class="myintegral-accumulate">
+                    <div class="myintegral-accumulate-item">
+                        累计获得：<span class="myintegral-accumulate-num sum"></span>
+                    </div>
+                    <div class="myintegral-accumulate-item">
+                        累计使用：<span class="myintegral-accumulate-num use"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- 积分列表 -->
+            <div class="table-box mt-05">
+                <table class="table table-3col">
+<!--                     <tr>
+                        <td>
+                            <p class="myintegral-time">星期三 14:02 </p>
+                            <p class="myintegral-date">2017-06-14</p>
+                        </td>
+                        <td>激励卡</td>
+                        <td>+1</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="myintegral-time">星期二 14:02 </p>
+                            <p class="myintegral-date">2017-06-13</p>
+                        </td>
+                        <td>班级红旗</td>
+                        <td>+1</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="myintegral-time">星期一 14:02 </p>
+                            <p class="myintegral-date">2017-06-12</p>
+                        </td>
+                        <td>课堂表现</td>
+                        <td>+1</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="myintegral-time">星期五 14:02 </p>
+                            <p class="myintegral-date">2017-06-09</p>
+                        </td>
+                        <td>商城兑换</td>
+                        <td>+10</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="myintegral-time">星期三 14:02 </p>
+                            <p class="myintegral-date">2017-06-09</p>
+                        </td>
+                        <td>激励卡</td>
+                        <td class="color-danger">-500</td>
+                    </tr> -->
+                </table>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+    /* 学生积分明细 */
+    $(document).ready(function(){
+        var stuinfo=JSON.parse(store.get("userinfo"));
+        var studentId=stuinfo['studentID'];
+
+
+            /* 学生概况*/
+            $.ajax( {
+                url: root_url+"uiBonusPoint/getBonusPointCountByStudentId?studentId="+studentId,
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+
+                        //console.log(data);
+                        $.each(data.dataList,function(index,item){
+                            $('.myintegral-grade').append(item['bonusPoint']);
+                            $('.sum').append(item['countBonusPoint']);
+                            $('.use').append(item['useCountBonusPoint']);
+                        });
+
+                                                             
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+            /* 学生维度积分明细*/
+            $.ajax( {
+                url: root_url+"uiBonusPoint/getChannelCountBonusPointByStudentId?studentId="+studentId,
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);              
+                        $.each(data.dataList, function(index, item) {
+                                var html = '';
+                                var index = Number(index);               
+                                html += '<tr>';   
+                                html += '<td>';   
+                                html += '<p class="myintegral-time">缺少时间字段</p>';/*缺少时间*/   
+                                html += '</td>';   
+                                html += '<td>'+item['channelName']+'</td>';   
+                                html += '<td>+'+item['count']+'</td>';/*缺少判断加减类型*/  
+                                html += '</tr>';   
+                                $('.table').append(html);                       
+                        });                         
+                                                             
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+
+
+            /*获取url参数*/
+           function getQueryVariable(variable)
+            {
+                   var query = window.location.search.substring(1);
+                   var vars = query.split("&");
+                   for (var i=0;i<vars.length;i++) {
+                           var pair = vars[i].split("=");
+                           if(pair[0] == variable){return pair[1];}
+                   }
+                   return(false);
+            }
+    }); 
+</script>
+</body>
+
+</html>

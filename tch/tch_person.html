@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css"> 
+</head>
+
+<body>
+<div class="page-group user">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"></div>
+            <div class="header-m">我的</div>
+            <div class="header-r"></div>
+        </header>
+        <!-- 工具栏 -->
+        <nav class="bar bar-tab">
+            <a class="tab-item  external " href="tch_index.html">
+                <i class="icon ico ico-home"></i>
+                <span class="tab-label">首页</span>
+            </a>
+            <a class="tab-item  external" href="tch_maillist.html">
+                <i class="icon ico-tongxunlu"></i>
+                <span class="tab-label">通讯录</span>
+            </a>
+            <a class="tab-item external new" href="tch_note.html">
+                <i class="icon ico-tuwen"></i>
+                <span class="tab-label">写实</span>
+            </a>
+            <a class="tab-item  external active" href="tch_person.html">
+                <i class="icon ico-user"></i>
+                <span class="tab-label">我的</span>
+            </a>
+        </nav>
+        <div class="content ">
+            <div class="list-block list-block-nom media-list user-info-wrap" onclick="window.location.href='tch_person_avatar.html'">
+                <ul>
+                    <li>
+                        <a href="#" class="item-link item-content">
+                            <div class="item-media">
+                            	
+                            	<img src="images/list-userpic.png" style='width: 2.8rem;' class="avatar">
+                            	
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                </div>
+                                <div class="item-text"></div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block mt-05 user-opear-wrap">
+                <ul>
+                    <li class="item-content item-link">
+                        <a class="item-inner l-flex-js">
+                            <div class="l-flex l-flex-jsc">
+                                <div class="item-media"><i class="icon ico ico-xuexiao2"></i></div>
+                                <div class="item-title">我的学校</div>
+                            </div>
+                            <div class="item-afters schoolname"></div>
+                        </a>
+                    </li>
+                    <li class="item-content item-link">
+                        <a class="item-inner l-flex-js">
+                            <div class="l-flex l-flex-jsc">
+                                <div class="item-media">
+                                    <i class="icon ico ico-jiangzhangtu"></i>
+                                </div>
+                                <div class="item-title">我的班级</div>
+                            </div>
+                            <div class="item-after classname"></div>
+                        </a>
+                    </li>
+                    <li class="item-content item-link">
+                        <a class="item-inner l-flex-js external"  href="tch_person_aginst.html">
+                            <div class="l-flex l-flex-jsc">
+                                <div class="item-media">
+                                    <i class="icon ico ico-xuesheng1"></i>
+                                </div>
+                                <div class="item-title">本班违规违纪</div>
+                            </div>
+                            <div class="item-after">
+                                <div class="message-num-wrap"></div>
+
+                            </div>
+                        </a>
+                    </li>
+                    <li class="item-content">
+                        <a class="item-inner external" href="tch_person_task.html">
+                            <div class="item-media"><i class="icon ico ico-renwu"></i></div>
+                            <div class="item-title">我的任务</div>
+                        </a>
+                    </li>
+
+                    <li class="item-content">
+                        <a class="item-inner external" href="tch_person_notice.html">
+                            <div class="item-media"><i class="icon ico ico-tongzhi"></i></div>
+                            <div class="item-title">我的通知</div>
+                        </a>
+                    </li>
+                    <li class="item-content">
+                        <a class="item-inner external" href="tch_person_honor.html">
+                            <div class="item-media"><i class="icon ico ico-jiangbei1"></i></div>
+                            <div class="item-title">本班荣誉</div>
+                        </a>
+                    </li>
+                    <li class="item-content">
+                        <a class="item-inner external" href="tch_person_jifen.html">
+                            <div class="item-media"><i class="icon ico ico-jinbi1"></i></div>
+                            <div class="item-title">学生积分兑换</div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block mt-05 user-opear-wrap mb-05">
+                <ul>
+                    <li class="item-content">
+                        <a class="item-inner external" href="tch_password.html">
+                            <div class="item-media"><i class="icon ico ico-mima"></i></div>
+                            <div class="item-title">修改密码</div>
+                        </a>
+                    </li>
+                    <li class="item-content logout">
+                        <a class="item-inner external" >
+                            <div class="item-media"><i class="icon ico ico-zhuxiao"></i></div>
+                            <div class="item-title">注销登录</div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    /* 个人信息 */
+    $(document).ready(function(){
+            var tchinfo=JSON.parse(store.get("tchinfo"));
+            console.log(tchinfo);
+            if(tchinfo['avatar'] !=null && tchinfo['avatar'] !=''){
+            	$('.avatar').attr('src',tchinfo['avatar']);
+            }
+            $('.item-title-row').append('<div class="item-title">'+tchinfo['realName']+'</div>');
+            $('.item-text').append(store.get('phone'));
+            $('.schoolname').append(tchinfo['schoolName']);
+            $('.classname').append(tchinfo['className']);
+
+"{\"id\":5,\"schoolID\":1,\"schoolName\":\"纳智小学\",\"organizationID\":1,\"organizationName\":\"纳智小学\",\"organizationTree\":\"0-1\",\"realName\":\"徐老师（班主任）\",\"initials\":\"xls（bzr）\",\"pinyin\":\"xulaoshi（banzhuren）\",\"staffNumber\":\"0005\",\"sex\":1,\"sexName\":\"男\",\"status\":0,\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MDY1NjQwMzAsInN1YiI6IjE4OTAwMDAwMDA0IiwiYXVkaWVuY2UiOiJtb2JpbGUiLCJjcmVhdGVkIjoxNTA1MzU0NDMwNzEzLCJ1c2VyRGV0YWlscyI6eyJpZCI6IjUiLCJsb2dpblR5cGUiOiJURUFDSEVSIn19.8-5nbC3X-HDpVfziL5O5n2zknw8hBO2yfw5b-i7O8AhIL2STFglHAw8X_c1dcJP8xyiVCva7El_nEGPmHIWazQ\",\"avatar\":null}"
+
+            /*班级的违规违纪*/  
+            $.ajax( {
+                url: root_url+"uiViolations/getStudentViolationsDate",
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        if(data.dataList==null){
+                            $('.message-num-wrap').hide();
+                        }else{
+                            $('.message-num-wrap').append(data.dataList.length); 
+                        }                  
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+            /*退出登录*/
+            $(document).on("click", ".logout", function() {   
+            $.ajax( {
+                url: root_url+"uiLogin/logout",
+                success: function( data, textStatus, jqXHR ){
+                    
+                    console.log(data);
+                    if(data.code==1){
+                        $.alert('注销成功',function () {
+                        	window.localStorage.clear()//清除全部
+                            location.href ="index.html";
+                        });
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+           
+        });
+    }); 
+</script>
+</body>
+
+</html>

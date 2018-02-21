@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>结算成功</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/light7-swiper.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+
+
+</head>
+
+<body>
+<div class="page-group settlement">
+    <div class="page page-current evaluate-page tipspage">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink   external" href="par_index_mall.html"></a></div>
+            <div class="header-m">班级近况</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content">
+            <div class="evaluate-panel ">
+                <div class="evaluate-logo settlement-ico"><i class="ico ico-mangouwuche external"></i></div>
+                <p class="evaluate-logo-txt settlement-ico-txt"></p>
+                <p class="evaluate-tips settlement-tips">请等待班主任领到物品后发放</p>
+                <p class="btn-box"><a href="par_index_mall.html" class="button button-big external">返回 </a></p>
+            </div>
+        </div>
+        <!--content end-->
+
+    </div>
+</div>
+</body>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7-swiper.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        /*显示购买商品 start*/
+        var goods=JSON.parse(store.get("goods_success"));
+        $('.settlement-ico-txt').text('恭喜你已成功购买到'+goods['productName']);
+        /*显示购买商品 end*/
+
+    });
+</script>
+
+</html>

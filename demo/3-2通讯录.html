@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>通讯录</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7-swiper.min.js"></script>
+</head>
+
+<body>
+<div class="page-group mail-list">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"></div>
+            <div class="header-m">通讯录</div>
+            <div class="header-r"></div>
+        </header>
+        <!-- 工具栏 -->
+        <nav class="bar bar-tab">
+            <a class="tab-item  external " href="index.html">
+                <i class="icon ico ico-home"></i>
+                <span class="tab-label">首页</span>
+            </a>
+            <a class="tab-item  external active" href="#">
+                <i class="icon ico-tongxunlu"></i>
+                <span class="tab-label">通讯录</span>
+            </a>
+            <a class="tab-item external new" href="#">
+                <i class="icon ico-tuwen"></i>
+                <span class="tab-label">写实</span>
+            </a>
+            <a class="tab-item  external" href="#">
+                <i class="icon ico-user"></i>
+                <span class="tab-label">我的</span>
+            </a>
+        </nav>
+        <div class="content">
+            <div class="searchbar-wrap">
+                <div class="searchbar">
+                    <a class="searchbar-cancel">Cancel</a>
+                    <div class="search-input">
+                        <label class="ico icon ico-search2" for="search"></label>
+                        <input type="search" id='search' placeholder='请输入姓名/拼音首字母搜索'/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-wrap">
+                <div class="buttons-tab">
+                    <a href="#tab1" class="tab-link active button">家长通讯录</a>
+                    <a href="#tab2" class="tab-link button">学生通讯录</a>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div class="tabs">
+                    <div id="tab1" class="tab active">
+                        <div class="list-block list-block-nom contacts-block">
+                            <div class="list-group">
+                                <ul class="list list-col2">
+                                    <li class="list-group-title">A</li>
+                                    <li class="list-item">
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">艾青海</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-item">
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic-default.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">艾青</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-item">
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic-default.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">艾青</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-item">
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic-default.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">艾青</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-item">
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic-default.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">艾青</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="list-group">
+                                <ul class="list list-col2">
+                                    <li class="list-group-title">C</li>
+                                    <li class="list-item">
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">曹操</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-item">
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">曹操</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-item">
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">曹操</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="list-group">
+                                <ul class="list list-col2">
+                                    <li class="list-group-title">M</li>
+                                    <li class="list-item">
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">梅长苏</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-item">
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">梅长苏</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-item">
+                                        <div class="list-item-l">
+                                            <div class="list-pic">
+                                                <img src="images/list-userpic.png">
+                                            </div>
+                                            <div class="list-title-box">
+                                                <p class="list-title">梅长苏</p>
+                                                <p class="list-subtitle">000213</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab2" class="tab">
+                        <p>学生通讯录</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".contacts-block").indexList();
+</script>
+</body>
+
+</html>

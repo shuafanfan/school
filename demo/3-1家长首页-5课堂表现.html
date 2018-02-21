@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的课堂表现</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/light7-swiper.min.js"></script>
+</head>
+
+<body>
+<div class="page-group classroom">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="3-0首页.html"></a></div>
+            <div class="header-m">我的课堂表现</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content">
+            <div class="classroom-panel ">
+                <div  class="score-subject">
+                    <p class="score-subject-main"><span class="score-subject-name">全部</span> <i class="ico ico-xiafan"></i></p>
+                    <div class="score-subject-sub  ">
+                        <p>语文</p>
+                        <p>数学</p>
+                        <p>英语</p>
+                        <p>物理</p>
+                    </div>
+                </div>
+                <div class="score-subject-chart">
+                    <img src="images/classroom-pic1.png">
+                </div>
+                <div class="classroom-list">
+                    <div class="classroom-list-item">
+                        <p class="classroom-list-display">
+                            <span class="color-danger">1</span>/48
+                        </p>
+                        <p class="classroom-list-name">本周排名</p>
+                    </div>
+                    <div class="classroom-list-item">
+                        <p class="classroom-list-display">
+                            <span>+15</span>分
+                        </p>
+                        <p class="classroom-list-name">表扬</p>
+                    </div>
+                    <div class="classroom-list-item">
+                        <p class="classroom-list-display">
+                            <span class="color-danger">-10</span>分
+                        </p>
+                        <p class="classroom-list-name">待改进</p>
+                    </div>
+                    <div class="classroom-list-item">
+                        <p class="classroom-list-display">
+                            <span>+3</span>分
+                        </p>
+                        <p class="classroom-list-name">本周班级平均分</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="classroom-table mt-05">
+                <table class="table table-last-colr">
+                    <tr>
+                        <td>
+                            <p class="classroom-date">星期三 14:02</p>
+                            <p class="classroom-time">2017-06-14</p>
+                        </td>
+                        <td>语文</td>
+                        <td class="Incentive-num color-danger">-4</td>
+                        <td >课上讲话</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="classroom-date">星期三 14:02</p>
+                            <p class="classroom-time">2017-06-14</p>
+                        </td>
+                        <td>数学</td>
+                        <td class="Incentive-num">+1</td>
+                        <td >帮助同学</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p class="classroom-date">星期三 14:02</p>
+                            <p class="classroom-time">2017-06-14</p>
+                        </td>
+                        <td>英语</td>
+                        <td class="Incentive-num">+1</td>
+                        <td >组织活动</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="classroom-date">星期三 14:02</p>
+                            <p class="classroom-time">2017-06-14</p>
+                        </td>
+                        <td>化学</td>
+                        <td class="Incentive-num">+1</td>
+                        <td >积极发言</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script>
+    $('.score-subject-main').click(function () {
+        if($(this).hasClass('on')){
+            $(this).removeClass('on').siblings('.score-subject-sub').fadeOut();
+        }else{
+            $(this).addClass('on').siblings('.score-subject-sub').fadeIn();
+        }
+    });
+    $('.score-subject-sub>p').click(function () {
+        var txt = $(this).html();
+        $('.score-subject-name').html(txt);
+        $('.score-subject-main').removeClass('on').siblings('.score-subject-sub').fadeOut();
+    })
+</script>
+</body>
+
+</html>

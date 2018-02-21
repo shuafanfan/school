@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>设置互评人员</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/light7-swiper.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    
+    <style type="text/css">
+    		.list li.list-item{margin-bottom: 1px;}
+    </style>
+</head>
+
+<body>
+<div class="page-group chooserating">
+    <div class="page page-current chooserating-page">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="3-1家长首页-6-评价.html"></a></div>
+            <div class="header-m">设置互评人员 活动ID 班级ID 死的</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content">
+            <div class="chooserating-panel ">
+                <div class="searchbar-wrap">
+                    <div class="searchbar">
+                        <a class="searchbar-cancel">Cancel</a>
+                        <div class="search-input">
+                            <label class="ico icon ico-search2" for="search"></label>
+                            <input type="search" id='search' placeholder='请输入姓名/拼音首字母搜索'/>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content">
+                    <div class="tabs">
+                        <div id="tab1" class="tab active">
+                            <ul class="list list-col2">
+                                <!--<li class="list-item" data="id值">-->
+                                    <!--<div class="list-item-l">-->
+                                        <!--<div class="list-pic">-->
+                                            <!--<img src="images/list-userpic.png">-->
+                                        <!--</div>-->
+                                        <!--<div class="list-title-box">-->
+                                            <!--<p class="list-title">艾青海</p>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="list-item-r " style="text-align:right; padding-right: 1rem;">-->
+                                        <!--<span class="icon  ico  ico-check"></span>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+                                
+
+                            </ul>
+                        </div>
+                        <div id="tab2" class="tab">
+                            <p>已评</p>
+                        </div>
+                        <div id="tab3" class="tab">
+                            <p>未评</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+
+<script src="app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="app/store/store.min.js" charset="utf-8"></script>
+<script src="app/lib/light7.min.js" charset="utf-8"></script>
+<script src="app/lib/common.js" charset="utf-8"></script>
+<script>
+    $(function(){
+//        互评人员接口
+        $.ajax({
+            url: root_url+"uiDemocratic/getStudentsByActivityIdAndClassId?activityId=1&classId=1",
+
+            type:'GET',
+            success: function( data, textStatus, jqXHR ){
+                //打印数据
+                console.log(data);
+
+                if(data.code==1){
+                    $.each(data.dataList,function(index,item){
+                        var html='';
+
+                        if(item['status']==1){
+                            html +='<li class="list-item  class_click " studentName="'+item['studentName']+'" activityId="'+item['activityId']+'" data="'+item['studentId']+'">';
+                        }else{
+                            html +='<li class="list-item class_click" data="'+item['studentId']+'">';
+                        }
+
+                        html +=' <div class="list-item-l">';
+                        html +=' <div class="list-pic">';
+                        html +='<img src="images/list-userpic.png">';
+                        html +=' </div>';
+                        html +=' <div class="list-title-box">';
+                        html +=' <p class="list-title">'+item['studentName']+'</p>';
+                        html +=' </div>';
+                        html +='</div>';
+
+                        if(item['status']==1){
+                            html +='<div class="list-item-r " style="text-align:right; padding-right: 1rem;">';
+                            html +='<span class="icon  ico  ico-check "></span>';
+                            html +='</div>';
+                        }else{
+                            html +='<div class="list-item-r " style="text-align:right; padding-right: 1rem;">';
+                            html +='<span class="icon  ico "></span>';
+                            html +='</div>';
+                        }
+
+
+                        html +=' </li>';
+                        $('.list').append(html);
+                    })
+
+                }else{
+
+                    $.toast(data.msg);
+                    return false;
+                }
+            }
+
+        });
+        $(document).on('click','.class_click',function(){
+           var id = $(this).attr('data');
+            var name =$(this).attr('studentName');
+            var act =$(this).attr('activityId');
+
+            var notval ={
+                activityId:id, //活动Id
+                newList: [{
+                "studentId":id,       //学生Id
+                "activityId":act,      //活动Id
+                "studentName":name,  //学生姓名Id
+                }]
+            }
+//            var notval = JSON.stringify(notval);
+            $.ajax( { url: root_url+"uiAnnouncement/insertDemocraticStudents",
+
+                data:notval,
+
+                type:'GET',
+
+                success: function( data, textStatus, jqXHR ){
+                    //打印数据
+                    console.log(data);
+
+                    if(data.code==1){
+
+
+
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }
+                }
+
+            });
+
+
+
+        })
+    });
+</script>
+
+</body>
+
+</html>

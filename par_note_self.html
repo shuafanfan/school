@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>看自己的记录</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/light7.min.css">
+    <link rel="stylesheet" href="css/light7-swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body class="realistic-body ">
+<div class="page-group realistic">
+    <div class="page  page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left" href="par_note.html"></a></div>
+            <div class="header-m">写实</div>
+            <div class="header-r"></div>
+        </header>
+        <div class="content">
+          <!--   <div class="release-wrap">
+                <div class="release-l"><p class="realistic-date">6月1日</p></div>
+                <div class="release-r">
+                    <p class="release-title realistic-title">说的和方式</p>
+                    <ul class="pic-group clearfix">
+                        <li class="pic-group-item"><img src="images/xs-pic-01.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-02.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-03.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-04.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-05.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-06.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-07.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-08.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-09.png"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="release-wrap">
+                <div class="release-l"><p class="realistic-date">5月1日</p></div>
+                <div class="release-r">
+                    <p class="release-title realistic-title">劳动节，劳动最光荣~~ 今天，你劳动了
+                        吗？</p>
+                    <ul class="pic-group clearfix">
+                        <li class="pic-group-item"><img src="images/xs-pic-01.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-02.png"></li>
+                        <li class="pic-group-item"><img src="images/xs-pic-03.png"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="release-wrap">
+                <div class="release-l"><p class="realistic-date">4月1日</p></div>
+                <div class="release-r">
+                    <p class="release-title realistic-title">初来乍到，mark.....</p>
+                </div>
+            </div> -->
+
+
+        </div>
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    /* 个人信息 */
+    $(document).ready(function(){
+
+            /*写实列表*/
+            var noteval = {
+                    key:"",
+               };
+            var noteval = JSON.stringify(noteval);  
+            $.ajax( {
+                url: root_url+"uiCircle/getMyCircle?lastCircleId=0",
+                data:noteval,
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+                        console.log(data);
+                        $.each(data.dataList, function(index, item) {
+                             var html = '';
+                                var index = Number(index);             
+                                html += '<div class="release-wrap">';
+                                html += '<div class="release-l"><p class="realistic-date">'+item['createTime']+'</p></div>';
+                                html += '<div class="release-r">';
+                                html += '<p class="release-title realistic-title">'+item['circleContent']+'</p>';
+                                html += '<ul class="pic-group clearfix">';
+                                for (var i = 0; i < item['imgList'].length; i++) {
+                                    html += '<li class="pic-group-item"><img src="'+item['imgList'][i]['circleImg1Url']+'"></li>';
+                                };
+                                
+                                html += '</ul>';
+                                html += '</div>';
+                                html += '</div>';
+                                $('.content').append(html);
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+
+    }); 
+</script>
+</body>
+
+</html>

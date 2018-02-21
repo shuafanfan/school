@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>随机评价</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/light7-swiper.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    
+</head>
+
+<body>
+<div class="page-group evaluate">
+    <div class="page page-current evaluate-page">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink   external" href="tch_index_appraise.html"></a></div>
+            <div class="header-m">随机评价</div>
+            <div class="header-r"> </div>
+        </header>
+        <div class="content">
+            <div class="evaluate-panel ">
+                <p class="mt-1 fs-1 color-gray3 tc">当前即将评价的人是！</p>
+                <div class="pj-img-wrap">
+                    <img src="images/student-boy.png" >
+                </div>
+                <p class="tc fs-07 mt-05">李默</p>
+                <p class="btn-box mt-3"><a href="#" class="button button-big">换一个 </a></p>
+                <p class="btn-box"><a href="#" class="button button-big">就他了</a></p>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="app/store/store.min.js" charset="utf-8"></script>
+<script src="app/lib/light7.min.js" charset="utf-8"></script>
+<script src="app/lib/common.js" charset="utf-8"></script>
+<script>
+    $(function(){
+        var activityId=store.get("activityId");
+        $.ajax( {
+            url: root_url,
+            success: function( data, textStatus, jqXHR ){
+                if(data.code==1){
+
+                }else{
+                    $.toast(data.msg);
+                    return false;
+                }
+            }
+        });
+    })
+
+</script>
+</body>
+
+</html>

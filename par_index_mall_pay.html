@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>购物车</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group askleave integral-shop">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left"  ></a></div>
+            <div class="header-m">购物车</div>
+            <div class="header-r"><a class="header-link external " href="#"> </a></div>
+        </header>
+        <!-- 工具栏 -->
+        <nav class="bar bar-tab">
+            <p class="tab-item  external integral-shop-sum" >
+                共<span class="num color-danger">0</span>积分
+            </p>
+            <a class="tab-item  external score-screen-footer-item screen-footer-item-main finish" >结算
+            </a>
+        </nav>
+        <div class="content">
+            <div class="list-block media-list list-block-nom">
+                <ul>
+
+                    <!--<li>-->
+                        <!--<label class="label-checkbox item-content">-->
+                            <!--<input type="checkbox" name="my-radio" class="dianji" num="''">-->
+                            <!--<div class="item-media"><i class="icon icon-form-checkbox"></i></div>-->
+                            <!--<div class="item-inner  ml-0">-->
+                                <!--<div class="item-content">-->
+                                    <!--<div class="item-media"><img src="images/shop-thing.png" style='width: 4.2rem;'></div>-->
+                                    <!--<div class="item-inner pr-0">-->
+                                        <!--<div class="item-title-row">-->
+                                            <!--<div class="item-title">超大麦克风话筒圆珠笔蓝笔芯幼儿园儿童老师奖励学习用品</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="item-subtitle clearfix">-->
+                                            <!--<div class=" fl integral-shopjf"><span class="integral-shop-jfnum">3000</span>积分</div>-->
+                                            <!--<p class="buttons-row fr gwc-btn-group">-->
+                                                <!--<a href="#" class="button gwc-btn jian">-</a>-->
+                                                <!--<a href="#" class="button">1</a>-->
+                                                <!--<a href="#" class="button gwc-btn jia">+</a></p>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</label>-->
+                    <!--</li>-->
+                </ul>
+            </div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+    /* 购物车信息 */
+    var goodlist = [];
+    $(document).ready(function(){       
+
+        /*减少商品 start*/
+        $(document).on('click','.jian',function(){
+           var jian =  Number($(this).next().html());
+            if(jian<=0){
+                jian=0;
+            }else{
+                jian = jian-1;
+                var id =$(this).attr('data_id');
+                if(goodlist[id]){
+                    var num =Number(goodlist[id]['count'])-1
+                    goodlist[id]={
+                        "productId": goodlist[id]['productId'],           //产品Id
+                        "productName":  goodlist[id]['productName'],      //产品名称
+                        "productType":  goodlist[id]['productType'],      //产品类别
+                        "integral":  goodlist[id]['integral'],          //产品所需积分(单个)
+                        "imgUrl":  goodlist[id]['imgUrl'],  //产品图片
+                        "count":num,               //兑换数量
+                        "totalIntegral":num* goodlist[id]['integral']     //所需总积分
+                    }
+
+                    console.log(goodlist[id])
+                }
+                var total=0;
+                $.each(goodlist,function(index,item){
+                    if(item){
+                        total=total+Number(item['totalIntegral']);
+                    }
+                });
+                $('.color-danger').text(total);
+            }
+
+            $(this).next().html(jian);
+        })
+        /*减少商品 end*/
+
+        /*添加商品 start*/
+        $(document).on('click','.jia',function(){
+            var jia =  Number($(this).prev().html());
+
+            if(jia<0){
+                jia=0;
+            }else{
+                jia = jia+1;
+                var id =$(this).attr('data_id');
+                if(goodlist[id]){
+                    var num =Number(goodlist[id]['count'])+1
+                    goodlist[id]={
+                        "productId": goodlist[id]['productId'],           //产品Id
+                        "productName":  goodlist[id]['productName'],      //产品名称
+                        "productType":  goodlist[id]['productType'],      //产品类别
+                        "integral":  goodlist[id]['integral'],          //产品所需积分(单个)
+                        "imgUrl":  goodlist[id]['imgUrl'],  //产品图片
+                        "count":num,               //兑换数量
+                        "totalIntegral":num* goodlist[id]['integral']     //所需总积分
+                    }
+
+                    console.log(goodlist[id])
+                }
+                var total=0;
+                $.each(goodlist,function(index,item){
+                    if(item){
+                        total=total+Number(item['totalIntegral']);
+                    }
+                });
+                $('.color-danger').text(total);
+            }
+            $(this).prev().html(jia);
+        })
+        /*减少商品 end*/
+        /*点击选中/取消 start*/
+        $(document).on('click','.icon-form-checkbox',function(){
+
+            var content=$(this).parent('.item-media').prev().attr('data_id');
+            if(goodlist[content]){
+                delete goodlist[content];
+
+
+            }else{
+                goodlist[content]={
+                    "productId":Number(content),           //产品Id
+                    "productName": $(this).parent('.item-media').prev().attr('data_name'),      //产品名称
+                    "productType": $(this).parent('.item-media').prev().attr('data_type'),      //产品类别
+                    "integral": Number($(this).parent('.item-media').prev().val()),          //产品所需积分(单个)
+                    "imgUrl": $(this).parent('.item-media').prev().attr('data_image'),  //产品图片
+                    "count":Number($('.'+content+'count').html()),               //兑换数量
+                    "totalIntegral": Number($('.'+content+'count').html())*Number($(this).parent('.item-media').prev().val())     //所需总积分
+                }
+            }
+
+            var total=0;
+            $.each(goodlist,function(index,item){
+               if(item){
+                total=total+Number(item['totalIntegral']);
+               }
+            });
+            $('.color-danger').text(total);
+            console.log(goodlist);
+
+
+        })
+        /*点击选中/取消 end*/
+
+            /*列出购物车中未兑换的商品列表*/
+            $.ajax( {
+                type:"GET",
+                url: root_url+"uiMall/getShoppingCartByStudentId",
+                success: function( data, textStatus, jqXHR ){
+                    if(data.code==1){
+
+                        $.each(data.dataList, function(index, item) {
+                                 var html = '';
+                                 var index = Number(index);
+                                html +='  <li><label class="label-checkbox item-content"><input type="checkbox" name="my-radio" value="'+item['integral']+'" data_num="'+item['count']+'" data_id="'+item['id']+'" data_image="'+item['imgUrl']+'" data_name="'+item['productName']+'" data_int="'+item['integral']+'" data_type="'+item['productType']+'"><div class="item-media"><i class="icon icon-form-checkbox"></i></div><div class="item-inner  ml-0"><div class="item-content"><div class="item-media">';
+                                html +=' <img src="'+item['imgUrl']+'" style="width: 4.2rem;"></div>';
+                                html +=' <div class="item-inner pr-0"><div class="item-title-row">';
+                                html +=' <div class="item-title">'+item['productName']+'</div>';
+                                html +='  </div><div class="item-subtitle clearfix"><div class=" fl integral-shopjf">';
+                                html +=' <span class="integral-shop-jfnum">'+item['integral']+'</span>积分</div>'
+                                html +=' <p class="buttons-row fr gwc-btn-group">' ;
+                                html +='<a href="#" class="button gwc-btn jian" data_id="'+item['id']+'">-</a>';
+                                html +=' <a href="#" class="button '+item['id']+'count">'+item['count']+'</a>';
+                                html +=' <a href="#" class="button gwc-btn jia" data_id="'+item['id']+'">+</a></p>';
+                                html +='</div></div></div></div></label></li>';
+
+                                 $('.list-block-nom ul').append(html);
+                        });                                      
+                    }else{
+                        $.toast(data.msg);
+                        return false;
+                    }           
+                }
+            });
+
+            /*兑换功能*/
+            $('.finish').click(function(){
+                //alert($('.icon-form-checkbox').length);
+
+
+                deleteEmptyProperty(goodlist);
+                var po =0;
+                var g_list=[]
+                $.each(goodlist,function(index,itme){
+
+                    if(itme){
+                        g_list[po]={
+                            "productId":itme['productId'],           //产品Id
+                            "productName":itme['productName'] ,      //产品名称
+                            "productType":itme['productType'] ,      //产品类别
+                            "integral": itme['integral'] ,          //产品所需积分(单个)
+                            "imgUrl": itme['imgUrl'] ,  //产品图片
+                            "count": itme['count'],               //兑换数量
+                            "totalIntegral":itme['totalIntegral']       //所需总积分
+                        };
+                        po++;
+
+                    }
+
+                });
+
+                var string = JSON.stringify(g_list);
+                console.log(string);
+//                var finishval = JSON.stringify(goodlist);
+//                finishval = deleteEmptyProperty(goodlist);
+//                console.log(finishval);
+
+                $.ajax( {
+                    url: root_url+"uiMall/addOrderList",
+                    data:string,
+                    success: function( data, textStatus, jqXHR ){
+                        console.log(data);
+                        if(data.code==1){
+                            $.alert('结算成功',function () {
+                               store.set('goods_success',goodlist);
+                                location.href ="par_index_mall_success.html";
+                            });                                     
+                        }else{
+                            $.toast(data.msg);
+                            return false;
+                        }           
+                    }
+                });
+            })
+    });
+
+    function deleteEmptyProperty(object){
+        for (var i in object) {
+            var value = object[i];
+            // sodino.com
+            // console.log('typeof object[' + i + ']', (typeof value));
+            if (typeof value === 'object') {
+                if (Array.isArray(value)) {
+                    if (value.length == 0) {
+                        delete object[i];
+
+                        continue;
+                    }
+                }
+                deleteEmptyProperty(value);
+                if (isEmpty(value)) {
+
+                    delete object[i];
+
+                }
+            } else {
+                if (value === '' || value === null || value === undefined) {
+                    delete object[i];
+
+                } else {
+
+                }
+            }
+        }
+    }
+    function isEmpty(object) {
+        for (var name in object) {
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+
+</html>

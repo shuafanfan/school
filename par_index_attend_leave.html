@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>考勤</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/light7.min.css">
+    <link rel="stylesheet" href="./css/style.css"> 
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+<div class="page-group askleave">
+    <div class="page page-current">
+        <header class="bar bar-nav">
+            <div class="header-l"><a class="ico ico-left-nolink   external" href="par_index_attend.html"></a></div>
+            <div class="header-m">我的考勤</div>
+            <div class="header-r"><a class="header-link " href="#"> </a></div>
+        </header>
+        <div class="content">
+            <div class="list-block list-block-nom askleave">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">开始时间</div>
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <input type="text" class="time" placeholder="2017-08-04" id="birthday" readonly="">
+                                    </div>
+                                    <div class="item-title label">
+                                        <select style="height:1rem" id="begin_time">
+                                            <option value="上午">上午</option>
+                                            <option value="下午">下午</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">结束时间</div>
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <input type="text" class="time" placeholder="2017-08-04" id="end_day" readonly="">
+                                    </div>
+                                    <div class="item-title label">
+                                        <select style="height:1rem" id="end_time">
+                                            <option value="上午">上午</option>
+                                            <option value="下午">下午</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">时长 (天)</div>
+                                <div class="item-input">
+                                    <input type="text" id="timeCount" placeholder="0.5" value="" >
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">请假类别</div>
+                                <div class="item-input">
+                                    <select>
+                                        <option value="事假">事假</option>
+                                        <option value="病假">病假</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner item-inner-vt">
+                                <div class="item-title label">请假事由</div>
+                                <div class="item-input">
+                                    <textarea placeholder="不能为空" class="remark" id="content"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div  class="mt-05 btn-box only-btnbox"><a href="#" class="button button-fill button-big finish">提交 </a></div>
+        </div>
+        <!--content end-->
+    </div>
+</div>
+<script src="./app/lib/jquery.min.js" charset="utf-8"></script>
+<script src="./app/store/store.min.js" charset="utf-8"></script>
+<script src="./app/lib/light7.min.js" charset="utf-8"></script>
+<script src="./app/lib/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    $(".time").calendar();
+
+    /* 考勤信息 */
+    $(document).ready(function(){
+        var stuinfo=JSON.parse(store.get("userinfo"));
+        console.log(stuinfo);    
+        
+
+        /* 请假提交 */
+        $('.finish').click(function(){
+            var  timeCount=$('.timeCount').val();
+            var  remark=$('.remark').val();
+            var finishval = {
+                    startDate:$('#birthday').val(), // 开始日期
+                    startTime:$('#begin_time').val(), // 开始时间  这里放的是上午或者下午
+                    endDate:$('#end_day').val(), // 结束日期
+                    endTime:$('#end_time').val(), // 结束时间 这里放的是上午或者下午
+                    timeCount:Number($('#timeCount').val()), // 耗时 0.5天
+                    remark:$('#content').val() // 请假事由 生病肚子痛
+                       };
+
+            var finishval = JSON.stringify(finishval);
+            console.log(finishval);
+                $.ajax( {
+                    url: root_url+"uiAttendance/leave",
+                    data:finishval,
+                    type:'post',
+                    success: function( data, textStatus, jqXHR ){    
+                        console.log(data);
+                        if(data.code==1){
+                            $.alert('提交成功',function () {
+                                location.href ="par_index_attend.html";
+                            });
+                        }else{
+                            $.toast(data.note);
+                            return false;
+                        }           
+                    }
+                });
+        });
+     
+    });
+
+
+</script>
+</body>
+
+</html>
